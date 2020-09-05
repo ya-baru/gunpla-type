@@ -5,7 +5,7 @@ jobs:
       - image: circleci/ruby:2.7.1-node-browsers
         environment:
           RAILS_ENV: test
-          POTGRES_HOST: 127.0.0.1
+          POSTGRES_HOST: 127.0.0.1
       - image: circleci/postgres:11.7
         environment:
           POSTGRES_USER: postgres
@@ -23,13 +23,13 @@ jobs:
           name: bundle install
           command: bundle check || bundle install --jobs=8 --clean
       - run: yarn install
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop --parallel
       - save_cache:
         key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
         paths:
           - vendor/bundle
-      - run:
-          name: Run rubocop
-          command: bundle exec rubocop --parallel
 
   rspec:
     working_directory: ~/gunpla_type
