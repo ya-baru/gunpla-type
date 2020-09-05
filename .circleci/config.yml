@@ -7,9 +7,9 @@ jobs:
           RAILS_ENV: test
           POTGRES_HOST: 127.0.0.1
       - image: circleci/postgres:11.7
-          environment:
-            POSTGRES_USER: postgres
-            POSTGRES_DB: gunpla_type_test
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: gunpla_type_test
     working_directory: ~/gunpla-type
     steps:
       - checkout
