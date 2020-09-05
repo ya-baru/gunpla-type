@@ -10,6 +10,7 @@ jobs:
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: gunpla_type_test
+          POSTGRES_PASSWORD: password
     working_directory: ~/gunpla-type
     steps:
       - checkout
