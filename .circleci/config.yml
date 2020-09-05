@@ -23,13 +23,13 @@ jobs:
           name: bundle install
           command: bundle check || bundle install --jobs=8 --clean
       - run: yarn install
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
       - run:
           name: Run rubocop
           command: bundle exec rubocop --parallel
-      - save_cache:
-        key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
 
   rspec:
     working_directory: ~/gunpla_type
@@ -58,9 +58,9 @@ jobs:
 
 workflows:
   version: 2.1
-  build:
+  rubocop_rspec:
     jobs:
       - rubocop
-      - rspe:
-        requires:
-          - rubocop
+      - rspec:
+          requires:
+            - rubocop
