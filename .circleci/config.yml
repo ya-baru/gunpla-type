@@ -3,9 +3,6 @@ jobs:
   rubocop:
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
-        # environment:
-        #   RAILS_ENV: test
-        #   POSTGRES_HOST: 127.0.0.1
     working_directory: ~/gunpla-type
     steps:
       - checkout
@@ -26,29 +23,6 @@ jobs:
           name: Run rubocop
           command: bundle exec rubocop --parallel
   rspec:
-    # machine:
-    #   image: circleci/classic:edge
-    # working_directory: ~/gunpla-type
-    # steps:
-    #   - checkout
-    #   - run:
-    #       name: docker-compose build
-    #       command: docker-compose build
-    #   - run:
-    #       name: docker-compose up
-    #       command: docker-compose up -d
-    #   # - run:
-    #   #     name: sleep for waiting launch db
-    #   #     command: sleep 1
-    #   # - run:
-    #   #     name: rails db:create and db:migrate
-    #   #     command: docker-compose run web rails db:create db:migrate
-    #   - run:
-    #       name: rspec
-    #       command: docker-compose run web rspec
-    #   - run:
-    #       name: docker-compose down
-    #       command: docker-compose down
     machine:
       image: circleci/classic:edge
     working_directory: ~/gunpla-type
@@ -76,7 +50,7 @@ jobs:
             set -x
             docker-compose up -d
       - run:
-          name: test
+          name: Run Rspec
           command: |
             mkdir /tmp/test-results
             TEST_FILES="$(circleci tests glob 'spec/**/*_spec.rb' | circleci tests split --split-by=timings)"
