@@ -69,14 +69,14 @@ jobs:
           command: |
             set -x
             docker-compose up -d --build
-            docker-compose exec web curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
+            docker-compose exec gunpla_type_web_1 curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
       # - run:
       #     name: Setup database
       #     command: |
       #       docker-compose exec web bash -c 'yes n | bundle exec rails g spree:install --migrate --seed --sample --auto_accept'
       - run:
           name: Run rspec
-          command: docker-compose exec web rspec
+          command: docker-compose exec gunpla_type_web_1 rspec
 
 workflows:
   version: 2.1
