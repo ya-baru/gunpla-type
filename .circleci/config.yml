@@ -6,11 +6,6 @@ jobs:
         environment:
           RAILS_ENV: test
           POSTGRES_HOST: 127.0.0.1
-      - image: circleci/postgres:11.7
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: gunpla_type_test
-          POSTGRES_PASSWORD: password
     working_directory: ~/gunpla-type
     steps:
       - checkout
@@ -23,7 +18,6 @@ jobs:
       - run:
           name: bundle install
           command: bundle check || bundle install --jobs=8 --clean
-      - run: yarn install
       - save_cache:
           paths:
             - ./vendor/bundle
@@ -33,16 +27,43 @@ jobs:
           command: bundle exec rubocop --parallel
 
   rspec:
-    working_directory: ~/gunpla_type
     docker:
       - image: circleci/ruby:2.7.1-node-browsers
+        environment:
+          RAILS_ENV: test
+          POSTGRES_HOST: 127.0.0.1
+      - image: circleci/postgres:11.7
+        environment:
+          POSTGRES_PASSWORD: password
+          POSTGRES_USER: postgres
+          POSTGRES_DB: gunpla_type_test
+    working_directory: ~/gunpla_type
+    # steps:
+    #   - checkout
+    #   - restore_cache:
+    #       keys:
+    #         - gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+    #         - gemfiles-{{ .Branch }}-
+    #         - gemfiles-master-
+    #   - run: bundle config --local path vendor/bundle
+    #   - run:
+    #       name: bundle install
+    #       command: bundle check || bundle install --jobs=8 --clean
+    #   - run: yarn install
+    #   - save_cache:
+    #       paths:
+    #         - ./vendor/bundle
+    #       key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+    #   - run: bundle exec rake db:create
+    #   - run: bundle exec rake db:schema:load
+    #   # Rspec
+    #   - run:
+    #       name: Rspec
+    #       command: bundle exec rspec
+
     steps:
       - checkout
       - setup_remote_docker
-      - run:
-          name: Setup environment variable
-          command: |
-            echo "export COMPOSE_FILE=docker-compose.ci.yml" >> $BASH_ENV
       - run:
           name: Start containers and verify it is working
           command: |
