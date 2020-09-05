@@ -25,58 +25,81 @@ jobs:
       - run:
           name: Run rubocop
           command: bundle exec rubocop --parallel
-
   rspec:
-    docker:
-      - image: circleci/ruby:2.7.1-node-browsers
-        environment:
-          RAILS_ENV: test
-          POSTGRES_HOST: 127.0.0.1
-      - image: circleci/postgres:11.7
-        environment:
-          POSTGRES_PASSWORD: password
-          POSTGRES_USER: postgres
-          POSTGRES_DB: gunpla_type_test
-    working_directory: ~/gunpla_type
-    # steps:
-    #   - checkout
-    #   - restore_cache:
-    #       keys:
-    #         - gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-    #         - gemfiles-{{ .Branch }}-
-    #         - gemfiles-master-
-    #   - run: bundle config --local path vendor/bundle
-    #   - run:
-    #       name: bundle install
-    #       command: bundle check || bundle install --jobs=8 --clean
-    #   - run: yarn install
-    #   - save_cache:
-    #       paths:
-    #         - ./vendor/bundle
-    #       key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-    #   - run: bundle exec rake db:create
-    #   - run: bundle exec rake db:schema:load
-    #   # Rspec
-    #   - run:
-    #       name: Rspec
-    #       command: bundle exec rspec
-
+    machine:
+      image: circleci/classic:edge
+    working_directory: ~/gunpla-type
     steps:
       - checkout
-      - setup_remote_docker
       - run:
-          name: Start containers and verify it is working
-          command: |
-            set -x
-            docker-compose up -d --build
-            docker-compose exec gunpla_type_web curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
+          name: docker-compose build
+          command: docker-compose build
+      - run:
+          name: docker-compose up
+          command: docker-compose up -d
       # - run:
-      #     name: Setup database
-      #     command: |
-      #       docker-compose exec web bash -c 'yes n | bundle exec rails g spree:install --migrate --seed --sample --auto_accept'
+      #     name: sleep for waiting launch db
+      #     command: sleep 1
+      # - run:
+      #     name: rails db:create and db:migrate
+      #     command: docker-compose run web rails db:create db:migrate
       - run:
-          name: Run rspec
-          command: docker-compose exec gunpla_type_web rspec
+          name: rspec
+          command: docker-compose run web rspec
+      - run:
+          name: docker-compose down
+          command: docker-compose down
+  # rspec:
+  #   docker:
+  #     - image: circleci/ruby:2.7.1-node-browsers
+  #       environment:
+  #         RAILS_ENV: test
+  #         POSTGRES_HOST: 127.0.0.1
+  #     - image: circleci/postgres:11.7
+  #       environment:
+  #         POSTGRES_PASSWORD: password
+  #         POSTGRES_USER: postgres
+  #         POSTGRES_DB: gunpla_type_test
+  #   working_directory: ~/gunpla_type
+  #   # steps:
+  #   #   - checkout
+  #   #   - restore_cache:
+  #   #       keys:
+  #   #         - gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+  #   #         - gemfiles-{{ .Branch }}-
+  #   #         - gemfiles-master-
+  #   #   - run: bundle config --local path vendor/bundle
+  #   #   - run:
+  #   #       name: bundle install
+  #   #       command: bundle check || bundle install --jobs=8 --clean
+  #   #   - run: yarn install
+  #   #   - save_cache:
+  #   #       paths:
+  #   #         - ./vendor/bundle
+  #   #       key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+  #   #   - run: bundle exec rake db:create
+  #   #   - run: bundle exec rake db:schema:load
+  #   #   # Rspec
+  #   #   - run:
+  #   #       name: Rspec
+  #   #       command: bundle exec rspec
+
+  #   steps:
+  #     - checkout
+  #     - setup_remote_docker
+  #     - run:
+  #         name: Start containers and verify it is working
+  #         command: |
+  #           set -x
+  #           docker-compose up -d --build
+  #           docker-compose exec gunpla_type_web curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
+  #     # - run:
+  #     #     name: Setup database
+  #     #     command: |
+  #     #       docker-compose exec web bash -c 'yes n | bundle exec rails g spree:install --migrate --seed --sample --auto_accept'
+  #     - run:
+  #         name: Run rspec
+  #         command: docker-compose exec gunpla_type_web rspec
 
 workflows:
   version: 2.1
