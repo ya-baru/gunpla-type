@@ -68,7 +68,7 @@ jobs:
           name: Start containers and verify it is working
           command: |
             set -x
-            docker-compose up -d
+            docker-compose up -d --build
             docker exec web_app curl -4 --retry 10 --retry-delay 3 --retry-connrefused http://localhost:3000
       # - run:
       #     name: Setup database
