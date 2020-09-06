@@ -22,6 +22,11 @@ jobs:
       - run:
           name: Run rubocop
           command: bundle exec rubocop --parallel
+
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
   rspec:
     working_directory: ~/gunpla-type
     machine:
@@ -62,6 +67,8 @@ jobs:
       - image: circleci/ruby:2.7.1-node
     steps:
       - checkout
+      - attach_workspace:
+          at: .
       - run:
           name: Install Heroku CLI
           command: |
