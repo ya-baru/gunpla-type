@@ -18,11 +18,9 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: db
-  username: postgres
-  password: password
-  # For details on connection pooling, see Rails configuration guide
-  # https://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= Rails.application.credentials.heroku[:db_user_name] || 'root' %>
+  password: <%= Rails.application.credentials.heroku[:db_password] || 'password' %>
+  pool: 5
 
 development:
   <<: *default
@@ -84,5 +82,3 @@ test:
 production:
   <<: *default
   database: gunpla_type_production
-  username: <%= Rails.application.credentials.heroku[:db_user_name] %>
-  password: <%= Rails.application.credentials.heroku[:db_password] %>

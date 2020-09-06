@@ -81,6 +81,9 @@ jobs:
       #     name: heroku db migrate
       #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
       - run:
+          name: Set RAILS_MASTER_KEY
+          command: heroku config:set RAILS_MASTER_KEY=`cat config/master.key` --app ${HEROKU_APP_NAME}
+      - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
 
