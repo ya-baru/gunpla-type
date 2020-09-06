@@ -77,7 +77,7 @@ jobs:
           name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-      # - run:
+      ## - run:
       #     name: heroku db migrate
       #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
       - run:
