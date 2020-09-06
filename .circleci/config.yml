@@ -23,10 +23,6 @@ jobs:
           name: Run rubocop
           command: bundle exec rubocop --parallel
 
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
   rspec:
     working_directory: ~/gunpla-type
     machine:
@@ -40,20 +36,14 @@ jobs:
             chmod +x ~/docker-compose
             sudo mv ~/docker-compose /usr/local/bin/docker-compose
       - run:
-          name: docker-compose up
-          command: |
-            set -x
-            docker-compose up --build -d
-      - run:
-          name: docker-compose stop
-          command: |
-            set -x
-            docker-compose stop
+          name: docker-compose build
+          command: docker-compose build
       - run:
           name: docker-compose up
-          command: |
-            set -x
-            docker-compose up -d
+          command: docker-compose up -d
+      # - run:
+      #     name: "before_test: setup db"
+      #     command: docker-compose run web rails db:create db:migrate
       - run:
           name: Run Rspec
           command: docker-compose exec web rspec
@@ -63,35 +53,62 @@ jobs:
 
   heroku_deploy:
     working_directory: ~/gunpla-type
-    docker:
-      - image: circleci/ruby:2.7.1-node
+    machine:
+      image: circleci/classic:edge
     steps:
       - checkout
-      - attach_workspace:
-          at: .
       - run:
-          name: Install Heroku CLI
-          command: |
-            if [[ $(dommand -v heroku) == "" ]]; then
-              curl https://cli-assets.heroku.com/install.sh | sh
-            else
-              echo "Heroku is already installed. No operation was performed."
-            fi
+          name: Build docker image
+          command: docker build --rm=false -t registry.heroku.com/${HEROKU_APP_NAME}/web .
+      - run:
+          name: Setup Heroku command
+          command: bash .cicleci/setup_heroku.sh
       - run:
           name: heroku maintenance on
           command: heroku maintenance:on --app ${HEROKU_APP_NAME}
       - run:
-          name: Deploy to Heroku
+          name: Push container to registry.heroku.com
           command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+            docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
+            docker push registry.heroku.com/${HEROKU_APP_NAME}/web
+      - run:
+          name: heroku db migrate
+          command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-      # - run:
-      #     name: Run post-deploy tasks
-      #     command: |
-      #       heroku run bin/rails db:migrate
-      #       heroku run bin/rails runner db/seeds
+
+
+  # heroku_deploy:
+  #   working_directory: ~/gunpla-type
+  #   docker:
+  #     - image: circleci/ruby:2.7.1-node
+  #   steps:
+  #     - checkout
+
+  #     - run:
+  #         name: Install Heroku CLI
+  #         command: |
+  #           if [[ $(dommand -v heroku) == "" ]]; then
+  #             curl https://cli-assets.heroku.com/install.sh | sh
+  #           else
+  #             echo "Heroku is already installed. No operation was performed."
+  #           fi
+  #     - run:
+  #         name: heroku maintenance on
+  #         command: heroku maintenance:on --app ${HEROKU_APP_NAME}
+  #     - run:
+  #         name: Deploy to Heroku
+  #         command: |
+  #           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+  #     - run:
+  #         name: heroku maintenance off
+  #         command: heroku maintenance:off --app ${HEROKU_APP_NAME}
+  #     # - run:
+  #     #     name: Run post-deploy tasks
+  #     #     command: |
+  #     #       heroku run bin/rails db:migrate
+  #     #       heroku run bin/rails runner db/seeds
 
 # workflows:
 #   version: 2.1
