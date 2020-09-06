@@ -54,33 +54,6 @@ jobs:
           name: docker-compose down
           command: docker-compose down
 
-  # heroku_deploy:
-  #   working_directory: ~/gunpla-type
-  #   machine:
-  #     image: circleci/classic:edge
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Build docker image
-  #         command: docker build --rm=false -t registry.heroku.com/${HEROKU_APP_NAME}/web .
-  #     - run:
-  #         name: Setup Heroku command
-  #         command: bash .circleci/setup_heroku.sh
-  #     - run:
-  #         name: heroku maintenance on
-  #         command: heroku maintenance:on --app ${HEROKU_APP_NAME}
-  #     - run:
-  #         name: Push container to registry.heroku.com
-  #         command: |
-  #           docker login --username=_ --password=$HEROKU_AUTH_TOKEN registry.heroku.com
-  #           docker push registry.heroku.com/${HEROKU_APP_NAME}/web
-  #     - run:
-  #         name: heroku db migrate
-  #         command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
-  #     - run:
-  #         name: heroku maintenance off
-  #         command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-
   heroku_deploy:
     working_directory: ~/gunpla-type
     docker:
@@ -107,32 +80,20 @@ jobs:
       # - run:
       #     name: heroku db migrate
       #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
-
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-      # - run:
-      #     name: Run post-deploy tasks
-      #     command: |
-      #       heroku run bin/rails db:migrate
-      #       heroku run bin/rails runner db/seeds
 
-# workflows:
-#   version: 2.1
-#   rubocop_rspec:
-#     jobs:
-#       - rubocop
-#       - rspec:
-#           requires:
-#             - rubocop
 workflows:
   version: 2.1
   deploy:
     jobs:
       - rubocop
+      - rspec
       - heroku_deploy:
           requires:
             - rubocop
+            - rspec
           filters:
             branches:
               only:
