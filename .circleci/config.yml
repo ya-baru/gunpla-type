@@ -77,12 +77,12 @@ jobs:
           name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-      ## - run:
-      #     name: heroku db migrate
-      #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
       - run:
           name: Set RAILS_MASTER_KEY
           command: heroku config:set RAILS_MASTER_KEY=`cat config/master.key` --app ${HEROKU_APP_NAME}
+      # - run:
+      #     name: heroku db migrate
+      #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
@@ -92,11 +92,11 @@ workflows:
   deploy:
     jobs:
       - rubocop
-      - rspec
+      # - rspec
       - heroku_deploy:
           requires:
             - rubocop
-            - rspec
+            # - rspec
           filters:
             branches:
               only:
