@@ -18,8 +18,8 @@ default: &default
   adapter: postgresql
   encoding: unicode
   host: db
-  username: <%= Rails.application.credentials.heroku[:db_user_name] || 'root' %>
-  password: <%= Rails.application.credentials.heroku[:db_password] || 'password' %>
+  username: <%= ENV['GUNPLA_TYPE_DATABASE_USER_NAME'] %>
+  password: <%= ENV['GUNPLA_TYPE_DATABASE_PASSWORD'] %>
   pool: 5
 
 development:
