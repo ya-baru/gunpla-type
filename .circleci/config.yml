@@ -98,8 +98,11 @@ workflows:
   version: 2.1
   deploy:
     jobs:
+      - rubocop
       - heroku_deploy:
-        filters:
-          branches:
-            only:
-              - circleci-project-setup
+          requires:
+            - rubocop
+          filters:
+            branches:
+              only:
+                - circleci-project-setup
