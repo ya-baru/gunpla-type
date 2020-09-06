@@ -23,8 +23,8 @@ jobs:
           name: Run rubocop
           command: bundle exec rubocop --parallel
       - persist_to_workspace:
-          root: ./vendor/bundle
-          paths: Gemfile.lock
+          root: .
+          paths: vendor/bundle
 
   rspec:
     working_directory: ~/gunpla-type
@@ -61,7 +61,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /vendor/bundle
+          at: ./vendor/bundle
       - run:
           name: Install Heroku CLI
           command: |
