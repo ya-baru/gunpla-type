@@ -23,7 +23,7 @@ jobs:
           name: Run rubocop
           command: bundle exec rubocop --parallel
       - persist_to_workspace:
-          root: /vendor/bundle
+          root: ./vendor/bundle
           paths: Gemfile.lock
 
   rspec:
