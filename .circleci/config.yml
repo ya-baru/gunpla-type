@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
-    - image: circleci/ruby:2.7.1
+    - image: circleci/ruby:2.7.1-node
 
 version: 2.1
 jobs:
@@ -12,15 +12,22 @@ jobs:
       - restore_cache:
           keys:
             - bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - bundle-{{ .Branch }}
+            - yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: bundle config --local path vendor/bundle
       - run:
           name: bundle install
           command: bundle check || bundle install --jobs=8 --clean
+      - run:
+          name: yarn install
+          command: bundle exec yarn install
       - save_cache:
           key: bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+      - save_cache:
+          key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules
       - persist_to_workspace:
           root: ~/gunpla-type
           paths:
@@ -107,22 +114,10 @@ workflows:
     jobs:
       - build
       # - rspec:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - circleci-project-setup
       - code_analyze:
           requires:
             - build
-          # filters:
-          #   branches:
-          #     only:
-          #       - circleci-project-setup
       - heroku_deploy:
           requires:
             - code_analyze
           #   - rspec
-          # filters:
-          #   branches:
-          #     only:
-          #       - circleci-project-setup
