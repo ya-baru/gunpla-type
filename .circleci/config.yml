@@ -1,30 +1,46 @@
+defaults: &defaults
+  working_directory: ~/gunpla-type
+  docker:
+    - image: circleci/ruby:2.7.1
+
 version: 2.1
 jobs:
-  rubocop:
-    working_directory: ~/gunpla-type
-    docker:
-      - image: circleci/ruby:2.7.1
+  build:
+    <<: *defaults
     steps:
       - checkout
       - restore_cache:
           keys:
-            - gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - gemfiles-{{ .Branch }}-
-            - gemfiles-master-
+            - bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - bundle-{{ .Branch }}
       - run: bundle config --local path vendor/bundle
       - run:
           name: bundle install
           command: bundle check || bundle install --jobs=8 --clean
       - save_cache:
+          key: bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
-            - ./vendor/bundle
-          key: gemfiles-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - vendor/bundle
+      - persist_to_workspace:
+          root: ~/gunpla-type
+          paths:
+            - ./*
+
+  code_analyze:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/gunpla-type
       - run:
           name: Run rubocop
           command: bundle exec rubocop --parallel
-      - persist_to_workspace:
-          root: .
-          paths: vendor/bundle
+      # - run:
+      #     name: Run rails_best_practices
+      #     command: bin/bundle exec rails_best_practices
+      # - run:
+      #     name: Run brakeman
+      #     command: bundle exec brakeman
 
   rspec:
     working_directory: ~/gunpla-type
@@ -44,9 +60,9 @@ jobs:
       - run:
           name: docker-compose up
           command: docker-compose up -d
-      # - run:
-      #     name: "before_test: setup db"
-      #     command: docker-compose run web rails db:create db:migrate
+      - run:
+          name: "before_test: setup db"
+          command: docker-compose run web rails db:create db:migrate
       - run:
           name: Run Rspec
           command: docker-compose exec web rspec
@@ -55,9 +71,7 @@ jobs:
           command: docker-compose down
 
   heroku_deploy:
-    working_directory: ~/gunpla-type
-    docker:
-      - image: circleci/ruby:2.7.1-node
+    <<: *defaults
     steps:
       - checkout
       - attach_workspace:
@@ -77,9 +91,9 @@ jobs:
           name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-      - run:
-          name: Set RAILS_MASTER_KEY
-          command: heroku config:set RAILS_MASTER_KEY=`cat ./config/master.key` --app ${HEROKU_APP_NAME}
+      # - run:
+      #     name: Set RAILS_MASTER_KEY
+      #     command: heroku config:set RAILS_MASTER_KEY=`cat ./config/master.key` --app ${HEROKU_APP_NAME}
       # - run:
       #     name: heroku db migrate
       #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
@@ -89,15 +103,26 @@ jobs:
 
 workflows:
   version: 2.1
-  deploy:
+  pikachu:
     jobs:
-      - rubocop
-      # - rspec
+      - build
+      # - rspec:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - circleci-project-setup
+      - code_analyze:
+          requires:
+            - build
+          # filters:
+          #   branches:
+          #     only:
+          #       - circleci-project-setup
       - heroku_deploy:
           requires:
-            - rubocop
-            # - rspec
-          filters:
-            branches:
-              only:
-                - circleci-project-setup
+            - code_analyze
+          #   - rspec
+          # filters:
+          #   branches:
+          #     only:
+          #       - circleci-project-setup

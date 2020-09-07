@@ -19,8 +19,8 @@ default: &default
   encoding: unicode
   host: db
   pool: 5
-  username: <%= Rails.application.credentials.heroku[:db_user_name] %>
-  password: <%= Rails.application.credentials.heroku[:db_password] %>
+  username: root
+  password: password
 
 development:
   <<: *default
@@ -82,3 +82,5 @@ test:
 production:
   <<: *default
   database: gunpla_type_production
+  username: <%= Rails.application.credentials.heroku[:db_user_name] %>
+  password: <%= Rails.application.credentials.heroku[:db_password] %>
