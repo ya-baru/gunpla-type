@@ -33,6 +33,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'rubocop-airbnb'
   gem 'rails_best_practices', require: false
+  gem 'pry-rails'
+  gem 'pry-byebug'
+  gem 'pry-doc'
 end
 
 group :development do
@@ -46,6 +49,9 @@ group :development do
   gem 'brakeman', require: false
   gem 'rails-erd'
   gem 'bullet'
+  gem 'better_errors'
+  gem 'debug_inspector', '~> 0.0.3'
+  gem 'binding_of_caller'
 end
 
 group :test do
