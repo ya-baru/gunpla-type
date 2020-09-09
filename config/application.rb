@@ -16,6 +16,9 @@ module GunplaType
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    # security
+    config.middleware.use Rack::Attack
+
     config.generators do |g|
       g.test_framework :rspec,
         view_specs: false,

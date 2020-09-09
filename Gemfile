@@ -43,6 +43,7 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec'
+  gem 'brakeman', require: false
 end
 
 group :test do
@@ -61,3 +62,6 @@ gem 'tzinfo-data'
 # slim
 gem 'slim-rails'
 gem 'html2slim'
+
+# Security
+gem 'rack-attack'
