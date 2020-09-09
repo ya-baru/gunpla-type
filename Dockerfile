@@ -1,22 +1,25 @@
-FROM ruby:2.7.1
-RUN apt-get update -qq && \
-  apt-get install -y \
-  nodejs \
-  postgresql-client \
-  chromium-driver
+FROM ruby:2.7.1-alpine
 
-RUN apt-get update && apt-get install -y curl apt-transport-https wget && \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get update && apt-get install -y yarn
+ENV RUNTIME_PACKAGES="bash git vim nodejs yarn postgresql tzdata" \
+  CHROME_PACKAGES="chromium-chromedriver zlib-dev chromium xvfb wait4ports xorg-server dbus ttf-freefont mesa-dri-swrast udev" \
+  BUILD_PACKAGES="build-base curl-dev linux-headers libxml2-dev libxslt-dev postgresql-dev" \
+  ROOT="/gunpla-type" \
+  LANG=C.UTF-8 \
+  TZ=Asia/Tokyo
 
-RUN mkdir /gunpla-type
-WORKDIR /gunpla-type
-COPY Gemfile /gunpla-type/Gemfile
-COPY Gemfile.lock /gunpla-type/Gemfile.lock
-RUN gem install bundler
-RUN bundle install
-COPY . /gunpla-type
+WORKDIR ${ROOT}
+COPY Gemfile ${ROOT}
+COPY Gemfile.lock ${ROOT}
+
+RUN apk update && \
+  apk upgrade && \
+  apk add --no-cache ${RUNTIME_PACKAGES} && \
+  apk add --no-cache ${CHROME_PACKAGES} && \
+  apk add --virtual build-packages --no-cache ${BUILD_PACKAGES} && \
+  bundle install && \
+  apk del build-packages
+
+COPY . ${ROOT}
 
 # Add a script to be executed every time the container starts.
 COPY entrypoint.sh /usr/bin/
