@@ -44,6 +44,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'spring-commands-rspec'
   gem 'brakeman', require: false
+  gem 'rails-erd'
 end
 
 group :test do
