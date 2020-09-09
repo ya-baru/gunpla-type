@@ -1,8 +1,8 @@
 FROM ruby:2.7.1-alpine
 
-ENV RUNTIME_PACKAGES="bash git vim nodejs yarn postgresql tzdata" \
+ENV RUNTIME_PACKAGES="git vim nodejs yarn postgresql tzdata gmp-dev ruby-dev" \
   CHROME_PACKAGES="chromium-chromedriver zlib-dev chromium xvfb wait4ports xorg-server dbus ttf-freefont mesa-dri-swrast udev" \
-  BUILD_PACKAGES="build-base curl-dev linux-headers libxml2-dev libxslt-dev postgresql-dev" \
+  BUILD_PACKAGES="build-base curl-dev postgresql-dev linux-headers libxml2-dev" \
   ROOT="/gunpla-type" \
   LANG=C.UTF-8 \
   TZ=Asia/Tokyo
@@ -16,7 +16,7 @@ RUN apk update && \
   apk add --no-cache ${RUNTIME_PACKAGES} && \
   apk add --no-cache ${CHROME_PACKAGES} && \
   apk add --virtual build-packages --no-cache ${BUILD_PACKAGES} && \
-  bundle install && \
+  bundle install -j4 && \
   apk del build-packages
 
 COPY . ${ROOT}
