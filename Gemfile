@@ -45,6 +45,7 @@ group :development do
   gem 'spring-commands-rspec'
   gem 'brakeman', require: false
   gem 'rails-erd'
+  gem 'bullet'
 end
 
 group :test do
