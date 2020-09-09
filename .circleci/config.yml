@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
-    - image: circleci/ruby:2.7.1-node
+    - image: circleci/ruby:2.7.1-node-browsers
 
 version: 2.1
 jobs:
@@ -11,23 +11,20 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
+            - v1-bundle-
       - run: bundle config --local path vendor/bundle
       - run:
-          name: bundle install
-          command: bundle check || bundle install --jobs=8 --clean
-      - run:
-          name: yarn install
-          command: bundle exec yarn install
+          name: bundle and yarn install
+          command: |
+            gem install bundler
+            bundle check || bundle install --jobs=4 --retry=3 --clean
+            bundle exec yarn install
       - save_cache:
-          key: bundle-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+          key: v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
-            - vendor/bundle
-      - save_cache:
-          key: yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules
+            - ./vendor/bundle
+            - ./node_modules
       - persist_to_workspace:
           root: ~/gunpla-type
           paths:
@@ -42,47 +39,42 @@ jobs:
       - run:
           name: Run rubocop
           command: bundle exec rubocop --parallel
-      # - run:
-      #     name: Run rails_best_practices
-      #     command: bin/bundle exec rails_best_practices
-      # - run:
-      #     name: Run brakeman
-      #     command: bundle exec brakeman
+      - run:
+          name: Run rails_best_practices
+          command: bin/bundle exec rails_best_practices
+      - run:
+          name: Run brakeman
+          command: bundle exec brakeman
 
   rspec:
-    working_directory: ~/gunpla-type
-    machine:
-      image: circleci/classic:edge
+    <<: *defaults
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/gunpla-type
       - run:
-          name: Install Docker Compose
+          name: Install System Dependencies
           command: |
-            curl -L https://github.com/docker/compose/releases/download/1.19.0/docker-compose-`uname -s`-`uname -m` > ~/docker-compose
-            chmod +x ~/docker-compose
-            sudo mv ~/docker-compose /usr/local/bin/docker-compose
+            sudo apt-get update
+            sudo apt-get install -y libappindicator1 fonts-liberation
+            export CHROME_BIN=/usr/bin/google-chrome
+            wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+            sudo dpkg -i google-chrome*.deb
       - run:
-          name: docker-compose build
-          command: docker-compose build
-      - run:
-          name: docker-compose up
-          command: docker-compose up -d
-      - run:
-          name: "before_test: setup db"
-          command: docker-compose run web rails db:create db:migrate
+          name: Create db
+          command: bundle exec rake db:create db:schema:load --trace
       - run:
           name: Run Rspec
-          command: docker-compose exec web rspec
-      - run:
-          name: docker-compose down
-          command: docker-compose down
+          command: RAILS_ENV=test bundle exec rspec
+      - store_test_results:
+          path: /tmp/test-results
 
   heroku_deploy:
     <<: *defaults
     steps:
       - checkout
       - attach_workspace:
-          at: ./vendor/bundle
+          at: ~/gunpla-type
       - run:
           name: Install Heroku CLI
           command: |
@@ -98,12 +90,12 @@ jobs:
           name: Deploy to Heroku
           command: |
             git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-      # - run:
-      #     name: Set RAILS_MASTER_KEY
-      #     command: heroku config:set RAILS_MASTER_KEY=`cat ./config/master.key` --app ${HEROKU_APP_NAME}
-      # - run:
-      #     name: heroku db migrate
-      #     command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
+      - run:
+          name: Set RAILS_MASTER_KEY
+          command: heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY --app ${HEROKU_APP_NAME}
+      - run:
+          name: heroku db migrate
+          command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
@@ -113,11 +105,13 @@ workflows:
   pikachu:
     jobs:
       - build
-      # - rspec:
       - code_analyze:
+          requires:
+            - build
+      - rspec:
           requires:
             - build
       - heroku_deploy:
           requires:
             - code_analyze
-          #   - rspec
+            - rspec
