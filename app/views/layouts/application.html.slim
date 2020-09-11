@@ -1,0 +1,12 @@
+doctype html
+html
+  head
+    title
+      | GunplaType
+    = csrf_meta_tags
+    = csp_meta_tag
+    = favicon_link_tag('favicon.ico')
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    = yield
