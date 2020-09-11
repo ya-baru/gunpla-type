@@ -1,10 +1,6 @@
 class ApplicationController < ActionController::Base
   rescue_from Exception, with: :render_500
 
-  def hello
-    render html: "hello!world!!"
-  end
-
   def render_500(e)
     ExceptionNotifier.notify_exception(e, env: request.env, data: { message: "error" })
     respond_to do |format|

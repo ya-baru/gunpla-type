@@ -77,3 +77,9 @@ gem 'rack-attack'
 # Error Notification
 gem 'exception_notification'
 gem 'slack-notifier'
+
+# Login
+gem 'devise'
+gem 'devise-i18n'
+gem 'omniauth'
+gem 'omniauth-facebook'
