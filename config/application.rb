@@ -33,7 +33,9 @@ module GunplaType
 
     # 不要ファイル作成除外
     config.generators do |g|
+      g.assets false
       g.test_framework :rspec,
+        controller_specs: false,
         view_specs: false,
         helper_specs: false,
         routing_specs: false

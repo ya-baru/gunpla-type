@@ -17,7 +17,8 @@ RUN apk update && \
   apk add --no-cache ${CHROME_PACKAGES} && \
   apk add --virtual build-packages --no-cache ${BUILD_PACKAGES} && \
   bundle install -j4 && \
-  apk del build-packages
+  apk del build-packages && \
+  rm -rf /tmp/* /var/tmp/* /var/cache/apk/*
 
 COPY . ${ROOT}
 

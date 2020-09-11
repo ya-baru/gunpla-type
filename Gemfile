@@ -67,9 +67,13 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data'
 
-# slim
+# Slim
 gem 'slim-rails'
 gem 'html2slim'
 
 # Security
 gem 'rack-attack'
+
+# Error Notification
+gem 'exception_notification'
+gem 'slack-notifier'
