@@ -3,13 +3,13 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-          :lockable, :timeoutable, :trackable,
-         :omniauthable, omniauth_providers:[:facebook, :twitter]
+         :lockable, :timeoutable, :trackable,
+         :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2z]
 
-
-  def self.find_for_oauth(auth)
-    unless user = User.where(uid: auth.uid, provider: auth.provider).first
-      user = User.create(
+  class << self
+    def find_for_oauth(auth)
+      user = User.where(uid: auth.uid, provider: auth.provider).first
+      user ||= User.create(
         uid: auth.uid,
         provider: auth.provider,
         email: User.dummy_email(auth),
@@ -17,13 +17,13 @@ class User < ApplicationRecord
         name: auth.info.name,
         image: auth.info.image
       )
+      user
     end
-    user
-  end
 
-  private
+    private
 
-  def self.dummy_email(auth)
-    "#{auth.uid}-#{auth.provider}@example.com"
+    def dummy_email(auth)
+      "#{auth.uid}-#{auth.provider}@example.com"
+    end
   end
 end
