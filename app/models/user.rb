@@ -3,21 +3,20 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :lockable, :timeoutable, :trackable,
+         :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   class << self
     def find_for_oauth(auth)
       user = User.where(uid: auth.uid, provider: auth.provider).first
-      user ||= User.create(
+      user ||= User.new( # rubocop:disable Lint/UselessAssignment
         uid: auth.uid,
         provider: auth.provider,
-        email: User.dummy_email(auth),
-        password: Devise.friendly_token[0, 20],
         name: auth.info.name,
-        image: auth.info.image
+        image: auth.info.image,
+        email: User.dummy_email(auth),
+        password: Devise.friendly_token[0, 20]
       )
-      user
     end
 
     protected
