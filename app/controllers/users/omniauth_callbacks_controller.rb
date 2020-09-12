@@ -39,7 +39,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     return redirect_to new_user_registration_url if request.env["omniauth.auth"].blank?
 
     provider = provider.to_s
-    # app > models > user.rb
+    # find_for_oauth : app > models > user.rb
     @user = User.find_for_oauth(request.env["omniauth.auth"])
     if @user.persisted?
       flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider.capitalize)
