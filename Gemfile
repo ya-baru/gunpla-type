@@ -81,7 +81,7 @@ gem 'slack-notifier'
 # Login
 gem 'devise'
 gem 'devise-i18n'
-gem 'omniauth'
+gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'

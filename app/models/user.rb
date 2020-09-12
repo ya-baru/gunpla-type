@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :lockable, :timeoutable, :trackable,
-         :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2z]
+         :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   class << self
     def find_for_oauth(auth)
@@ -20,7 +20,7 @@ class User < ApplicationRecord
       user
     end
 
-    private
+    protected
 
     def dummy_email(auth)
       "#{auth.uid}-#{auth.provider}@example.com"
