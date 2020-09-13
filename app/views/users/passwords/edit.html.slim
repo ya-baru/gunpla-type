@@ -1,22 +1,17 @@
-h2
-  | Change your password
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  = f.hidden_field :reset_password_token
-  .field
-    = f.label :password, "New password"
-    br
-    - if @minimum_password_length
-      em
-        | (
-        = @minimum_password_length
-        |  characters minimum)
-      br
-    = f.password_field :password, autofocus: true, autocomplete: "new-password"
-  .field
-    = f.label :password_confirmation, "Confirm new password"
-    br
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .actions
-    = f.submit "Change my password"
-= render "users/shared/links"
+- provide(:title, 'パスワード再設定')
+= render "users/shared/error_messages", resource: resource
+.card.col-md-8.mt-5.mx-auto.px-0
+  .card-header
+    h2
+      | パスワード再設定
+  .card-body
+    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+      = f.hidden_field :reset_password_token
+      .form-group
+        = f.label :password, "新規パスワード"
+        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
+      .form-group
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control"
+      .form-group
+        = f.submit "変更する", class: "btn btn-primary btn-block"

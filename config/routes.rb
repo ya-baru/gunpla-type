@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   }
 
   devise_scope :user do
-    get 'confirm_email', to: 'users/registrations#confirm_email'
     post 'users/signup/confirm', to: 'users/registrations#confirm_new'
+    get 'confirm_email', to: 'users/registrations#confirm_email'
+    get 'password_reset_email', to: 'users/passwords#password_reset_email'
   end
 
   controller :pages do

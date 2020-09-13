@@ -14,9 +14,7 @@
         = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "gunpla@type.com"
       .form-group
         = f.label :password
-        - if @minimum_password_length
-          = "（#{@minimum_password_length}文字以上の英数字）"
-        = f.password_field :password, autocomplete: "new-password", class: "form-control"
+        = f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
       .form-group
         = f.label :password_confirmation
         = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control lead"

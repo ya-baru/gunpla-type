@@ -1,11 +1,15 @@
-h2
-  | Forgot your password?
-= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .actions
-    = f.submit "Send me reset password instructions"
-= render "users/shared/links"
+- provide(:title, 'パスワード再設定の方法')
+= render "users/shared/error_messages", resource: resource
+.card.col-md-8.mt-5.mx-auto.px-0
+  .card-header
+    h2
+      | パスワード再設定の方法を送信する
+  .card-body
+    em
+      | アカウント登録したメールアドレスをご入力してください
+    = form_with model: resource, as: resource_name, url: user_password_path(resource_name), html: { method: :post }, local: true do |f|
+      .form-group.mt-4
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
+      .form-group.mt-4
+        = f.submit "送信する", class: "btn btn-primary btn-block"

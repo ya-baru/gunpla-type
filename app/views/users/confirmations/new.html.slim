@@ -5,7 +5,7 @@
     h2
       | アカウント確認メールの再送信
   .card-body
-    em アカウント登録したメールアドレスを入力してください
+    em アカウント登録したメールアドレスをご入力してください
     = form_with model: resource, as: resource_name, url: user_confirmation_path(resource_name), html: { method: :post }, local: true do |f|
       .form-group.mt-4
         = f.label :email
