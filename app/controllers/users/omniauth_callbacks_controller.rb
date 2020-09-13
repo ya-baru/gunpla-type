@@ -42,14 +42,18 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     # find_for_oauth : app > models > user.rb
     @user = User.find_for_oauth(request.env["omniauth.auth"])
     if @user.persisted?
-      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider.capitalize)
+      sign_in_flash(provider.capitalize)
       sign_in_and_redirect @user, event: :authentication
     else
       @user.skip_confirmation!
       @user.save!
-      flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider.capitalize)
-      sign_in_and_redirect @user
+      sign_in_flash(provider.capitalize)
+      sign_in_and_redirect @user, event: :authentication
     end
+  end
+
+  def sign_in_flash(provider)
+    flash[:notice] = I18n.t("devise.omniauth_callbacks.success", kind: provider)
   end
 
   # protected

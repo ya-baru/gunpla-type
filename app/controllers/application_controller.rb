@@ -8,4 +8,14 @@ class ApplicationController < ActionController::Base
   #     format.all { render nothing: true, status: 500 }
   #   end
   # end
+
+  def after_sign_in_path_for(resource)
+    users_show_path(resource)
+  end
+
+  private
+
+  def sign_in_required
+    redirect_to new_user_session_url unless user_signed_in?
+  end
 end
