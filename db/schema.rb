@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_081554) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "uid", default: "", null: false
     t.string "provider", default: "", null: false
-    t.string "name"
+    t.string "username", limit: 20, null: false
     t.string "image"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
