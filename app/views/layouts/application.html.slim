@@ -2,18 +2,15 @@ doctype html
 html
   head
     title
-      | GunplaType
-    = csrf_meta_tags
-    = csp_meta_tag
-    = favicon_link_tag('favicon.ico')
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
+      = full_title(sub_title: yield(:title))
+    = render "layouts/rails_default"
+    = render "layouts/shim"
   body
     header
       nav
         - if user_signed_in?
           strong
-            = link_to current_user.username, users_show_path
+            = link_to current_user.username, user_path(current_user)
           = link_to "プロフィール変更", edit_user_registration_path
           = link_to "ログアウト", destroy_user_session_path, method: :delete
         - else

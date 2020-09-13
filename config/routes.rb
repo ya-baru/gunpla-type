@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     get 'confirm_email', to: 'users/registrations#confirm_email'
   end
 
-  get 'users/show'
+  resources :users, only: [:show]
   root 'pages#home'
   get 'pages/term'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
