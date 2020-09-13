@@ -1,6 +1,7 @@
 class ApplicationController < ActionController::Base
-  # rescue_from Exception, with: :render_500
+  before_action :configure_sign_up_params, if: :devise_controller?
 
+  # rescue_from Exception, with: :render_500
   # def render_500(e)
   #   ExceptionNotifier.notify_exception(e, env: request.env, data: { message: "error" })
   #   respond_to do |format|
@@ -9,8 +10,14 @@ class ApplicationController < ActionController::Base
   #   end
   # end
 
+  protected
+
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
+  end
+
   def after_sign_in_path_for(resource)
-    users_show_path(resource)
+    user_path(resource)
   end
 
   private
