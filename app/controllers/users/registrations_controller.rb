@@ -21,10 +21,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         respond_with resource, location: after_sign_up_path_for(resource)
       else
-        set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
-        expire_data_after_sign_in!
-        # flash[:notice] = "本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。"
-        redirect_to root_url
+        redirect_to confirm_email_url
       end
     else
       clean_up_passwords resource
@@ -56,6 +53,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
+
+  def confirm_email
+
+  end
 
   protected
 

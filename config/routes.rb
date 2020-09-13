@@ -4,6 +4,10 @@ Rails.application.routes.draw do
     sessions: 'users/sessions', registrations: 'users/registrations',
   }
 
+  devise_scope :user do
+    get 'confirm_email', to: 'users/registrations#confirm_email'
+  end
+
   get 'users/show'
   root 'pages#home'
   get 'pages/term'
