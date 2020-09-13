@@ -78,7 +78,7 @@ gem 'rack-attack'
 gem 'exception_notification'
 gem 'slack-notifier'
 
-# Login
+# User Account
 gem 'devise'
 gem 'devise-i18n'
 gem 'omniauth-rails_csrf_protection'

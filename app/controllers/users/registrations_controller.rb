@@ -17,6 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource(sign_up_params)
     return render :new if params[:back].present?
+
     resource.save
     yield resource if block_given?
     if resource.persisted?
@@ -32,6 +33,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       set_minimum_password_length
       respond_with resource
     end
+  end
+
+  def confirm_email
+    return redirect_to root_path if user_signed_in?
   end
 
   # GET /resource/edit
@@ -57,10 +62,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
-
-  def confirm_email
-    return redirect_to root_path if user_signed_in?
-  end
 
   protected
 
