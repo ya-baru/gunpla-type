@@ -6,6 +6,8 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable, :trackable,
          :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
+  validates :username, presence: true, length: { maximum: 20 }
+
   class << self
     def find_for_oauth(auth)
       user = User.where(uid: auth.uid, provider: auth.provider).first
