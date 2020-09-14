@@ -1,15 +1,24 @@
 - provide(:title, '新規ユーザー登録')
 = render "users/shared/error_messages", resource: resource
 .row
-  .card.col-4.mx-auto.mt-5.px-0.shadow-sm.align-self-start
+  .card.col-lg-4.mx-auto.mt-5.px-0.shadow-sm.align-self-start
     .card-header
       h2
         | SNSアカウントで登録
     .card-body
-      = link_to "Facebookeで登録する", user_facebook_omniauth_authorize_path, class: "btn btn-fb btn-block"
-      = link_to "Twitterで登録する", user_twitter_omniauth_authorize_path, class: "btn btn-tw btn-block"
-      = link_to "Googleで登録する", user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg btn-block"
-  .card.col-7.mx-auto.mt-5.px-0.shadow-sm
+      .btn-sns
+        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb w-250px"
+          span.fab.fa-facebook-f.mr-2
+          | Facebookで登録する
+      .btn-sns
+        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw w-250px"
+          span.fab.fa-twitter.mr-2
+          | Twitterで登録する
+      .btn-sns
+        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg w-250px"
+          span.fab.fa-google.mr-2
+          | Googleで登録する
+  .card.col-lg-7.mx-auto.mt-5.px-0.shadow-sm
     .card-header
       h2
         | 新規ユーザー登録
@@ -27,6 +36,9 @@
         .form-group
           = f.label :password_confirmation
           = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control lead"
-        .form-group
-          = f.submit "アカウントを作成する", class: "btn btn-primary btn-block mt-5"
-          = link_to "利用規約", term_path
+        .form-group.text-center
+          = f.submit "アカウントを作成する", class: "btn btn-primary mt-4"
+        = link_to "利用規約", term_path
+        | と
+        = link_to "プライバシーポリシー", term_path
+        | について
