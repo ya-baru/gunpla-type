@@ -16,10 +16,9 @@ html
         - else
           = link_to "サインアップ", new_user_registration_path
           = link_to "ログイン", new_user_session_path
-    .notice
-      = notice
-    .alert
-      = alert
-
-    = yield
+    .container
+      - flash.each do |flash_key, flash_message|
+        - next if flash_key == 'timedout'
+        = content_tag(:div, flash_message, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
+      = yield
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
+  include Account
   # GET /resource/password/new
   # def new
   #   super
@@ -10,9 +11,11 @@ class Users::PasswordsController < Devise::PasswordsController
   def create
     self.resource = resource_class.send_reset_password_instructions(resource_params)
     yield resource if block_given?
+    # account_confirmed : concerns < account.rb
+    return account_confirmed unless resource.confirmed_at?
 
     if successfully_sent?(resource)
-      redirect_to password_reset_email_path
+      redirect_to password_reset_email_url
     else
       render 'new'
     end
