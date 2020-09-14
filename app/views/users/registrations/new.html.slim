@@ -1,23 +1,32 @@
-- provide(:title, '新規登録')
+- provide(:title, '新規ユーザー登録')
 = render "users/shared/error_messages", resource: resource
-.card.col-8.mt-5.mx-auto.px-0.shadow-sm
-  .card-header
-    h2
-      | 新規登録
-  .card-body
-    = form_with model: resource, as: resource_name, url: users_signup_confirm_path(resource_name), local: true do |f|
-      .form-group
-        = f.label :username
-        = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "Amuro Ray"
-      .form-group
-        = f.label :email
-        = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "gunpla@type.com"
-      .form-group
-        = f.label :password
-        = f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
-      .form-group
-        = f.label :password_confirmation
-        = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control lead"
-      .form-group
-        = f.submit "アカウントを作成する", class: "btn btn-primary btn-block mt-5"
-        = link_to "利用規約", term_path
+.row
+  .card.col-4.mx-auto.mt-5.px-0.shadow-sm.align-self-start
+    .card-header
+      h2
+        | SNSアカウントで登録
+    .card-body
+      = link_to "Facebookeで登録する", user_facebook_omniauth_authorize_path, class: "btn btn-fb btn-block"
+      = link_to "Twitterで登録する", user_twitter_omniauth_authorize_path, class: "btn btn-tw btn-block"
+      = link_to "Googleで登録する", user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg btn-block"
+  .card.col-7.mx-auto.mt-5.px-0.shadow-sm
+    .card-header
+      h2
+        | 新規ユーザー登録
+    .card-body
+      = form_with model: resource, as: resource_name, url: users_signup_confirm_path(resource_name), local: true do |f|
+        .form-group
+          = f.label :username
+          = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "Amuro Ray"
+        .form-group
+          = f.label :email
+          = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "gunpla@type.com"
+        .form-group
+          = f.label :password
+          = f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
+        .form-group
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control lead"
+        .form-group
+          = f.submit "アカウントを作成する", class: "btn btn-primary btn-block mt-5"
+          = link_to "利用規約", term_path
