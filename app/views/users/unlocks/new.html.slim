@@ -1,11 +1,15 @@
-h2
-  | Resend unlock instructions
-= form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .actions
-    = f.submit "Resend unlock instructions"
-= render "users/shared/links"
+- provide(:title, 'アカウントの凍結解除方法')
+= render "users/shared/error_messages", resource: resource
+.card.col-md-8.mt-5.mx-auto.px-0
+  .card-header
+    h2
+      | アカウントの凍結解除方法を再送する
+  .card-body
+    em
+      | アカウント登録したメールアドレスをご入力してください
+    = form_with model: resource, as: resource_name, url: user_unlock_path(resource_name), html: { method: :post }, local: true do |f|
+      .form-group.mt-4
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
+      .form-group.mt-4
+        = f.submit "送信する", class: "btn btn-primary btn-block"

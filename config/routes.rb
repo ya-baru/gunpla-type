@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     post 'users/signup/confirm', to: 'users/registrations#confirm_new'
     get 'confirm_email', to: 'users/registrations#confirm_email'
     get 'password_reset_email', to: 'users/passwords#password_reset_email'
+    get 'unlock_email', to: 'users/unlocks#unlock_email'
   end
 
   controller :pages do

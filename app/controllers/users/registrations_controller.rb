@@ -17,6 +17,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     build_resource(sign_up_params)
+    set_minimum_password_length
     return render :new if params[:back].present?
 
     resource.save
@@ -32,7 +33,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      set_minimum_password_length
       respond_with resource
     end
   end
