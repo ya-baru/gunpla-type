@@ -1,18 +1,38 @@
-h2
-  | Log in
-= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  .field
-    = f.label :password
-    br
-    = f.password_field :password, autocomplete: "current-password"
-  - if devise_mapping.rememberable?
-    .field
-      = f.check_box :remember_me
-      = f.label :remember_me
-  .actions
-    = f.submit "Log in"
-= render "users/shared/links"
+- provide(:title, 'ログイン')
+= render "users/shared/error_messages", resource: resource
+.row
+  .card.col-lg-4.mx-auto.mt-4.px-0.shadow-sm.align-self-start
+    .card-header
+      h2
+        | SNSでログイン
+    .card-body
+      .btn-sns
+        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb w-250px"
+          span.fab.fa-facebook-f.mr-2
+          | Facebookでログイン
+      .btn-sns
+        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw w-250px"
+          span.fab.fa-twitter.mr-2
+          | Twitterでログイン
+      .btn-sns
+        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg w-250px"
+          span.fab.fa-google.mr-2
+          | Googleでログイン
+  .card.col-lg-7.mx-auto.mt-4.px-0.shadow-sm
+    .card-header
+      h2 メールアドレスでログイン
+    .card-body
+      = form_with model: resource, as: resource_name, url: session_path(resource_name), local: true do |f|
+        .form-group
+          = f.label :email
+          = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
+        .form-group
+          = f.label :password
+          = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "password"
+        - if devise_mapping.rememberable?
+          .form-group
+            => f.check_box :remember_me
+            = f.label :remember_me
+        .form-group.text-center
+          = f.submit "ログイン", class: "btn btn-primary mt-4"
+      = render "users/shared/links"
