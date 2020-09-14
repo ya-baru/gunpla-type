@@ -7,12 +7,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def new
   #   super
   # end
+  def new
+    build_resource(session[:user] || {})
+    yield resource if block_given?
+    respond_with resource
+  end
 
   def confirm_new
-    build_resource(sign_up_params)
+    session[:user] = build_resource(sign_up_params)
+    yield resource if block_given?
     set_minimum_password_length
-    render :new unless resource.valid?
+    unless resource.valid?
+      flash[:danger] = resource.errors.full_messages.join(",")
+      redirect_to signup_url
+    end
   end
+  # def confirm_new
+  #   build_resource(sign_up_params)
+  #   yield resource if block_given?
+  #   set_minimum_password_length
+  #   render :new unless resource.valid?
+  # end
 
   # POST /resource
   def create
@@ -21,6 +36,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     return render :new if params[:back].present?
 
     resource.save
+    session[:user] = nil
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?

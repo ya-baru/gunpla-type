@@ -36,7 +36,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   private
 
   def callback_from(provider)
-    return redirect_to new_user_registration_url if request.env["omniauth.auth"].blank?
+    return redirect_to signup_url if request.env["omniauth.auth"].blank?
 
     provider = provider.to_s
     # find_for_oauth : app > models > user.rb

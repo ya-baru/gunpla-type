@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_081554) do
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider"
     t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
   end
 

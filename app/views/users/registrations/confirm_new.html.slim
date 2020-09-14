@@ -1,6 +1,6 @@
 - provide(:title, "登録確認")
 = render "users/shared/error_messages", resource: resource
-.card.col-8.mt-5.mx-auto.px-0.shadow-sm
+.card.col-8.mt-4.mx-auto.px-0.shadow-sm
   .card-body
     h2.md-3
       | 登録確認
@@ -21,4 +21,4 @@
             = f.hidden_field :password
             = f.hidden_field :password_confirmation
       = f.submit "確定", class: "btn btn-primary mr-3 col-3 confirm"
-      = f.submit "戻る", name: "back", class: "btn btn-secondary col-3 confirm"
+      = link_to "戻る", signup_path, class: "btn btn-secondary col-3 confirm"

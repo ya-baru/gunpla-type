@@ -1,7 +1,7 @@
 - provide(:title, '新規ユーザー登録')
 = render "users/shared/error_messages", resource: resource
 .row
-  .card.col-lg-4.mx-auto.mt-5.px-0.shadow-sm.align-self-start
+  .card.col-lg-4.mx-auto.mt-4.px-0.shadow-sm.align-self-start
     .card-header
       h2
         | SNSアカウントで登録
@@ -18,12 +18,12 @@
         = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg w-250px"
           span.fab.fa-google.mr-2
           | Googleで登録する
-  .card.col-lg-7.mx-auto.mt-5.px-0.shadow-sm
+  .card.col-lg-7.mx-auto.mt-4.px-0.shadow-sm
     .card-header
       h2
         | 新規ユーザー登録
     .card-body
-      = form_with model: resource, as: resource_name, url: users_signup_confirm_path(resource_name), local: true do |f|
+      = form_with model: resource, as: resource_name, url: signup_confirm_path(resource_name), local: true do |f|
         .form-group
           = f.label :username
           = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "Amuro Ray"

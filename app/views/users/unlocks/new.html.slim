@@ -1,6 +1,6 @@
 - provide(:title, 'アカウントの凍結解除方法')
 = render "users/shared/error_messages", resource: resource
-.card.col-md-8.mt-5.mx-auto.px-0
+.card.col-md-8.4.mx-auto.px-0
   .card-header
     h2
       | アカウントの凍結解除方法を再送する
@@ -11,6 +11,9 @@
       .form-group.mt-4
         = f.label :email
         = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
+        / - if resource.errors.include?(:email)
+        /   p style="color: red;"
+        /     = resource.errors.full_messages_for(:email).first
       .form-group.mt-4
         = f.submit "送信する", class: "btn btn-primary btn-block"
     = link_to "ログインする", user_session_path
