@@ -9,17 +9,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
   def new
     build_resource(session[:user] || {})
+    session[:user] = nil
     yield resource if block_given?
     respond_with resource
   end
 
   def confirm_new
     session[:user] = build_resource(sign_up_params)
+    build_resource(sign_up_params)
     yield resource if block_given?
     set_minimum_password_length
     unless resource.valid?
-      flash[:danger] = resource.errors.full_messages.join(",")
-      redirect_to signup_url
+      redirect_to signup_url, flash: { danger: resource.errors.full_messages.join(",") }
     end
   end
   # def confirm_new

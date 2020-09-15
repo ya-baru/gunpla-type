@@ -17,9 +17,10 @@ html
           = link_to "サインアップ", signup_path
           = link_to "ログイン", signin_path
     .container
-      - flash.each do |flash_key, flash_message|
-        - next if flash_key == 'timedout'
-        - msg = flash_message.gsub(",","<br>")
-        = content_tag(:div, msg.html_safe, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
+      - unless flash[:error].present?
+        - flash.each do |flash_key, flash_message|
+          - next if flash_key == 'timedout'
+          - msg = flash_message.gsub(",","<br>")
+          = content_tag(:div, msg.html_safe, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
       = yield
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'

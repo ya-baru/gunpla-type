@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::UnlocksController < Devise::UnlocksController
-  include Account
+  # include Account
   # GET /resource/unlock/new
   # def new
   #   super
@@ -11,8 +11,6 @@ class Users::UnlocksController < Devise::UnlocksController
   def create
     self.resource = resource_class.send_confirmation_instructions(resource_params)
     yield resource if block_given?
-    # account_confirmed : concerns < account.rb
-    return account_confirmed unless resource.confirmed_at?
 
     if successfully_sent?(resource)
       redirect_to unlock_email_url
