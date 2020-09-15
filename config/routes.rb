@@ -11,8 +11,10 @@ Rails.application.routes.draw do
   devise_scope :user do
     get 'signup', to: 'users/registrations#new'
     post 'signup_confirm', to: 'users/registrations#confirm_new'
-    get 'signin', to: 'users/sessions#new'
     get 'confirm_email', to: 'users/registrations#confirm_email'
+    get 'confirmation_send', to: 'users/confirmations#new'
+    get 'password_reset', to: 'users/passwords#new'
+    get 'signin', to: 'users/sessions#new'
     get 'password_reset_email', to: 'users/passwords#password_reset_email'
     get 'unlock_email', to: 'users/unlocks#unlock_email'
   end

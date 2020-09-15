@@ -1,15 +1,18 @@
 - provide(:title, '確認メール再送信')
-= render "users/shared/error_messages", resource: resource
+/ = render "users/shared/error_messages", resource: resource
 .card.col-md-8.mt-4.mx-auto.px-0
   .card-header
     h2
       | アカウント確認メールの再送信
   .card-body
     em アカウント登録したメールアドレスをご入力してください
-    = form_with model: resource, as: resource_name, url: user_confirmation_path(resource_name), html: { method: :post }, local: true do |f|
+    = form_with model: resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }, local: true do |f|
       .form-group.mt-4
         = f.label :email
         = f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), placeholder: "gunpla@type.com", class: "form-control"
+        - if flash[:error].present?
+          p style="color: red;"
+            = flash[:error].join
       .form-group.mt-4
         = f.submit "送信する", class: "btn btn-primary btn-block"
     = link_to "ログインする", user_session_path
