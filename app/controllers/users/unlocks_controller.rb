@@ -9,17 +9,22 @@ class Users::UnlocksController < Devise::UnlocksController
 
   # POST /resource/unlock
   def create
-    self.resource = resource_class.send_confirmation_instructions(resource_params)
-    yield resource if block_given?
+    user = User.find_by(email: resource_params[:email])
+    if user.present?
+      # account_confirmed : concerns/account.rb
+      return account_confirmed unless user.confirmed_at?
+    end
 
+    self.resource = resource_class.send_unlock_instructions(resource_params)
+    yield resource if block_given?
     if successfully_sent?(resource)
-      redirect_to unlock_email_url
+      redirect_to unlock_mail_sent_url
     else
       render 'new'
     end
   end
 
-  def unlock_email
+  def mail_sent
     redirect_to root_path if user_signed_in?
   end
 

@@ -10,22 +10,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     respond_with @user
   end
 
-  def confirm_new
-    @user = User.new(sign_up_params)
-
-    unless @user.valid?
-      session[:user] = (valid_params)
-      redirect_to signup_url, flash: { danger: @user.errors.full_messages.join(",") }
-      return
-    end
-  end
-
-  def confirm_back
-    @user = User.new(sign_up_params)
-    session[:user] = (valid_params)
-    redirect_to signup_url
-  end
-
   # POST /resource
   def create
     build_resource(sign_up_params)
@@ -40,16 +24,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         respond_with resource, location: after_sign_up_path_for(resource)
       else
         expire_data_after_sign_in!
-        redirect_to registration_complet_url
+        redirect_to account_confirmation_mail_sent_url
       end
     else
       clean_up_passwords resource
       respond_with resource
     end
-  end
-
-  def complet
-    redirect_to root_path if user_signed_in?
   end
 
   # GET /resource/edit
@@ -76,6 +56,26 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
+  def confirm_new
+    @user = User.new(sign_up_params)
+
+    unless @user.valid?
+      session[:user] = valid_params
+      redirect_to signup_url, flash: { danger: @user.errors.full_messages.join(",") }
+      return
+    end
+  end
+
+  def confirm_back
+    @user = User.new(sign_up_params)
+    session[:user] = valid_params
+    redirect_to signup_url
+  end
+
+  def mail_sent
+    redirect_to root_path if user_signed_in?
+  end
+
   protected
 
   # If you have extra params to permit, append them to the sanitizer.
@@ -96,6 +96,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   private
 
   def valid_params
-    sign_up_params.select {|k, v| k == 'email' || k == 'username' }
+    sign_up_params.select { |k, v| k == 'email' || k == 'username' }
   end
 end

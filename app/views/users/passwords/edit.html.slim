@@ -1,5 +1,4 @@
 - provide(:title, 'パスワード再設定')
-= render "users/shared/error_messages", resource: resource
 .card.col-md-8.mt-4.mx-auto.px-0
   .card-header
     h2
@@ -9,9 +8,15 @@
       = f.hidden_field :reset_password_token
       .form-group
         = f.label :password, "新規パスワード"
-        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
+        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
+        - if resource.errors.include?(:password)
+          p style="color: red;"
+            = resource.errors.full_messages_for(:password).first
       .form-group
         = f.label :password_confirmation
         = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control"
-      .form-group
-        = f.submit "変更する", class: "btn btn-primary btn-block"
+        - if resource.errors.include?(:password_confirmation)
+          p style="color: red;"
+            = resource.errors.full_messages_for(:password_confirmation).first
+      .form-group.text-center
+        = f.submit "変更する", class: "btn btn-primary w-250px mt-4"

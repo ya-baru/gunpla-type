@@ -7,13 +7,13 @@
   .card-body
     em
       | アカウント登録したメールアドレスをご入力してください
-    = form_with model: resource, as: resource_name, url: user_unlock_path(resource_name), html: { method: :post }, local: true do |f|
+    = form_with model: resource, url: account_unlock_path, local: true do |f|
       .form-group.mt-4
         = f.label :email
-        = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
-        / - if resource.errors.include?(:email)
-        /   p style="color: red;"
-        /     = resource.errors.full_messages_for(:email).first
-      .form-group.mt-4
-        = f.submit "送信する", class: "btn btn-primary btn-block"
+        = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "例: gunpla@type.com", class: "form-control"
+        - if resource.errors.include?(:email)
+          p style="color: red;"
+            = resource.errors.full_messages_for(:email).first
+      .form-group.text-center
+        = f.submit "送信する", class: "btn btn-primary w-250px mt-4"
     = link_to "ログインする", new_user_session_path

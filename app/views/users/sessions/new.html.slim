@@ -25,7 +25,7 @@
       = form_with model: resource, as: resource_name, url:  session_path(resource_name), local: true do |f|
         .form-group
           = f.label :email
-          = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
         .form-group
           = f.label :password
           = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "password"
@@ -34,5 +34,5 @@
             => f.check_box :remember_me
             = f.label :remember_me
         .form-group.text-center
-          = f.submit "ログイン", class: "btn btn-primary mt-4"
-      / = render "users/shared/links"
+          = f.submit "ログイン", class: "btn btn-primary w-250px mt-2"
+      = render "users/shared/links"

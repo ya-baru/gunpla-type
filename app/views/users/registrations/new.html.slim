@@ -32,12 +32,12 @@
           = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
         .form-group
           = f.label :password
-          = f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
+          = f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
         .form-group
           = f.label :password_confirmation
           = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control lead"
         .form-group.text-center
-          = f.submit "アカウントを作成する", class: "btn btn-primary mt-4"
+          = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
         = link_to "利用規約", term_path
         | と
         = link_to "プライバシーポリシー", term_path

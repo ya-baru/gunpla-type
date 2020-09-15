@@ -2,20 +2,19 @@
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
   # GET /resource/confirmation/new
-  def new
-    self.resource = resource_class.new(session[:user] || {})
-    session[:user] = nil
-  end
+  # def new
+  #   super
+  # end
 
   # POST /resource/confirmation
   def create
-    session[:user] = self.resource = resource_class.send_confirmation_instructions(resource_params)
+    self.resource = resource_class.send_confirmation_instructions(resource_params)
     yield resource if block_given?
     if successfully_sent?(resource)
-      session[:user] = nil
-      redirect_to confirm_email_url
+      redirect_to account_confirmation_mail_sent_url
     else
-      redirect_to confirmation_send_url, flash: { error: resource.errors.full_messages }
+      render :new
+      # redirect_to confirmation_send_url, flash: { error: resource.errors.full_messages }
     end
   end
 

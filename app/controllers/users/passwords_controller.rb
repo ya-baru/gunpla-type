@@ -4,30 +4,26 @@ class Users::PasswordsController < Devise::PasswordsController
   include Account
 
   # GET /resource/password/new
-  def new
-    self.resource = resource_class.new(session[:user] || {})
-    session[:user] = nil
-  end
+  # def new
+  #   super
+  # end
 
   # POST /resource/password
   def create
     user = User.find_by(email: resource_params[:email])
-    # account_confirmed : concerns/account.rb
-    return account_confirmed if user && user.confirmed_at.nil?
+    if user.present?
+      # account_confirmed : concerns/account.rb
+      return account_confirmed unless user.confirmed_at?
+    end
+
 
     self.resource = resource_class.send_reset_password_instructions(resource_params)
     yield resource if block_given?
-    session[:user] = resource
     if successfully_sent?(resource)
-      session[:user] = nil
-      redirect_to password_reset_email_url
+      redirect_to password_reset_mail_sent_url
     else
-      redirect_to password_reset_url, flash: { error: resource.errors.full_messages }
+      render :new
     end
-  end
-
-  def password_reset_email
-    redirect_to root_path if user_signed_in?
   end
 
   # GET /resource/password/edit?reset_password_token=abcdef
@@ -39,6 +35,10 @@ class Users::PasswordsController < Devise::PasswordsController
   # def update
   #   super
   # end
+
+  def mail_sent
+    redirect_to root_path if user_signed_in?
+  end
 
   # protected
 
