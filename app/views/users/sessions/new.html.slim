@@ -22,7 +22,7 @@
     .card-header
       h2 メールアドレスでログイン
     .card-body
-      = form_with model: resource, as: resource_name, url: session_path(resource_name), local: true do |f|
+      = form_with model: resource, as: resource_name, url:  session_path(resource_name), local: true do |f|
         .form-group
           = f.label :email
           = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "gunpla@type.com", class: "form-control"
@@ -35,4 +35,4 @@
             = f.label :remember_me
         .form-group.text-center
           = f.submit "ログイン", class: "btn btn-primary mt-4"
-      = render "users/shared/links"
+      / = render "users/shared/links"

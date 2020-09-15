@@ -27,7 +27,7 @@ class Users::PasswordsController < Devise::PasswordsController
   end
 
   def password_reset_email
-    return redirect_to root_path if user_signed_in?
+    redirect_to root_path if user_signed_in?
   end
 
   # GET /resource/password/edit?reset_password_token=abcdef

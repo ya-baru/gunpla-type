@@ -14,8 +14,8 @@ html
           = link_to "プロフィール変更", edit_user_registration_path
           = link_to "ログアウト", destroy_user_session_path, method: :delete
         - else
-          = link_to "サインアップ", signup_path
-          = link_to "ログイン", signin_path
+          = link_to "サインアップ", new_user_registration_path
+          = link_to "ログイン", new_user_session_path
     .container
       - unless flash[:error].present?
         - flash.each do |flash_key, flash_message|

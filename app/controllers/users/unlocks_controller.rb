@@ -20,7 +20,7 @@ class Users::UnlocksController < Devise::UnlocksController
   end
 
   def unlock_email
-    return redirect_to root_path if user_signed_in?
+    redirect_to root_path if user_signed_in?
   end
 
   # GET /resource/unlock?unlock_token=abcdef
