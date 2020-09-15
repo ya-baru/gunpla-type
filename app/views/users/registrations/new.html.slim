@@ -23,13 +23,13 @@
       h2
         | 新規ユーザー登録
     .card-body
-      = form_with model: resource, as: resource_name, url: signup_confirm_path(resource_name), local: true do |f|
+      = form_with model: @user, url: signup_confirm_path, html: { method: :post }, local: true do |f|
         .form-group
           = f.label :username
-          = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "Amuro Ray"
+          = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "例: Amuro Ray"
         .form-group
           = f.label :email
-          = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "gunpla@type.com"
+          = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
         .form-group
           = f.label :password
           = f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}字数以上の英数字"
