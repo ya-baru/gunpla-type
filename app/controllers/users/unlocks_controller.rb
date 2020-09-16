@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Users::UnlocksController < Devise::UnlocksController
-  # include Account
+  include Account
+
   # GET /resource/unlock/new
   # def new
   #   super
@@ -24,14 +25,14 @@ class Users::UnlocksController < Devise::UnlocksController
     end
   end
 
-  def mail_sent
-    redirect_to root_path if user_signed_in?
-  end
-
   # GET /resource/unlock?unlock_token=abcdef
   # def show
   #   super
   # end
+
+  def mail_sent
+    redirect_to root_path if user_signed_in?
+  end
 
   # protected
 

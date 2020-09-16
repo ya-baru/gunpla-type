@@ -67,7 +67,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def confirm_back
-    @user = User.new(sign_up_params)
     session[:user] = valid_params
     redirect_to signup_url
   end

@@ -16,7 +16,6 @@ class Users::PasswordsController < Devise::PasswordsController
       return account_confirmed unless user.confirmed_at?
     end
 
-
     self.resource = resource_class.send_reset_password_instructions(resource_params)
     yield resource if block_given?
     if successfully_sent?(resource)
