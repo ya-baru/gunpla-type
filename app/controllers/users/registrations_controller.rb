@@ -62,7 +62,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     unless @user.valid?
       session[:user] = valid_params
       redirect_to signup_url, flash: { danger: @user.errors.full_messages.join(",") }
-      return
     end
   end
 

@@ -7,15 +7,15 @@
         | SNSでログイン
     .card-body
       .btn-sns
-        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb w-250px"
+        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb w-250px", method: :post do
           span.fab.fa-facebook-f.mr-2
           | Facebookでログイン
       .btn-sns
-        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw w-250px"
+        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw w-250px", method: :post do
           span.fab.fa-twitter.mr-2
           | Twitterでログイン
       .btn-sns
-        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg w-250px"
+        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg w-250px", method: :post do
           span.fab.fa-google.mr-2
           | Googleでログイン
   .card.col-lg-7.mx-auto.mt-4.px-0.shadow-sm
