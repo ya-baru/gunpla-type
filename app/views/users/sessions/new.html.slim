@@ -1,38 +1,38 @@
 - provide(:title, 'ログイン')
 = render "users/shared/error_messages", resource: resource
-.row
-  .card.col-lg-4.mx-auto.mt-4.px-0.shadow-sm.align-self-start
-    .card-header
-      h2
-        | SNSでログイン
-    .card-body
-      .btn-sns
-        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb w-250px", method: :post do
+.row.mx-auto
+  .col-lg-4
+    .card.mt-4.px-0.shadow-sm.align-self-start
+      .card-header
+        h2
+          | SNSでログイン
+      .card-body.mx-auto
+        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb btn-sns w-200px", method: :post do
           span.fab.fa-facebook-f.mr-2
           | Facebookでログイン
-      .btn-sns
-        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw w-250px", method: :post do
+        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw btn-sns w-200px", method: :post do
           span.fab.fa-twitter.mr-2
           | Twitterでログイン
-      .btn-sns
-        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg w-250px", method: :post do
+        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg btn-sns w-200px", method: :post do
           span.fab.fa-google.mr-2
           | Googleでログイン
-  .card.col-lg-7.mx-auto.mt-4.px-0.shadow-sm
-    .card-header
-      h2 メールアドレスでログイン
-    .card-body
-      = form_with model: resource, as: resource_name, url:  session_path(resource_name), local: true do |f|
-        .form-group
-          = f.label :email
-          = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-        .form-group
-          = f.label :password
-          = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "password"
-        - if devise_mapping.rememberable?
+  .col-lg-8
+    .card.mt-4.px-0.shadow-sm
+      .card-header
+        h2 メールアドレスでログイン
+      .card-body
+        = form_with model: resource, as: resource_name, url:  session_path(resource_name), local: true do |f|
           .form-group
-            => f.check_box :remember_me
-            = f.label :remember_me
-        .form-group.text-center
-          = f.submit "ログイン", class: "btn btn-primary w-250px mt-2"
-      = render "users/shared/links"
+            = f.label :email
+            = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
+          .form-group
+            = f.label :password
+            = f.password_field :password, autocomplete: "current-password", class: "form-control", placeholder: "password"
+          - if devise_mapping.rememberable?
+            .form-group
+              => f.check_box :remember_me
+              = f.label :remember_me
+          .text-center
+            = f.submit "ログイン", class: "btn btn-primary w-250px mt-2"
+        br
+        = render "users/shared/links"

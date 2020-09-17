@@ -1,16 +1,6 @@
-/ - if controller_name != 'sessions'
-/   = link_to "ログイン", new_session_path(resource_name)
-/   br
-/ - if devise_mapping.registerable? && controller_name != 'registrations'
-/   = link_to "アカウント登録", new_registration_path(resource_name)
-/   br
-= link_to "パスワードを忘れましたか?", new_reset_password_path
-br
-= link_to "アカウント確認のメールを受け取っていませんか?", new_account_confirmation_path
-br
-= link_to "アカウントの凍結解除方法のメールを受け取っていませんか?", new_account_unlock_path
-br
-/ - if devise_mapping.omniauthable?
-  / - resource_class.omniauth_providers.each do |provider|
-  /   = link_to "#{OmniAuth::Utils.camelize(provider)} でログイン", omniauth_authorize_path(resource_name, provider), method: :post
-  /   br
+.mb-1
+  = link_to "パスワードを忘れましたか?", new_reset_password_path
+.mb-1
+  = link_to "アカウント確認のメールを受け取っていませんか?", new_account_confirmation_path
+.mb-1
+  = link_to "アカウントの凍結解除方法のメールを受け取っていませんか?", new_account_unlock_path
