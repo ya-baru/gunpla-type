@@ -4,7 +4,7 @@
     h2
       | パスワード再設定
   .card-body
-    = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = form_with(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
       = f.hidden_field :reset_password_token
       .form-group
         = f.label :password, "新規パスワード"
@@ -18,5 +18,5 @@
         - if resource.errors.include?(:password_confirmation)
           p style="color: red;"
             = resource.errors.full_messages_for(:password_confirmation).first
-      .form-group.text-center
+      .text-center
         = f.submit "変更する", class: "btn btn-primary w-250px mt-4"
