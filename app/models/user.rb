@@ -7,6 +7,10 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   validates :username, presence: true, length: { maximum: 20 }
+  validates :profile, length: { maximum: 255 }
+  validates :email, length: { maximum: 255 }
+  validates :email, confirmation: true, on: :change_email
+  validates :email_confirmation, presence: true, on: :change_email
   validates :password, format: { with: VALID_PASSWORD_REGEX }
 
   class << self

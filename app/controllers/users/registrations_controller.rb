@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  before_action :configure_account_update_params, only: [:update]
+  before_action :authenticate_scope!, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password]
 
   # GET /resource/sign_up
   def new
@@ -38,9 +38,61 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    resource_updated = update_resource(resource, account_update_params)
+    yield resource if block_given?
+
+    if resource_updated
+      flash[:notice] = "アカウント情報を変更しました。"
+      redirect_to user_url(current_user)
+    else
+      render :edit
+    end
+    #   if account_update_params[:avatar].present?
+    #     resource.avatar.attach(account_update_params[:avatar])
+    #   end
+  end
+
+  def edit_email
+    render :edit_email
+  end
+
+  def update_email
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    resource.attributes = account_update_params
+    resource_updated = resource.save(context: :change_email)
+    yield resource if block_given?
+
+    if resource_updated
+      flash[:notice] = "メールアドレスが正しく変更されました。"
+      redirect_to user_url(current_user)
+    else
+      render :edit_email
+    end
+  end
+
+  def edit_password
+    set_minimum_password_length
+    render :edit_password
+  end
+
+  def update_password
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    resource_updated = update_resource(resource, account_update_params)
+    yield resource if block_given?
+
+    if resource_updated
+      flash[:notice] = "パスワードが正しく変更されました。"
+      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+      redirect_to user_url(current_user)
+    else
+      clean_up_passwords resource
+      psassword_invalid_message
+      set_minimum_password_length
+      render 'edit_password'
+    end
+  end
 
   # DELETE /resource
   # def destroy
@@ -76,9 +128,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   protected
 
-  # If you have extra params to permit, append them to the sanitizer.
-  def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+  def update_resource(resource, params)
+    return resource.update_with_password(params) if params.key?(:password)
+    resource.update_without_password(params)
   end
 
   # The path used after sign up.
@@ -95,5 +147,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def valid_params
     sign_up_params.select { |k, v| k == 'email' || k == 'username' }
+  end
+
+  def psassword_invalid_message
+    resource.errors.add(:password, :blank)
+    resource.errors.add(:password_confirmation, :blank)
   end
 end

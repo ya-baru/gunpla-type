@@ -1,42 +1,41 @@
-h2
-  | Edit
-  = resource_name.to_s.humanize
-= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-  = render "users/shared/error_messages", resource: resource
-  .field
-    = f.label :email
-    br
-    = f.email_field :email, autofocus: true, autocomplete: "email"
-  - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-    div
-      | Currently waiting confirmation for:
-      = resource.unconfirmed_email
-  .field
-    = f.label :password
-    i
-      | (leave blank if you don't want to change it)
-    br
-    = f.password_field :password, autocomplete: "new-password"
-    - if @minimum_password_length
-      br
-      em
-        = @minimum_password_length
-        |  characters minimum
-  .field
-    = f.label :password_confirmation
-    br
-    = f.password_field :password_confirmation, autocomplete: "new-password"
-  .field
-    = f.label :current_password
-    i
-      | (we need your current password to confirm your changes)
-    br
-    = f.password_field :current_password, autocomplete: "current-password"
-  .actions
-    = f.submit "Update"
-h3
-  | Cancel my account
-p
-  | Unhappy?
-  = button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete
-= link_to "Back", :back
+- provide(:title, 'ユーザー情報編集')
+/ = render "users/shared/error_messages", resource: resource
+.row.mx-auto
+  .col-lg-8.order-lg-2
+    .card.mt-4.px-0.shadow-sm
+      .card-header
+        h2
+          | ユーザー情報編集
+      .card-body
+        = form_with model: resource, as: resource_name, url: update_user_registration_path(resource_name) do |f|
+          .form-group
+            = f.label :username
+            = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"
+            - if resource.errors.include?(:username)
+              p style="color: red;"
+                = resource.errors.full_messages_for(:username).first
+          .form-group
+            = f.label :profile
+            = f.text_area :profile, size: "10x5", class: "form-control"
+            - if resource.errors.include?(:profile)
+              p style="color: red;"
+                = resource.errors.full_messages_for(:profile).first
+          .text-center
+            = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
+        = button_to "退会の手続き", registration_path(resource_name), data: { confirm: "本当にアカウントを削除をしてよろしいですか?" }, method: :delete, class: "btn btn-danger"
+
+
+  .col-lg-4.order-lg-1
+    .card.mt-4.px-0.shadow-sm.align-self-start
+      .card-header
+        h2
+          | メニュー
+      .card-body
+    .card.mt-4.px-0.shadow-sm.align-self-start
+      .card-header
+        h2
+          | アカウント管理
+      .card-body
+        = link_to "パスワード編集", edit_password_user_registration_path(current_user)
+        br
+        = link_to "メールアドレス編集", edit_email_user_registration_path(current_user)

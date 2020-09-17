@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  before_action :configure_sign_up_params, if: :devise_controller?
+  protect_from_forgery with: :exception
+
+  before_action :configure_permitted_params, if: :devise_controller?
 
   # rescue_from Exception, with: :render_500
   # def render_500(e)
@@ -12,8 +14,9 @@ class ApplicationController < ActionController::Base
 
   protected
 
-  def configure_sign_up_params
+  def configure_permitted_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username, :profile, :email_confirmation])
   end
 
   def after_sign_in_path_for(resource)
@@ -23,6 +26,9 @@ class ApplicationController < ActionController::Base
   private
 
   def sign_in_required
-    redirect_to signin_url unless user_signed_in?
+    unless user_signed_in?
+      flash[:danger] = "アカウント登録もしくはログインしてください。"
+      redirect_to new_user_session_url
+    end
   end
 end
