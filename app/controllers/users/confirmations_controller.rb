@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
-  # GET /resource/confirmation/new
   # def new
   #   super
   # end
 
-  # POST /resource/confirmation
   def create
     self.resource = resource_class.send_confirmation_instructions(resource_params)
     yield resource if block_given?
@@ -18,7 +16,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
     end
   end
 
-  # GET /resource/confirmation?confirmation_token=abcdef
   # def show
   #   super
   # end

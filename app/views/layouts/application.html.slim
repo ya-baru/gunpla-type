@@ -23,4 +23,3 @@ html
         - msg = flash_message.gsub(",","<br>")
         = content_tag(:div, msg.html_safe, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
       = yield
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'

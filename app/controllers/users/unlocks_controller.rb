@@ -3,12 +3,10 @@
 class Users::UnlocksController < Devise::UnlocksController
   include Account
 
-  # GET /resource/unlock/new
   # def new
   #   super
   # end
 
-  # POST /resource/unlock
   def create
     user = User.find_by(email: resource_params[:email])
     if user.present?
@@ -25,7 +23,6 @@ class Users::UnlocksController < Devise::UnlocksController
     end
   end
 
-  # GET /resource/unlock?unlock_token=abcdef
   # def show
   #   super
   # end

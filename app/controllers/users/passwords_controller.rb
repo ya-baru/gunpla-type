@@ -3,16 +3,14 @@
 class Users::PasswordsController < Devise::PasswordsController
   include Account
 
-  # GET /resource/password/new
   # def new
   #   super
   # end
 
-  # POST /resource/password
   def create
     user = User.find_by(email: resource_params[:email])
     if user.present?
-      # account_confirmed : concerns/account.rb
+      # account_confirmed: concerns/account.rb
       return account_confirmed unless user.confirmed_at?
     end
 
@@ -25,12 +23,10 @@ class Users::PasswordsController < Devise::PasswordsController
     end
   end
 
-  # GET /resource/password/edit?reset_password_token=abcdef
   # def edit
   #   super
   # end
 
-  # PUT /resource/password
   # def update
   #   super
   # end

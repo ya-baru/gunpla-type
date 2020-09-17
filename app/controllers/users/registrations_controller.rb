@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
+  prepend_before_action :OAuth_user?, only: [:edit_email, :update_email, :edit_password, :update_password]
   before_action :authenticate_scope!, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password]
+  before_action :sign_in_required, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password, :destroy]
+  before_action :set_minimum_password_length, only: [:new, :edit_password]
 
-  # GET /resource/sign_up
   def new
     @user = User.new(session[:user] || {})
     session[:user] = nil
     respond_with @user
   end
 
-  # POST /resource
   def create
     build_resource(sign_up_params)
-    set_minimum_password_length
 
     resource.save
     yield resource if block_given?
@@ -32,16 +32,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # GET /resource/edit
   # def edit
   #   super
   # end
 
-  # PUT /resource
   def update
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
+
+    if account_update_params[:avatar].present?
+      resource.avatar.attach(account_update_params[:avatar])
+    end
 
     if resource_updated
       flash[:notice] = "アカウント情報を変更しました。"
@@ -49,9 +51,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       render :edit
     end
-    #   if account_update_params[:avatar].present?
-    #     resource.avatar.attach(account_update_params[:avatar])
-    #   end
   end
 
   def edit_email
@@ -73,7 +72,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def edit_password
-    set_minimum_password_length
     render :edit_password
   end
 
@@ -94,7 +92,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # DELETE /resource
   # def destroy
   #   super
   # end
@@ -152,5 +149,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def psassword_invalid_message
     resource.errors.add(:password, :blank)
     resource.errors.add(:password_confirmation, :blank)
+  end
+
+  def OAuth_user?
+    redirect_to user_url(current_user) if current_user.uid?
   end
 end
