@@ -3,7 +3,8 @@ h1
   | ユーザーページ
 p
   = current_user.username
-  / = current_user.image
 p
   = current_user.profile
+- if current_user.avatar.attached?
+  = image_tag current_user.display_avatar
 = link_to "編集画面", edit_user_registration_path

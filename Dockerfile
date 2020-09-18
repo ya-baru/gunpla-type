@@ -1,7 +1,7 @@
 FROM ruby:2.7.1-alpine
 
 ENV RUNTIME_PACKAGES="git vim nodejs yarn postgresql tzdata gmp-dev ruby-dev graphviz less" \
-  CHROME_PACKAGES="chromium-chromedriver zlib-dev chromium xvfb wait4ports xorg-server dbus ttf-freefont mesa-dri-swrast udev" \
+  CHROME_PACKAGES="chromium-chromedriver zlib-dev chromium xvfb wait4ports xorg-server dbus ttf-freefont mesa-dri-swrast udev imagemagick" \
   BUILD_PACKAGES="build-base curl-dev postgresql-dev linux-headers libxml2-dev" \
   ROOT="/gunpla-type" \
   LANG=C.UTF-8 \
