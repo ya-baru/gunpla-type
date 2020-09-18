@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::UnlocksController < Devise::UnlocksController
-  include Account
+  include AccountConfirm
 
   # def new
   #   super
@@ -26,10 +26,6 @@ class Users::UnlocksController < Devise::UnlocksController
   # def show
   #   super
   # end
-
-  def mail_sent
-    redirect_to root_path if user_signed_in?
-  end
 
   # protected
 

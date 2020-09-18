@@ -11,8 +11,7 @@ Rails.application.routes.draw do
     get 'users/edit_email', to: 'users/registrations#edit_email', as: :edit_email_user_registration
     get 'users/edit_password', to: 'users/registrations#edit_password', as: :edit_password_user_registration
     get 'signup/cancel', to: 'users/registrations#cancel', as: :cancel_user_registration
-    get 'account_confirmation_mail_sent', to: 'users/registrations#mail_sent'
-    match 'signup_confirm', to: 'users/registrations#confirm_new', via: [:get, :post]
+    match 'signup_confirm', to: 'users/registrations#new_confirm', via: [:get, :post]
     post 'signup', to: 'users/registrations#create', as: :user_registration
     post 'signup', to: 'users/registrations#new', action: :signup_confirm_back
     post 'signup_confirm_back', to: 'users/registrations#confirm_back'
@@ -28,7 +27,6 @@ Rails.application.routes.draw do
 
     get 'password', to: 'users/passwords#new', as: :new_reset_password
     get 'password/edit', to: 'users/passwords#edit', as: :edit_user_password
-    get 'password_reset_mail_sent', to: 'users/passwords#mail_sent'
     post 'password', to: 'users/passwords#create', as: :reset_password
     put 'password', to: 'users/passwords#update', as: :user_password
     patch 'password', to: 'users/passwords#update', as: nil
@@ -39,8 +37,13 @@ Rails.application.routes.draw do
 
     get 'account_unlock', to: 'users/unlocks#new', as: :new_account_unlock
     get 'users/unlock', to: 'users/unlocks#show', as: :user_unlock
-    get 'unlock_mail_sent', to: 'users/unlocks#mail_sent'
     post 'account_unlock', to: 'users/unlocks#create', as: :account_unlock
+  end
+
+  controller :notice do
+    get 'account_confirmation_mail_sent', to: 'notices#account_confirm'
+    get 'password_reset_mail_sent', to: 'notices#password_reset'
+    get 'unlock_mail_sent', to: 'notices#unlock'
   end
 
   controller :pages do

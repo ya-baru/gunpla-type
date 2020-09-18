@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Users::PasswordsController < Devise::PasswordsController
-  include Account
+  include AccountConfirm
 
   # def new
   #   super
@@ -30,10 +30,6 @@ class Users::PasswordsController < Devise::PasswordsController
   # def update
   #   super
   # end
-
-  def mail_sent
-    redirect_to root_path if user_signed_in?
-  end
 
   # protected
 

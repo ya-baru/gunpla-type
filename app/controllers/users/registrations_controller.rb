@@ -105,7 +105,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  def confirm_new
+  def new_confirm
     @user = User.new(sign_up_params)
 
     unless @user.valid?
@@ -117,10 +117,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def confirm_back
     session[:user] = valid_params
     redirect_to signup_url
-  end
-
-  def mail_sent
-    redirect_to root_path if user_signed_in?
   end
 
   protected
