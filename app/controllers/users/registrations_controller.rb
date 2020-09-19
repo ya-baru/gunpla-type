@@ -48,7 +48,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if resource_updated
       flash[:notice] = I18n.t("devise.registrations.updated")
-      redirect_to user_url(current_user)
+      redirect_to users_profile_url(current_user)
     else
       render :edit
     end
@@ -66,7 +66,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if resource_updated
       flash[:notice] = I18n.t("devise.registrations.email_updated")
-      redirect_to user_url(current_user)
+      redirect_to users_profile_url(current_user)
     else
       render :edit_email
     end
@@ -84,7 +84,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource_updated
       flash[:notice] = I18n.t("devise.registrations.password_updated")
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-      redirect_to user_url(current_user)
+      redirect_to users_profile_url(current_user)
     else
       clean_up_passwords resource
       psassword_invalid_message
@@ -149,6 +149,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def OAuth_user?
-    redirect_to user_url(current_user) if current_user.uid?
+    redirect_to users_profile_url(current_user) if current_user.uid?
   end
 end

@@ -1,8 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  rescue_from StandardError, with: :error_500 unless Rails.env.development?
   unless Rails.env.development?
+    rescue_from StandardError, with: :error_500
     rescue_from ActiveRecord::RecordNotFound,
                 ActionController::RoutingError, with: :error_404
   end
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
 
   def sign_in_required
     unless user_signed_in?
-      flash[:danger] = "アカウント登録もしくはログインしてください。"
+      flash[:danger] = I18n.t("devise.failure.unauthenticated")
       redirect_to new_user_session_url
     end
   end
