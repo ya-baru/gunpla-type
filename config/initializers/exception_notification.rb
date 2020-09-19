@@ -32,9 +32,9 @@ ExceptionNotification.configure do |config|
   }
 
   # # 本番環境のみ通知
-  # config.ignore_if do |exception, options|
-  #   !Rails.env.production?
-  # end
+  config.ignore_if do |exception, options|
+    !Rails.env.production?
+  end
 
   # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
   # config.add_notifier :campfire, {

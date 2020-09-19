@@ -37,7 +37,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def update
-    binding.pry
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
@@ -48,7 +47,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     if resource_updated
-      flash[:notice] = "アカウント情報を変更しました。"
+      flash[:notice] = I18n.t("devise.registrations.updated")
       redirect_to user_url(current_user)
     else
       render :edit
@@ -66,7 +65,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
 
     if resource_updated
-      flash[:notice] = "メールアドレスが正しく変更されました。"
+      flash[:notice] = I18n.t("devise.registrations.email_updated")
       redirect_to user_url(current_user)
     else
       render :edit_email
@@ -83,7 +82,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
 
     if resource_updated
-      flash[:notice] = "パスワードが正しく変更されました。"
+      flash[:notice] = I18n.t("devise.registrations.password_updated")
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
       redirect_to user_url(current_user)
     else
