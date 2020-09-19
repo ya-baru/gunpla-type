@@ -28,16 +28,24 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:account_update, keys: [:username, :profile, :email_confirmation, :avatar])
   end
 
+
+  private
+
   def after_sign_in_path_for(resource)
     users_profile_path(resource)
   end
-
-  private
 
   def sign_in_required
     unless user_signed_in?
       flash[:danger] = I18n.t("devise.failure.unauthenticated")
       redirect_to new_user_session_url
+    end
+  end
+
+  def already_login?
+    if user_signed_in?
+      flash[:danger] = I18n.t("devise.failure.already_authenticated")
+      redirect_to users_profile_url(current_user)
     end
   end
 end

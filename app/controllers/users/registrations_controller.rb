@@ -1,10 +1,15 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  prepend_before_action :OAuth_user?, only: [:edit_email, :update_email, :edit_password, :update_password]
-  before_action :authenticate_scope!, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password]
-  before_action :sign_in_required, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password, :destroy]
-  before_action :set_minimum_password_length, only: [:new, :edit_password]
+  prepend_before_action :OAuth_user?, only: %i(edit_email update_email edit_password update_password)
+
+  before_action :authenticate_scope!, only: %i(edit update edit_email update_email edit_password update_password delete_confirm destroy)
+
+  before_action :sign_in_required, only: %i(edit update edit_email update_email edit_password update_password delete_confirm destroy)
+
+  before_action :already_login?, only: %i(create new_confirm confirm_back)
+
+  before_action :set_minimum_password_length, only: %i(new edit_password)
 
   def new
     @user = User.new(session[:user] || {})
@@ -54,9 +59,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def edit_email
-    render :edit_email
+  def destroy
+    resource.destroy
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    flash[:notice] = I18n.t("devise.registrations.destroyed")
+    yield resource if block_given?
+    redirect_to root_url
   end
+
+  def new_confirm
+    @user = User.new(sign_up_params)
+
+    unless @user.valid?
+      session[:user] = valid_params
+      redirect_to signup_url, flash: { danger: @user.errors.full_messages.join(",") }
+    end
+  end
+
+  def confirm_back
+    session[:user] = valid_params
+    redirect_to signup_url
+  end
+
+  def edit_email; end
 
   def update_email
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
@@ -72,9 +97,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def edit_password
-    render :edit_password
-  end
+  def edit_password; end
 
   def update_password
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
@@ -93,32 +116,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
-
-  def new_confirm
-    @user = User.new(sign_up_params)
-
-    unless @user.valid?
-      session[:user] = valid_params
-      redirect_to signup_url, flash: { danger: @user.errors.full_messages.join(",") }
-    end
-  end
-
-  def confirm_back
-    session[:user] = valid_params
-    redirect_to signup_url
-  end
+  def delete_confirm; end
 
   protected
 

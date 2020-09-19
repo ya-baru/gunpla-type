@@ -34,7 +34,7 @@
 
           .text-center
             = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
-        / = button_to "退会の手続き", registration_path(resource_name), data: { confirm: "本当にアカウントを削除をしてよろしいですか?" }, method: :delete, class: "btn btn-danger"
+        / = button_to "退会の手続き", destroy_user_registration_path(resource_name), data: { confirm: "本当にアカウントを削除をしてよろしいですか?" }, method: :delete, class: "btn btn-danger"
 
   .col-lg-4.order-lg-1
     .card.mt-4.px-0.shadow-sm.align-self-start
@@ -51,6 +51,9 @@
           = link_to "パスワード編集", edit_password_user_registration_path(current_user)
           br
           = link_to "メールアドレス編集", edit_email_user_registration_path(current_user)
+        - if current_user
+          br
+          = link_to "退会の手続き", signout_confirm_path
 
 javascript:
   $(document).on("turbolinks:load", function () {

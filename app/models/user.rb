@@ -1,7 +1,13 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable, :lockable, :timeoutable, :trackable,
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable,
+         :confirmable,
+         :lockable,
+         :timeoutable,
+         :trackable,
          :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   has_one_attached :avatar, dependent: :destroy

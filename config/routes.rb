@@ -16,8 +16,8 @@ Rails.application.routes.draw do
     get 'users/edit', to: 'users/registrations#edit', as: :edit_user_registration
     get 'users/edit_email', to: 'users/registrations#edit_email', as: :edit_email_user_registration
     get 'users/edit_password', to: 'users/registrations#edit_password', as: :edit_password_user_registration
-    get 'signup/cancel', to: 'users/registrations#cancel', as: :cancel_user_registration
     match 'signup_confirm', to: 'users/registrations#new_confirm', via: %i(get post)
+    get 'signout_confirm', to: 'users/registrations#delete_confirm'
     post 'signup', to: 'users/registrations#create', as: :user_registration
     post 'signup', to: 'users/registrations#new', action: :signup_confirm_back
     post 'signup_confirm_back', to: 'users/registrations#confirm_back'
@@ -25,7 +25,7 @@ Rails.application.routes.draw do
     patch 'users/edit_email', to: 'users/registrations#update_email', as: :update_email_user_registation
     patch 'users/edit_password', to: 'users/registrations#update_password', as: :update_password_user_registration
     put 'user', to: 'users/registrations#update', as: nil
-    delete 'user', to: 'users/registrations#destroy', as: :destroy_user_registration
+    delete 'signout', to: 'users/registrations#destroy', as: :destroy_user_registration
 
     get 'login', to: 'users/sessions#new', as: :new_user_session
     post 'login', to: 'users/sessions#create', as: :user_session

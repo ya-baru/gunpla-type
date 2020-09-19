@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user) { create(:user) }
+  let(:user) { build(:user) }
 
   it { is_expected.to validate_presence_of :username }
   it { is_expected.to validate_length_of(:username).is_at_most(20) }
@@ -53,7 +53,6 @@ RSpec.describe User, type: :model do
         foo@bar+baz.com
         foo@bar..com
       )
-
       it "無効であること" do
         invalid_addresses.each do |invalid_address|
           user.email = invalid_address
