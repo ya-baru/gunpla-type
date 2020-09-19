@@ -1,6 +1,12 @@
 Rails.application.routes.draw do
+  root 'users/home#index'
+
+  scope module: :users do
+    get 'term', to: 'about#term'
+  end
+
   devise_for :users,
-             skip: [:registrations, :sessions, :confirmations, :unlocks, :passwords],
+             skip: %i(registrations sessions confirmations unlocks passwords),
              controllers: {
                omniauth_callbacks: 'users/omniauth_callbacks',
              }
@@ -11,7 +17,7 @@ Rails.application.routes.draw do
     get 'users/edit_email', to: 'users/registrations#edit_email', as: :edit_email_user_registration
     get 'users/edit_password', to: 'users/registrations#edit_password', as: :edit_password_user_registration
     get 'signup/cancel', to: 'users/registrations#cancel', as: :cancel_user_registration
-    match 'signup_confirm', to: 'users/registrations#new_confirm', via: [:get, :post]
+    match 'signup_confirm', to: 'users/registrations#new_confirm', via: %i(get post)
     post 'signup', to: 'users/registrations#create', as: :user_registration
     post 'signup', to: 'users/registrations#new', action: :signup_confirm_back
     post 'signup_confirm_back', to: 'users/registrations#confirm_back'
@@ -38,20 +44,17 @@ Rails.application.routes.draw do
     get 'account_unlock', to: 'users/unlocks#new', as: :new_account_unlock
     get 'users/unlock', to: 'users/unlocks#show', as: :user_unlock
     post 'account_unlock', to: 'users/unlocks#create', as: :account_unlock
+
+    get 'account_confirmation_mail_sent', to: 'users/notices#account_confirm'
+    get 'password_reset_mail_sent', to: 'users/notices#password_reset'
+    get 'unlock_mail_sent', to: 'users/notices#unlock'
   end
 
-  controller :notice do
-    get 'account_confirmation_mail_sent', to: 'notices#account_confirm'
-    get 'password_reset_mail_sent', to: 'notices#password_reset'
-    get 'unlock_mail_sent', to: 'notices#unlock'
+  namespace :users do
+    resources :profile, only: %i(show)
   end
 
-  controller :pages do
-    root 'pages#home'
-    get 'term', to: 'pages#term'
-  end
-
-  resources :users, only: [:show]
+  # resources :users, only: [:show]
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

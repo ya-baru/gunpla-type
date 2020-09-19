@@ -1,4 +1,4 @@
-class UsersController < ApplicationController
+class Users::ProfileController < ApplicationController
   before_action :sign_in_required, only: [:show]
 
   def show
