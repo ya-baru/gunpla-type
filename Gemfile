@@ -22,9 +22,6 @@ gem 'jbuilder', '~> 2.7'
 # Use Active Model has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
-# Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
-
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
@@ -77,3 +74,16 @@ gem 'rack-attack'
 # Error Notification
 gem 'exception_notification'
 gem 'slack-notifier'
+
+# User Account
+gem 'devise'
+gem 'devise-i18n'
+gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-google-oauth2'
+
+# Image
+gem 'active_storage_validations'
+gem 'image_processing'
+gem 'mini_magick'

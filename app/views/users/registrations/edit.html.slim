@@ -1,0 +1,95 @@
+- provide(:title, 'ユーザー情報編集')
+= render "users/shared/error_messages", resource: resource
+.row.mx-auto
+  .col-lg-8.order-lg-2
+    .card.mt-4.px-0.shadow-sm
+      .card-header
+        h2
+          | ユーザー情報編集
+      .card-body
+        = form_with model: resource, as: resource_name, url: update_user_registration_path(resource_name) do |f|
+          .form-group
+            = f.label :username
+            = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"
+            - if resource.errors.include?(:username)
+              p style="color: red;"
+                = resource.errors.full_messages_for(:username).first
+          .form-group
+            = f.label :profile
+            = f.text_area :profile, size: "10x5", class: "form-control"
+            - if resource.errors.include?(:profile)
+              p style="color: red;"
+                = resource.errors.full_messages_for(:profile).first
+          - unless current_user.uid?
+            .form-group
+              = f.label :avatar, "ユーザー画像", class: "image_label"
+                .prev-contents.d-lg-flex
+                  - if current_user.avatar.present?
+                    .prev-content
+                      = image_tag current_user.avatar, alt: "preview", class: "prev-image", size: "150x150"
+                  - else
+                    img.photo-icon src="https://placehold.jp/150x150.png?text=Non-Image"
+                  .align-self-center
+                    = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
+
+          .text-center
+            = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
+        / = button_to "退会の手続き", registration_path(resource_name), data: { confirm: "本当にアカウントを削除をしてよろしいですか?" }, method: :delete, class: "btn btn-danger"
+
+  .col-lg-4.order-lg-1
+    .card.mt-4.px-0.shadow-sm.align-self-start
+      .card-header
+        h2
+          | メニュー
+      .card-body
+    .card.mt-4.px-0.shadow-sm.align-self-start
+      .card-header
+        h2
+          | アカウント管理
+      .card-body
+        - unless current_user.uid?
+          = link_to "パスワード編集", edit_password_user_registration_path(current_user)
+          br
+          = link_to "メールアドレス編集", edit_email_user_registration_path(current_user)
+
+javascript:
+  $(document).on("turbolinks:load", function () {
+    $("#user_avatar").bind("change", function () {
+      var size_in_megabytes = this.files[0].size / 1024 / 1024;
+      var ImgSrc = "https://placehold.jp/150x150.png?text=Non-Image";
+      if (size_in_megabytes > 3) {
+        alert(
+          "最大ファイルサイズは３MB未満です。\nこれより小さいファイルを選択してください。"
+        );
+        $("#user_avatar").val("");
+        $(".prev-image").attr({ src: ImgSrc });
+      }
+    });
+
+    $(function () {
+      function buildHTML(image) {
+        var html = `
+            <div class="prev-content">
+              <img src="${image}", alt="preview" class="prev-image" width=150 height=150>
+            </div>
+            `;
+        return html;
+      }
+
+      $(document).on("change", ".hidden_file", function () {
+        var file = this.files[0];
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function () {
+          var image = this.result;
+          if ($(".prev-content").length == 0) {
+            var html = buildHTML(image);
+            $(".prev-contents").prepend(html);
+            $(".photo-icon").hide();
+          } else {
+            $(".prev-content .prev-image").attr({ src: image });
+          }
+        };
+      });
+    });
+  });

@@ -33,9 +33,9 @@ Style/Documentation:
 Style/ClassAndModuleChildren:
   Enabled: false
 
-# モジュール名::クラス名の定義を許可
-ClassAndModuleChildren:
-  Enabled: false
+# # モジュール名::クラス名の定義を許可
+# ClassAndModuleChildren:
+#   Enabled: false
 
 # 文字数の上限を８０文字から変更
 Metrics/LineLength:

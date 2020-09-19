@@ -1,0 +1,19 @@
+- provide(:title, 'パスワード再設定の方法')
+.card.col-md-8.mt-4.mx-auto.px-0
+  .card-header
+    h2
+      | パスワード再設定の方法を送信する
+  .card-body
+    em
+      | アカウント登録したメールアドレスをご入力してください
+    = form_with model: resource, url: reset_password_path, local: true do |f|
+      .form-group.mt-4
+        = f.label :email
+        = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "例: gunpla@type.com", class: "form-control"
+        - if resource.errors.include?(:email)
+          p style="color: red;"
+            = resource.errors.full_messages_for(:email).first
+      .text-center
+        = f.submit "送信する", class: "btn btn-primary w-250px mt-4"
+      br
+      = link_to "ログインする", new_user_session_path

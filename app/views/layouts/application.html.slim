@@ -2,11 +2,24 @@ doctype html
 html
   head
     title
-      | GunplaType
-    = csrf_meta_tags
-    = csp_meta_tag
-    = favicon_link_tag('favicon.ico')
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
+      = full_title(sub_title: yield(:title))
+    = render "layouts/rails_default"
+    = render "layouts/shim"
   body
-    = yield
+    header
+      nav
+        - if user_signed_in?
+          strong
+            = link_to current_user.username, user_path(current_user)
+          = link_to "プロフィール変更", edit_user_registration_path
+          = link_to "ログアウト", destroy_user_session_path, method: :delete
+        - else
+          = link_to "サインアップ", new_user_registration_path
+          = link_to "ログイン", new_user_session_path
+    .container
+      - flash.each do |flash_key, flash_message|
+        - next if %w[password_reset_mail_sent unlock_mail_sent account_confirmation_mail_sent].any? { |name| current_page?(send("#{name}_path")) }
+        - next if flash_key == "timedout"
+        - msg = flash_message.gsub(",","<br>")
+        = content_tag(:div, msg.html_safe, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
+      = yield

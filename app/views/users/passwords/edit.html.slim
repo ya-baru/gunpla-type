@@ -1,0 +1,22 @@
+- provide(:title, 'パスワード再設定')
+.card.col-md-8.mt-4.mx-auto.px-0
+  .card-header
+    h2
+      | パスワード再設定
+  .card-body
+    = form_with(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+      = f.hidden_field :reset_password_token
+      .form-group
+        = f.label :password, "新規パスワード"
+        = f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
+        - if resource.errors.include?(:password)
+          p style="color: red;"
+            = resource.errors.full_messages_for(:password).first
+      .form-group
+        = f.label :password_confirmation
+        = f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control"
+        - if resource.errors.include?(:password_confirmation)
+          p style="color: red;"
+            = resource.errors.full_messages_for(:password_confirmation).first
+      .text-center
+        = f.submit "変更する", class: "btn btn-primary w-250px mt-4"

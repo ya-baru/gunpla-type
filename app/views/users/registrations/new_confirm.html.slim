@@ -1,0 +1,30 @@
+- provide(:title, "登録確認")
+.card.col-lg-8.mt-4.mx-auto.shadow-sm
+  .card-body
+    h2
+      | 登録確認
+    table.table
+      tbody
+        tr
+          th= User.human_attribute_name(:username)
+          td= resource.username
+        tr
+          th= User.human_attribute_name(:email)
+          td= resource.email
+        tr
+          th= User.human_attribute_name(:password)
+          td= resource.password
+    .d-flex
+      = form_with model: @user, url: user_registration_path, local: true do |f|
+        = f.hidden_field :username
+        = f.hidden_field :email
+        = f.hidden_field :password
+        = f.hidden_field :password_confirmation
+        = f.submit "確定", class: "btn btn-primary w-100px mr-3"
+
+      = form_with model: @user, url: signup_confirm_back_path, local: true do |f|
+        = f.hidden_field :username
+        = f.hidden_field :email
+        = f.hidden_field :password
+        = f.hidden_field :password_confirmation
+        = f.submit "戻る", class: "btn btn-secondary w-100px"
