@@ -3,9 +3,13 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   prepend_before_action :OAuth_user?, only: %i(edit_email update_email edit_password update_password)
 
-  before_action :authenticate_scope!, only: %i(edit update edit_email update_email edit_password update_password delete_confirm destroy)
+  prepend_before_action :authenticate_scope!, only: %i(
+    edit update edit_email update_email edit_password update_password delete_confirm destroy
+  )
 
-  before_action :sign_in_required, only: %i(edit update edit_email update_email edit_password update_password delete_confirm destroy)
+  before_action :sign_in_required, only: %i(
+    edit update edit_email update_email edit_password update_password delete_confirm destroy
+  )
 
   before_action :already_login?, only: %i(create new_confirm confirm_back)
 
