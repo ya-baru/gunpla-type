@@ -1,0 +1,68 @@
+require 'rails_helper'
+
+RSpec.describe "Users::Notices", type: :request do
+  subject { response }
+
+  let(:user) { create(:user) }
+
+  describe "#account_confirm" do
+    before do
+      login
+      get account_confirmation_mail_sent_path
+    end
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status(200) }
+    end
+  end
+
+  describe "#password_reset" do
+    before do
+      login
+      get password_reset_mail_sent_path
+    end
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status(200) }
+    end
+  end
+
+  describe "#unlock" do
+    before do
+      login
+      get unlock_mail_sent_path
+    end
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status(200) }
+    end
+  end
+end
