@@ -1,19 +1,16 @@
 class Users::Mailer < Devise::Mailer
-  helper :application # gives access to all helpers defined within `application_helper`.
-  include Devise::Controllers::UrlHelpers # Optional. eg. `confirmation_url`
+  helper :application
+  include Devise::Controllers::UrlHelpers
 
   def confirmation_instructions(record, token, opts = {})
-    # customize
     super
   end
 
   def reset_password_instructions(record, token, opts = {})
-    # customize
     super
   end
 
   def unlock_instructions(record, token, opts = {})
-    # customize
     super
   end
 end

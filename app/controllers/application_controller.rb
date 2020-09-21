@@ -33,4 +33,11 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     users_profile_path(resource)
   end
+
+  def login_user
+    if user_signed_in?
+      flash[:danger] = I18n.t("devise.failure.already_authenticated")
+      redirect_to users_profile_url(current_user)
+    end
+  end
 end

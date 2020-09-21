@@ -32,17 +32,17 @@ Rails.application.routes.draw do
     delete 'logout', to: 'users/sessions#destroy', as: :destroy_user_session
 
     get 'password', to: 'users/passwords#new', as: :new_reset_password
-    get 'password/edit', to: 'users/passwords#edit', as: :edit_user_password
+    get 'password/edit', to: 'users/passwords#edit', as: :edit_password
     post 'password', to: 'users/passwords#create', as: :reset_password
     put 'password', to: 'users/passwords#update', as: :user_password
     patch 'password', to: 'users/passwords#update', as: nil
 
     get 'account_confirmation', to: 'users/confirmations#new', as: :new_account_confirmation
-    get 'users/confirmation', to: 'users/confirmations#show', as: :user_confirmation
+    get 'users/confirmation', to: 'users/confirmations#show', as: :confirmation
     post 'account_confirmation', to: 'users/confirmations#create', as: :account_confirmation
 
     get 'account_unlock', to: 'users/unlocks#new', as: :new_account_unlock
-    get 'users/unlock', to: 'users/unlocks#show', as: :user_unlock
+    get 'users/unlock', to: 'users/unlocks#show', as: :unlock
     post 'account_unlock', to: 'users/unlocks#create', as: :account_unlock
 
     get 'account_confirmation_mail_sent', to: 'users/notices#account_confirm'

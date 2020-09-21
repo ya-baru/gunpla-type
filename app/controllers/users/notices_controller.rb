@@ -1,5 +1,5 @@
 class Users::NoticesController < ApplicationController
-  before_action :signed_in?
+  before_action :login_user
 
   def account_confirm
     @message1 = "本人確認用のメールを送信しました。"
@@ -17,11 +17,5 @@ class Users::NoticesController < ApplicationController
     @message1 = "メールアドレスを確認しました。"
     @message2 = "アカウントの凍結解除方法を数分以内にメールでご連絡します。"
     render :complete
-  end
-
-  private
-
-  def signed_in?
-    return redirect_to root_path if user_signed_in?
   end
 end
