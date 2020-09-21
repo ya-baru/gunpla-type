@@ -19,13 +19,21 @@ class Users::UnlocksController < Devise::UnlocksController
     if successfully_sent?(resource)
       redirect_to unlock_mail_sent_url
     else
-      render 'new'
+      render :new
     end
   end
 
-  # def show
-  #   super
-  # end
+  def show
+    self.resource = resource_class.unlock_access_by_token(params[:unlock_token])
+    yield resource if block_given?
+
+    if resource.errors.empty?
+      flash[:notice] = I18n.t("devise.unlocks.unlocked")
+      redirect_to new_user_session_url
+    else
+      render :new
+    end
+  end
 
   # protected
 
