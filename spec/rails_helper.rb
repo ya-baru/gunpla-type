@@ -65,4 +65,6 @@ RSpec.configure do |config|
 
   config.include RequestSpecHelper, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+
+  config.include ActiveSupport::Testing::TimeHelpers
 end

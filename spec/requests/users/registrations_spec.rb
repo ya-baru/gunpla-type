@@ -26,7 +26,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#create" do
-    context "ログインユーザー", :focus do
+    context "ログインユーザー" do
       let(:user_params) { attributes_for(:user) }
 
       it "登録されずリダイレクトすること" do
@@ -153,24 +153,18 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#new_confirm" do
-    context "ログインユーザー" do
-      it "リダイレクトされること" do
-        sign_in user
-        post signup_confirm_path
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to users_profile_path(user)
-      end
+    it "ログインユーザーならリダイレクトされること" do
+      sign_in user
+      post signup_confirm_path
+      expect(response).to have_http_status(302)
     end
   end
 
   describe "#confirm_back" do
-    context "ログインユーザー" do
-      it "プロフィールページへリダイレクトされること" do
-        sign_in user
-        post signup_confirm_back_path
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to users_profile_path(user)
-      end
+    it "ログインユーザーならリダイレクトされること" do
+      sign_in user
+      post signup_confirm_back_path
+      expect(response).to have_http_status(302)
     end
   end
 

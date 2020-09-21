@@ -4,7 +4,7 @@
     h2
       | パスワード再設定
   .card-body
-    = form_with(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+    = form_with model: resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, local: true do |f|
       = f.hidden_field :reset_password_token
       .form-group
         = f.label :password, "新規パスワード"
