@@ -26,19 +26,30 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#create" do
+    before do
+      login
+      post user_registration_path, params: {
+        user: attributes_for(:user),
+      }
+    end
+
     context "ログインユーザー" do
-      let(:user_params) { attributes_for(:user) }
+      let(:login) { sign_in user }
 
-      it "登録されずリダイレクトすること" do
-        sign_in user
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+      it "新しく登録されないこと" do
+        expect(User.count).to eq 1
+      end
+    end
 
-        expect  do
-          post user_registration_path, params: {
-            user: user_params,
-          }
-        end.not_to change(User, :count)
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to users_profile_path(user)
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to account_confirmation_mail_sent_path }
+      it "新しく登録されること" do
+        expect(User.count).to eq 2
       end
     end
   end
@@ -46,7 +57,7 @@ RSpec.describe "Users::Registrations", type: :request do
   describe "#edit" do
     before do
       login
-      get edit_user_registration_path
+      get edit_user_registration_path(user)
     end
 
     context "ログインユーザー" do
@@ -58,24 +69,20 @@ RSpec.describe "Users::Registrations", type: :request do
     context "未ログインユーザー" do
       let(:login) { nil }
 
-      it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to new_user_session_path }
+      it { is_expected.to have_http_status(401) }
     end
 
-    # context "他ユーザー" do
-    #   let(:other_user) { create(:user) }
+    context "他ユーザーを指定" do
+      let(:other_user) { create(:user) }
+      let(:login) { sign_in other_user }
 
-    #   it "リダイレクトすること" do
-    #     sign_in user
-    #     get edit_user_registration_path(other_user)
-    #     # expect(response).to have_http_status(302)
-    #     expect(response).to redirect_to users_profile_path(user)
-    #   end
-    # end
+      it { is_expected.to have_http_status(200) }
+    end
   end
 
   describe "#update" do
-    def profile_params(user)
+    before do
+      login
       patch update_user_registration_path(user), params: { user: {
         username: "change_name",
         profile: "あいうえお",
@@ -83,71 +90,77 @@ RSpec.describe "Users::Registrations", type: :request do
     end
 
     context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
       it "正常に更新されること" do
-        sign_in user
-        profile_params(user)
         expect(user.reload).to have_attributes(
           username: "change_name",
           profile: "あいうえお"
         )
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to users_profile_path(user)
       end
     end
 
     context "未ログインユーザー" do
-      it "更新されずリクエストエラーを返すこと" do
-        profile_params(user)
-        expect(user.reload).not_to have_attributes(
-          username: "user",
-          profile: "あいうえお"
-        )
-        expect(response).to have_http_status(401)
-      end
-    end
+      let(:login) { nil }
 
-    context "他のユーザーを指定" do
-      let(:first_user) { create(:user) }
-      let(:other_user) { create(:user) }
-
-      it "更新されずリダイレクトすること" do
-        sign_in first_user
-        profile_params(other_user)
+      it { is_expected.to have_http_status(401) }
+      it "更新されないこと" do
         expect(user.reload).not_to have_attributes(
           username: "change_name",
           profile: "あいうえお"
         )
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to users_profile_path(first_user)
+      end
+    end
+
+    context "他のユーザーを指定" do
+      let(:other_user) { create(:user) }
+      let(:login) { sign_in other_user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(other_user) }
+      it "更新されないこと" do
+        expect(user.reload).not_to have_attributes(
+          username: "change_name",
+          profile: "あいうえお"
+        )
       end
     end
   end
 
   describe "#destroy" do
+    before do
+      login
+      delete destroy_user_registration_path(user)
+    end
+
     context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to root_path }
       it "正常にユーザーが削除されること" do
-        sign_in user
-        expect { delete destroy_user_registration_path(user) }.to change(User, :count).by(-1)
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to root_path
+        expect(User.count).to eq 0
       end
     end
 
     context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status(401) }
       it "削除されずリクエストエラーを返すこと" do
-        expect { delete destroy_user_registration_path(user) }.not_to change(User, :count)
-        expect(response).to have_http_status(401)
+        expect(User.count).to eq 1
       end
     end
 
     context "他ユーザーを指定" do
-      let!(:other_user) { create(:user) }
+      let(:other_user) { create(:user) }
+      let(:login) { sign_in other_user }
 
+      it { is_expected.to have_http_status(302) }
       it "指定したユーザーは削除されないこと" do
-        sign_in user
-        expect { delete destroy_user_registration_path(other_user) }.to change(User, :count).by(-1)
-        expect(User.first.username).to eq other_user.username
-        expect(response).to have_http_status(302)
+        expect(User.count).to eq 1
       end
     end
   end
@@ -186,13 +199,17 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to have_http_status(401) }
     end
 
-    # context "他ユーザー" do
+    context "他ユーザー" do
+      let(:other_user) { create(:user) }
+      let(:login) { sign_in other_user }
 
-    # end
+      it { is_expected.to have_http_status(200) }
+    end
   end
 
   describe "#update_email" do
-    def email_params(user)
+    before do
+      login
       patch update_email_user_registation_path(user), params: { user: {
         email: "user@example.com",
         email_confirmation: "user@example.com",
@@ -200,31 +217,30 @@ RSpec.describe "Users::Registrations", type: :request do
     end
 
     context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
       it "正常に更新されること" do
-        sign_in user
-        email_params(user)
         expect(user.reload).to have_attributes(email: "user@example.com")
-        expect(response).to have_http_status(302)
       end
     end
 
     context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status(401) }
       it "更新されないこと" do
-        email_params(user)
         expect(user.reload).not_to have_attributes(email: "user@example.com")
-        expect(response).to have_http_status(401)
       end
     end
 
     context "他ユーザーを指定" do
-      let(:first_user) { create(:user) }
       let(:other_user) { create(:user) }
+      let(:login) { sign_in other_user }
 
+      it { is_expected.to have_http_status(302) }
       it "更新されないこと" do
-        sign_in first_user
-        email_params(other_user)
         expect(user.reload).not_to have_attributes(email: "user@example.com")
-        expect(response).to have_http_status(302)
       end
     end
   end
@@ -248,25 +264,29 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to redirect_to new_user_session_path }
     end
 
-    # context "他ユーザー指定" do
+    context "他ユーザー指定" do
+      let(:other_user) { create(:user) }
+      let(:login) { sign_in user }
 
-    # end
+      it { is_expected.to have_http_status(200) }
+    end
   end
 
   describe "#update_password" do
-    def password_params(user)
+    before do
+      login
       patch update_password_user_registration_path(user), params: { user: {
-        password: "change-password",
-        password_confirmation: "change-password",
+        password: "new-password",
+        password_confirmation: "new-password",
         current_password: "password",
       } }
     end
 
-    # context "ログインユーザー" do
+    # context "ログインユーザー", :focus do
+    #   let(:login) { sign_in user }
+
     #   it "リダイレクトされること" do
-    #     sign_in user
-    #     password_params user
-    #     expect(user.reload).to have_attributes(password: "change_password")
+    #     expect(user.reload).to have_attributes(password: "new-password")
 
     #     # expect(response).to have_http_status(302)
     #     # expect(response).to redirect_to users_profile_path(user)
@@ -274,25 +294,22 @@ RSpec.describe "Users::Registrations", type: :request do
     # end
 
     context "未ログインユーザー" do
-      it "更新されずリクエストエラーを返すこと" do
-        password_params user
-        expect(user.reload).not_to have_attributes(password: "change_password")
+      let(:login) { nil }
 
-        expect(response).to have_http_status(401)
+      it { is_expected.to have_http_status(401) }
+      it "更新されないこと" do
+        expect(user.reload).not_to have_attributes(password: "new-password")
       end
     end
 
     context "他ユーザーを指定" do
-      let(:first_user) { create(:user) }
       let(:other_user) { create(:user) }
+      let(:login) { sign_in other_user }
 
-      it "更新されずリダイレクトされること" do
-        sign_in first_user
-
-        password_params other_user
-        expect(other_user.reload).not_to have_attributes(password: "change_password")
-        expect(response).to have_http_status(302)
-        expect(response).to redirect_to users_profile_path(first_user)
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(other_user) }
+      it "更新されないこと" do
+        expect(other_user.reload).not_to have_attributes(password: "new-password")
       end
     end
   end
