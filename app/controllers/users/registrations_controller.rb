@@ -8,7 +8,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :authenticate_user!, only: %i(
     edit update edit_email update_email edit_password update_password delete_confirm destroy
   )
-
   before_action :set_minimum_password_length, only: %i(new edit_password)
 
   def new
