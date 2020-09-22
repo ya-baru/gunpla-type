@@ -5,11 +5,13 @@ RSpec.describe "Users::Sessions", type: :request do
 
   let(:user) { create(:user) }
 
+  before do
+    login
+    url
+  end
+
   describe "#new" do
-    before do
-      login
-      get new_user_session_path
-    end
+    let(:url) { get new_user_session_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -26,11 +28,8 @@ RSpec.describe "Users::Sessions", type: :request do
   end
 
   describe "#create" do
-    before do
-      login
-      post user_session_path, params: {
-        user: { email: user.email, password: user.password },
-      }
+    let(:url) do
+      post user_session_path, params: { user: { email: user.email, password: user.password } }
     end
 
     context "ログインユーザー" do
@@ -64,10 +63,7 @@ RSpec.describe "Users::Sessions", type: :request do
   end
 
   describe "#destroy" do
-    before do
-      login
-      delete destroy_user_session_path
-    end
+    let(:url) { delete destroy_user_session_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }

@@ -5,11 +5,13 @@ RSpec.describe "Users::Profiles", type: :request do
 
   let(:user) { create(:user) }
 
+  before do
+    login
+    url
+  end
+
   describe "#show" do
-    before do
-      login
-      get users_profile_path(user)
-    end
+    let(:url) { get users_profile_path(user) }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }

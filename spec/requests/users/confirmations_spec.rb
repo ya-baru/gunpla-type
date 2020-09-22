@@ -5,11 +5,13 @@ RSpec.describe "Users::Confirmations", type: :request do
 
   let(:user) { create(:user) }
 
+  before do
+    login
+    url
+  end
+
   describe "#new" do
-    before do
-      login
-      get new_account_confirmation_path
-    end
+    let(:url) { get new_account_confirmation_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -26,12 +28,7 @@ RSpec.describe "Users::Confirmations", type: :request do
   end
 
   describe "#create" do
-    before do
-      login
-      post account_confirmation_path, params: {
-        user: { email: user.email },
-      }
-    end
+    let(:url) { post account_confirmation_path, params: { user: { email: user.email } } }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }

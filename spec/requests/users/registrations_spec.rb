@@ -5,11 +5,13 @@ RSpec.describe "Users::Registrations", type: :request do
 
   let!(:user) { create(:user) }
 
+  before do
+    login
+    url
+  end
+
   describe "#new" do
-    before do
-      login
-      get new_user_registration_path
-    end
+    let(:url) { get new_user_registration_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -26,11 +28,8 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#create" do
-    before do
-      login
-      post user_registration_path, params: {
-        user: attributes_for(:user),
-      }
+    let(:url) do
+      post user_registration_path, params: { user: attributes_for(:user) }
     end
 
     context "ログインユーザー" do
@@ -55,10 +54,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#edit" do
-    before do
-      login
-      get edit_user_registration_path(user)
-    end
+    let(:url) { get edit_user_registration_path(user) }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -81,8 +77,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#update" do
-    before do
-      login
+    let(:url) do
       patch update_user_registration_path(user), params: { user: {
         username: "change_name",
         profile: "あいうえお",
@@ -130,10 +125,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#destroy" do
-    before do
-      login
-      delete destroy_user_registration_path(user)
-    end
+    let(:url) { delete destroy_user_registration_path(user) }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -166,26 +158,27 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#new_confirm" do
-    it "ログインユーザーならリダイレクトされること" do
-      sign_in user
-      post signup_confirm_path
-      expect(response).to have_http_status(302)
+    let(:url) { post signup_confirm_path }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
     end
   end
 
   describe "#confirm_back" do
-    it "ログインユーザーならリダイレクトされること" do
-      sign_in user
-      post signup_confirm_back_path
-      expect(response).to have_http_status(302)
+    let(:url) { post signup_confirm_back_path }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
     end
   end
 
   describe "#edit_email" do
-    before do
-      login
-      get edit_email_user_registration_path(user)
-    end
+    let(:url) { get edit_email_user_registration_path(user) }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -208,8 +201,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#update_email" do
-    before do
-      login
+    let(:url) do
       patch update_email_user_registation_path(user), params: { user: {
         email: "user@example.com",
         email_confirmation: "user@example.com",
@@ -246,10 +238,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#edit_password" do
-    before do
-      login
-      get edit_password_user_registration_path
-    end
+    let(:url) { get edit_password_user_registration_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -273,8 +262,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#update_password" do
-    before do
-      login
+    let(:url) do
       patch update_password_user_registration_path(user), params: { user: {
         password: "new-password",
         password_confirmation: "new-password",
@@ -315,10 +303,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#delete_confirm" do
-    before do
-      login
-      get signout_confirm_path
-    end
+    let(:url) { get signout_confirm_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }

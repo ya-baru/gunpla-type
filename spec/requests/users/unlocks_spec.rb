@@ -1,15 +1,17 @@
 require 'rails_helper'
 
 RSpec.describe "Users::Unlocks", type: :request do
+  subject { response }
+
   let(:user) { create(:user) }
 
-  describe "#new" do
-    subject { response }
+  before do
+    login
+    url
+  end
 
-    before do
-      login
-      get new_account_unlock_path
-    end
+  describe "#new" do
+    let(:url) { get new_account_unlock_path }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
@@ -26,11 +28,8 @@ RSpec.describe "Users::Unlocks", type: :request do
   end
 
   describe "#create" do
-    before do
-      login
-      post account_unlock_path, params: {
-        user: { email: user.email },
-      }
+    let(:url) do
+      post account_unlock_path, params: { user: { email: user.email } }
     end
 
     context "ログインユーザー" do
