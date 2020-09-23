@@ -272,6 +272,14 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it { is_expected.to have_http_status(200) }
     end
+
+    context "OmniAuthユーザー" do
+      let(:user) { create(:user, :omniauth) }
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+    end
   end
 
   describe "#update_email" do
@@ -297,7 +305,7 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it { is_expected.to have_http_status(401) }
       it "更新されないこと" do
-        expect(user.reload).not_to have_attributes(email: "user@example.com")
+        expect(user.reload).not_to have_attributes(email: "new@example.com")
       end
     end
 
@@ -308,7 +316,18 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to have_http_status(302) }
       it { is_expected.to redirect_to users_profile_path(other_user) }
       it "更新されないこと" do
-        expect(user.reload).not_to have_attributes(email: "user@example.com")
+        expect(user.reload).not_to have_attributes(email: "new@example.com")
+      end
+    end
+
+    context "OmniAuthユーザー" do
+      let(:user) { create(:user, :omniauth) }
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+      it "更新されないこと" do
+        expect(user.reload).not_to have_attributes(email: "new@example.com")
       end
     end
 
@@ -369,6 +388,14 @@ RSpec.describe "Users::Registrations", type: :request do
 
       it { is_expected.to have_http_status(200) }
     end
+
+    context "OmniAuthユーザー" do
+      let(:user) { create(:user, :omniauth) }
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+    end
   end
 
   describe "#update_password" do
@@ -397,6 +424,17 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to redirect_to users_profile_path(other_user) }
       it "更新されないこと" do
         expect(other_user.reload).not_to have_attributes(password: "new-password")
+      end
+    end
+
+    context "OmniAuthユーザー" do
+      let(:user) { create(:user, :omniauth) }
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status(302) }
+      it { is_expected.to redirect_to users_profile_path(user) }
+      it "更新されないこと" do
+        expect(user.reload).not_to have_attributes(password: "new-password")
       end
     end
 

@@ -17,7 +17,7 @@ FactoryBot.define do
       locked_at { Time.current }
     end
 
-    trait :oauth do
+    trait :omniauth do
       provider { "facebook" }
       uid { "12345678" }
     end

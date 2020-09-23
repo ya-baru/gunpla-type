@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  prepend_before_action :OAuth_user?, only: %i(edit_email update_email edit_password update_password)
   prepend_before_action :authenticate_scope!, only: %i(
     edit update edit_email update_email edit_password update_password delete_confirm destroy
   )
   before_action :authenticate_user!, only: %i(
     edit update edit_email update_email edit_password update_password delete_confirm destroy
   )
+  before_action :OAuth_user?, only: %i(edit_email update_email edit_password update_password)
   before_action :set_minimum_password_length, only: %i(new edit_password)
 
   def new
@@ -46,7 +46,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
 
     if account_update_params[:avatar].present?
-      return if resource.uid?
       resource.avatar.attach(account_update_params[:avatar])
     end
 

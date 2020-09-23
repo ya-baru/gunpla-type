@@ -19,17 +19,16 @@
             - if resource.errors.include?(:profile)
               p style="color: red;"
                 = resource.errors.full_messages_for(:profile).first
-          - unless current_user.uid?
-            .form-group
-              = f.label :avatar, "ユーザー画像", class: "image_label"
-                .prev-contents.d-lg-flex
-                  - if current_user.avatar.present?
-                    .prev-content
-                      = image_tag current_user.avatar, alt: "preview", class: "prev-image", size: "150x150"
-                  - else
-                    img.photo-icon src="https://placehold.jp/150x150.png?text=Non-Image"
-                  .align-self-center
-                    = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
+          .form-group
+            = f.label :avatar, "ユーザー画像", class: "image_label"
+              .prev-contents.d-lg-flex
+                - if current_user.avatar.present?
+                  .prev-content
+                    = image_tag current_user.avatar, alt: "preview", class: "prev-image", size: "150x150"
+                - else
+                  img.photo-icon src="https://placehold.jp/150x150.png?text=Non-Image"
+                .align-self-center
+                  = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
 
           .text-center
             = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
