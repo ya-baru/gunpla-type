@@ -1,21 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe "Confirmation", type: :system do
-  describe "アカウント有効化の案内メールの再送信チェック" do
-    let(:user) { create(:user) }
+  let(:user) { create(:user) }
 
+  describe "アカウント有効化の案内メールの再送信チェック" do
     before { visit new_account_confirmation_path }
 
     context "アカウント未有効ユーザー" do
       let(:user) { create(:user, :unconfirmation) }
 
-      it "メールが送信される" do
+      it "案内ページからメール送信させる" do
+        # 失敗
         aggregate_failures do
           expect(page).to have_title("確認メール再送信 - GUNPLA-Type")
           expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
           expect(page).to have_content("メールアドレスを入力してください")
         end
 
+        # 成功
         fill_in "メールアドレス", with: user.email
         aggregate_failures do
           expect { click_on "送信する" }.to change { ActionMailer::Base.deliveries.count }.by(1)
@@ -24,7 +26,7 @@ RSpec.describe "Confirmation", type: :system do
       end
     end
 
-    context "アカウント有効ユーザー" do
+    context "アカウント有効化ユーザー" do
       it "メールが送信されない" do
         fill_in "メールアドレス", with: user.email
 
