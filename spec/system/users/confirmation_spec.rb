@@ -6,7 +6,7 @@ RSpec.describe "Confirmation", type: :system do
 
     before { visit new_account_confirmation_path }
 
-    context "アカウント未有効" do
+    context "アカウント未有効ユーザー" do
       let(:user) { create(:user, :unconfirmation) }
 
       it "メールが送信される" do
@@ -24,7 +24,7 @@ RSpec.describe "Confirmation", type: :system do
       end
     end
 
-    context "アカウント有効済み" do
+    context "アカウント有効ユーザー" do
       it "メールが送信されない" do
         fill_in "メールアドレス", with: user.email
 

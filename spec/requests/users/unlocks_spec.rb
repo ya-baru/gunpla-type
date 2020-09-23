@@ -42,6 +42,15 @@ RSpec.describe "Users::Unlocks", type: :request do
       end
     end
 
+    context "アカウント未凍結ユーザー" do
+      let(:login) { nil }
+
+      it "メール送信しないこと" do
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+        expect(response).to have_http_status 200
+      end
+    end
+
     context "アカウント凍結ユーザー" do
       let(:login) { nil }
       let(:user) { create(:user, :account_lock) }
@@ -54,42 +63,51 @@ RSpec.describe "Users::Unlocks", type: :request do
     end
   end
 
-  # describe "#show" do
-  #   before do
-  #     @raw, enc = Devise.token_generator.generate(User, :unlock_token)
-  #     user.unlock_token = enc
-  #     user.locked_at = Time.current
-  #     user.save(validate: false)
-  #     @user = user
-  #   end
+  describe "#show" do
+    let(:login) { nil }
+    let(:url) { nil }
 
-  #   context "有効なデータ" do
-  #     it "正常にアクセスできること" do
-  #       get unlock_url(@user, unlock_token: @raw)
-  #       # expect(@user.unlock_token).to eq nil
-  #       expect(response).to have_http_status 302
-  #       expect(response).to redirect_to new_user_session_path
-  #     end
-  #   end
+    describe "案内メールからの凍結解除をテストする" do
 
-  #   context "無効なデータ" do
-  #     context "不正ユーザー" do
-  #       it "正常にアクセスできること", :focus do
-  #         get unlock_url("non_user", unlock_token: @raw)
-  #         expect(@user.unlock_token).not_to eq nil
-  #         # expect(response).to have_http_status 200
-  #         expect(response).to redirect_to new_account_unlock_path
-  #       end
-  #     end
+      context "不正なアクセス" do
+        let(:lock_user) { create(:user, :account_lock) }
 
-  #     context "不正トークン" do
-  #       it "正常にアクセスできること" do
-  #         get unlock_url(@user, unlock_token: "invalid_token")
-  #         expect(@user.unlock_token).not_to eq nil
-  #         expect(response).to have_http_status 200
-  #       end
-  #     end
-  #   end
+        it "凍結解除がされないこと" do
+          get unlock_path
+          expect(response).to have_http_status(200)
+          expect(lock_user.locked_at).not_to eq nil
+        end
+      end
 
-  # end
+      context "有効なアクセス" do
+        def login_error
+          post user_session_path, params: { user: { email: user.email, password: "miss" } }
+        end
+
+        def extract_unlock_url(mail)
+          body = mail.body.encoded
+          body[/http[^"]+/]
+        end
+
+        before do
+          login_error
+          login_error
+          login_error
+        end
+
+        it "案内メールを通じて凍結を解除すること" do
+          expect { login_error }.to change { ActionMailer::Base.deliveries.count }.by(1)
+          get extract_unlock_url(ActionMailer::Base.deliveries.last)
+          aggregate_failures do
+            expect(user.locked_at).to eq nil
+            expect(response).to redirect_to new_user_session_url
+            expect(flash[:notice]).to eq "アカウントを凍結解除しました。"
+          end
+          # 再アクセス
+          get extract_unlock_url(ActionMailer::Base.deliveries.last)
+          expect(response).to have_http_status 200
+        end
+      end
+    end
+  end
 end
