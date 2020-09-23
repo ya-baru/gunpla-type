@@ -8,7 +8,7 @@ RSpec.describe "Signup", type: :system do
       visit new_user_registration_path
       expect(page).to have_title("新規ユーザー登録 - GUNPLA-Type")
 
-      # 無効な情報を送信
+      # 無効な情報
       click_on "アカウントを作成する"
       aggregate_failures do
         expect(page).to have_selector(".alert-danger", text: "ユーザー名を入力してください")
@@ -16,7 +16,7 @@ RSpec.describe "Signup", type: :system do
         expect(page).to have_selector(".alert-danger", text: "パスワードを入力してください")
       end
 
-      # 有効な情報を送信
+      # 有効な情報
       fill_in "ユーザー名", with: "user"
       fill_in "メールアドレス", with: "user@example.com"
       fill_in "パスワード", with: "password"
@@ -53,14 +53,14 @@ RSpec.describe "Signup", type: :system do
         expect(current_path).to eq root_path
       end
 
-      # 無効なトークンでアクセスする
+      # 無効なトークンでアクセス
       visit confirmation_path(confirmation_token: "invalid_token")
       aggregate_failures do
         expect(current_path).to eq confirmation_path
         expect(User.first.confirmed_at).to eq nil
       end
 
-      # 有効なトークンでアクセスする
+      # 有効なトークンでアクセス
       visit confirmation_path(confirmation_token: valid_token)
       aggregate_failures do
         expect(current_path).to eq new_user_session_path
@@ -68,7 +68,7 @@ RSpec.describe "Signup", type: :system do
         expect(User.first.confirmed_at).not_to eq nil
       end
 
-      # もう一度アクセスするとエラーになる
+      # もう一度アクセスするとエラー発生
       visit confirmation_path(confirmation_token: valid_token)
       aggregate_failures do
         expect(current_path).to eq confirmation_path
@@ -91,7 +91,7 @@ RSpec.describe "Signup", type: :system do
     context "有効期限内" do
       it "アカウントが有効になる" do
         signup_info
-        travel_to 24.hours.after do
+        travel_to 23.hours.after do
           visit confirmation_path(confirmation_token: valid_token)
           aggregate_failures do
             expect(current_path).to eq new_user_session_path

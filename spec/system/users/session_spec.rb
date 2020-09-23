@@ -16,6 +16,7 @@ RSpec.describe "Session", type: :system do
       fill_in "メールアドレス", with: user.email
       fill_in "パスワード", with: user.password
       click_on "ログインする"
+
       aggregate_failures do
         expect(page).to have_content("ログインしました")
         expect(page).to have_title("#{user.username} - GUNPLA-Type")

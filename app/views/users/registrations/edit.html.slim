@@ -1,13 +1,12 @@
-- provide(:title, 'ユーザー情報編集')
-= render "users/shared/error_messages", resource: resource
+- provide(:title, "プロフィール編集")
 .row.mx-auto
   .col-lg-8.order-lg-2
     .card.mt-4.px-0.shadow-sm
       .card-header
         h2
-          | ユーザー情報編集
+          | プロフィール編集
       .card-body
-        = form_with model: resource, as: resource_name, url: update_user_registration_path(resource_name) do |f|
+        = form_with model: resource, as: resource_name, url: update_user_registration_path(resource_name), local: true do |f|
           .form-group
             = f.label :username
             = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"

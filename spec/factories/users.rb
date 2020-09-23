@@ -19,7 +19,7 @@ FactoryBot.define do
 
     trait :oauth do
       provider { "facebook" }
-      uid { "1234" }
+      uid { "12345678" }
     end
   end
 end
