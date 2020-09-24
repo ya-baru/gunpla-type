@@ -71,12 +71,15 @@ jobs:
       - run:
           name: Create db
           command: bundle exec rake db:create db:schema:load --trace
+          environment:
+            RAILS_ENV: test
       - run:
           name: Run Rspec
-          command:
-            RAILS_ENV=test bundle exec rspec --format RspecJunitFormatter \
+          command: bundle exec rspec --format RspecJunitFormatter \
             --out test_results/rspec.xml \
             --format documentation
+          environment:
+            RAILS_ENV: test
       - store_test_results:
           path: /tmp/test-results
 
