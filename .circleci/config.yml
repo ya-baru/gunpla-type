@@ -4,7 +4,6 @@ defaults: &defaults
     - image: circleci/ruby:2.7.1-node-browsers
       environment:
         BUNDLE_PATH: vendor/bundle
-        RAILS_ENV: test
         PGHOST: 127.0.0.1
         PGUSER: postgres
         TZ: "/usr/share/zoneinfo/Asia/Tokyo"
@@ -25,7 +24,6 @@ jobs:
           keys:
             - v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
             - v1-bundle-
-      # - run: bundle config --local path vendor/bundle
       - run:
           name: bundle and yarn install
           command: |
@@ -75,7 +73,10 @@ jobs:
           command: bundle exec rake db:create db:schema:load --trace
       - run:
           name: Run Rspec
-          command: RAILS_ENV=test bundle exec rspec
+          command:
+            RAILS_ENV=test bundle exec rspec --format RspecJunitFormatter \
+            --out test_results/rspec.xml \
+            --format documentation
       - store_test_results:
           path: /tmp/test-results
 
@@ -108,6 +109,7 @@ jobs:
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
+
 workflows:
   version: 2.1
   workflows:
