@@ -26,16 +26,16 @@ jobs:
             - ./vendor/bundle
             - ./node_modules
       - persist_to_workspace:
-          root: .
+          root:  ~/gunpla-type
           paths:
-            - .
+            - ./*
 
   code_analyze:
     <<: *defaults
     steps:
       # - checkout
       - attach_workspace:
-          at: .
+          at: ~/gunpla-type
       - run:
           name: Run rubocop
           command: bundle exec rubocop --require rubocop-airbnb --parallel
@@ -72,7 +72,7 @@ jobs:
   heroku_deploy:
     <<: *defaults
     steps:
-      - checkout
+      # - checkout
       - attach_workspace:
           at: ~/gunpla-type
       - run:
@@ -102,7 +102,6 @@ jobs:
 
 workflows:
   version: 2.1
-  pikachu:
     jobs:
       - build
       - code_analyze:
