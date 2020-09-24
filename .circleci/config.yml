@@ -13,19 +13,28 @@ jobs:
           keys:
             - v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
             - v1-bundle-
-      - run: bundle config --local path vendor/bundle
+      # - run: bundle config --local path vendor/bundle
       - run:
           name: bundle and yarn install
           command: |
             gem install bundler
-            bundle check || bundle install --jobs=4 --retry=3 --clean
-            bundle exec yarn install
+            bundle check || bundle install --path=vendor/bundle --jobs=4 --retry=3 --clean
+            yarn install
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - ./vendor/bundle
             - ./node_modules
+      - persist_to_workspace:
+          root: ~/gunpla-type
+          paths:
+            - ./*
 
+  code_analyze:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/gunpla-type
       - run:
           name: Run rubocop
           command: bundle exec rubocop --require rubocop-airbnb --parallel
@@ -36,6 +45,11 @@ jobs:
           name: Run brakeman
           command: bundle exec brakeman
 
+  rspec:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/gunpla-type
       - run:
           name: Install System Dependencies
           command: |
@@ -53,6 +67,11 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
 
+  heroku_deploy:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/gunpla-type
       - run:
           name: Install Heroku CLI
           command: |
@@ -77,18 +96,19 @@ jobs:
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-# workflows:
-#   version: 2.1
-#   workflows:
-#     jobs:
-#       - build
-#       - code_analyze:
-#           requires:
-#             - build
-#       - rspec:
-#           requires:
-#             - build
-#       - heroku_deploy:
-#           requires:
-#             - code_analyze
-#             - rspec
+
+workflows:
+  version: 2.1
+  workflows:
+    jobs:
+      - build
+      - code_analyze:
+          requires:
+            - build
+      - rspec:
+          requires:
+            - build
+      - heroku_deploy:
+          requires:
+            - code_analyze
+            - rspec
