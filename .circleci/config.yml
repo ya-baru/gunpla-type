@@ -2,6 +2,17 @@ defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
     - image: circleci/ruby:2.7.1-node-browsers
+      environment:
+        RAILS_ENV: test
+        PGHOST: 127.0.0.1
+        PGUSER: postgres
+        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+    - image: circleci/postgres:11.7
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_DB: blog_rails6_test
+        POSTGRES_PASSWORD: password
+        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
 
 version: 2.1
 jobs:
@@ -18,42 +29,40 @@ jobs:
           name: bundle and yarn install
           command: |
             gem install bundler
-            bundle check  || bundle install --jobs=4 --retry=3 --clean
+            bundle check || bundle install --clean --jobs=4 --retry=3
             yarn install
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
             - vendor/bundle
             - node_modules
-      - persist_to_workspace:
-          root: .
-          paths:
-            - vendor/bundle
-            - .bundle/config
-            # - ./*
+      # - persist_to_workspace:
+      #     root: ~/gunpla-type
+      #     paths:
+      #       - ./*
 
-  code_analyze:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Run rubocop
-          command: bundle exec rubocop --require rubocop-airbnb --parallel
-      - run:
-          name: Run rails_best_practices
-          command: bundle exec rails_best_practices
-      - run:
-          name: Run brakeman
-          command: bundle exec brakeman
+      # code_analyze:
+      #   <<: *defaults
+      #   steps:
+      #     - attach_workspace:
+      #         at: ~/gunpla-type
+      #     - run:
+      #         name: Run rubocop
+      #         command: bundle exec rubocop --require rubocop-airbnb --parallel
+      #     - run:
+      #         name: Run rails_best_practices
+      #         command: bundle exec rails_best_practices
+      #     - run:
+      #         name: Run brakeman
+      #         command: bundle exec brakeman
 
-  rspec:
-    <<: *defaults
-    environment:
-      RAILS_ENV: test
-    steps:
-      - attach_workspace:
-          at: .
+      # rspec:
+      #   <<: *defaults
+      #   environment:
+      #     RAILS_ENV: test
+      #   steps:
+      #     - attach_workspace:
+      #         at: ~/gunpla-type
       - run:
           name: Install System Dependencies
           command: |
@@ -71,48 +80,47 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
 
-  heroku_deploy:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: .
-      - run:
-          name: Install Heroku CLI
-          command: |
-            if [[ $(dommand -v heroku) == "" ]]; then
-              curl https://cli-assets.heroku.com/install.sh | sh
-            else
-              echo "Heroku is already installed. No operation was performed."
-            fi
-      - run:
-          name: heroku maintenance on
-          command: heroku maintenance:on --app ${HEROKU_APP_NAME}
-      - run:
-          name: Deploy to Heroku
-          command: |
-            git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
-      - run:
-          name: Set RAILS_MASTER_KEY
-          command: heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY --app ${HEROKU_APP_NAME}
-      - run:
-          name: heroku db migrate
-          command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
-      - run:
-          name: heroku maintenance off
-          command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-
-workflows:
-  version: 2.1
-  workflows:
-    jobs:
-      - build
-      - code_analyze:
-          requires:
-            - build
-      - rspec:
-          requires:
-            - build
-      - heroku_deploy:
-          requires:
-            - code_analyze
-            - rspec
+  # heroku_deploy:
+  #   <<: *defaults
+  #   steps:
+  #     - attach_workspace:
+  #         at: ~/gunpla-type
+  #     - run:
+  #         name: Install Heroku CLI
+  #         command: |
+  #           if [[ $(dommand -v heroku) == "" ]]; then
+  #             curl https://cli-assets.heroku.com/install.sh | sh
+  #           else
+  #             echo "Heroku is already installed. No operation was performed."
+  #           fi
+  #     - run:
+  #         name: heroku maintenance on
+  #         command: heroku maintenance:on --app ${HEROKU_APP_NAME}
+  #     - run:
+  #         name: Deploy to Heroku
+  #         command: |
+  #           git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+  #     - run:
+  #         name: Set RAILS_MASTER_KEY
+  #         command: heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY --app ${HEROKU_APP_NAME}
+  #     - run:
+  #         name: heroku db migrate
+  #         command: heroku run rails db:migrate --app ${HEROKU_APP_NAME}
+  #     - run:
+  #         name: heroku maintenance off
+  #         command: heroku maintenance:off --app ${HEROKU_APP_NAME}
+# workflows:
+#   version: 2.1
+#   workflows:
+#     jobs:
+#       - build
+#       - code_analyze:
+#           requires:
+#             - build
+#       - rspec:
+#           requires:
+#             - build
+#       - heroku_deploy:
+#           requires:
+#             - code_analyze
+#             - rspec
