@@ -44,28 +44,26 @@ jobs:
           paths:
             - ./*
 
-      code_analyze:
-        <<: *defaults
-        steps:
-          - attach_workspace:
-              at: ~/gunpla-type
-          - run:
-              name: Run rubocop
-              command: bundle exec rubocop --require rubocop-airbnb --parallel
-          - run:
-              name: Run rails_best_practices
-              command: bundle exec rails_best_practices
-          - run:
-              name: Run brakeman
-              command: bundle exec brakeman
+  code_analyze:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/gunpla-type
+      - run:
+          name: Run rubocop
+          command: bundle exec rubocop --require rubocop-airbnb --parallel
+      - run:
+          name: Run rails_best_practices
+          command: bundle exec rails_best_practices
+      - run:
+          name: Run brakeman
+          command: bundle exec brakeman
 
-      rspec:
-        <<: *defaults
-        environment:
-          RAILS_ENV: test
-        steps:
-          - attach_workspace:
-              at: ~/gunpla-type
+  rspec:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/gunpla-type
       - run:
           name: Install System Dependencies
           command: |
