@@ -2,6 +2,17 @@ defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
     - image: circleci/ruby:2.7.1-node-browsers
+      environment:
+        RAILS_ENV: test
+        PGHOST: 127.0.0.1
+        PGUSER: circleci
+        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+    - image: circleci/postgres:12.4
+      environment:
+        POSTGRES_USER: circleci
+        POSTGRES_DB: blog_rails6_test
+        POSTGRES_HOST_AUTH_METHOD: trust # パスワードなし
+        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
 
 version: 2.1
 jobs:
@@ -25,16 +36,16 @@ jobs:
           paths:
             - ./vendor/bundle
             - ./node_modules
-      - persist_to_workspace:
-          root: ~/gunpla-type
-          paths:
-            - ./*
+      # - persist_to_workspace:
+      #     root: ~/gunpla-type
+      #     paths:
+      #       - ./*
 
-  code_analyze:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/gunpla-type
+      # code_analyze:
+      #   <<: *defaults
+      #   steps:
+      #     - attach_workspace:
+      #         at: ~/gunpla-type
       - run:
           name: Run rubocop
           command: bundle exec rubocop --require rubocop-airbnb --parallel
@@ -45,11 +56,11 @@ jobs:
           name: Run brakeman
           command: bundle exec brakeman
 
-  rspec:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/gunpla-type
+      # rspec:
+      #   <<: *defaults
+      #   steps:
+      #     - attach_workspace:
+      #         at: ~/gunpla-type
       - run:
           name: Install System Dependencies
           command: |
@@ -67,11 +78,11 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
 
-  heroku_deploy:
-    <<: *defaults
-    steps:
-      - attach_workspace:
-          at: ~/gunpla-type
+      # heroku_deploy:
+      #   <<: *defaults
+      #   steps:
+      #     - attach_workspace:
+      #         at: ~/gunpla-type
       - run:
           name: Install Heroku CLI
           command: |
@@ -96,19 +107,18 @@ jobs:
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-
-workflows:
-  version: 2.1
-  workflows:
-    jobs:
-      - build
-      - code_analyze:
-          requires:
-            - build
-      - rspec:
-          requires:
-            - build
-      - heroku_deploy:
-          requires:
-            - code_analyze
-            - rspec
+# workflows:
+#   version: 2.1
+#   workflows:
+#     jobs:
+#       - build
+#       - code_analyze:
+#           requires:
+#             - build
+#       - rspec:
+#           requires:
+#             - build
+#       - heroku_deploy:
+#           requires:
+#             - code_analyze
+#             - rspec
