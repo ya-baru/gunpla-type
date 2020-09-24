@@ -1,0 +1,19 @@
+.col-lg-4.order-lg-1
+  .card.mt-4.px-0.shadow-sm.align-self-start
+    .card-header
+      h2
+        | メニュー
+    .card-body
+  .card.mt-4.px-0.shadow-sm.align-self-start
+    .card-header
+      h2
+        | アカウント管理
+    .card-body
+      = link_to "プロフィール編集", edit_user_registration_path
+      br
+      - unless current_user.uid?
+        = link_to "パスワード編集", edit_password_user_registration_path(current_user)
+        br
+        = link_to "メールアドレス編集", edit_email_user_registration_path(current_user)
+        br
+      = link_to "退会の手続き", signout_confirm_path

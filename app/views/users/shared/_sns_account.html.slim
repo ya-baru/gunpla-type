@@ -1,0 +1,18 @@
+.col-lg-4.order-lg-1
+  .card.mt-4.px-0.shadow-sm.align-self-start
+    .card-header
+      h2
+        = "SNSアカウントで#{msg}"
+    .card-body.mx-auto
+      .btn-sns
+        = link_to user_facebook_omniauth_authorize_path, class: "btn btn-fb btn-sns w-200px", method: :post do
+          span.fab.fa-facebook-f.mr-2
+          = "Facebookで#{msg}"
+      .btn-sns
+        = link_to user_twitter_omniauth_authorize_path, class: "btn btn-tw btn-sns w-200px", method: :post do
+          span.fab.fa-twitter.mr-2
+          = "Twitterで#{msg}"
+      .btn-sns
+        = link_to user_google_oauth2_omniauth_authorize_path, class: "btn btn-gg btn-sns w-200px", method: :post do
+          span.fab.fa-google.mr-2
+          = "Googleで#{msg}"
