@@ -11,7 +11,7 @@ class Users::PasswordsController < Devise::PasswordsController
     user = User.find_by(email: resource_params[:email])
     if user.present?
       # account_confirmed: concerns/account.rb
-      return account_confirmed unless user.confirmed_at?
+      return account_unconfirm unless user.confirmed_at?
     end
 
     self.resource = resource_class.send_reset_password_instructions(resource_params)

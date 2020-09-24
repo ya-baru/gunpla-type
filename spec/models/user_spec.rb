@@ -109,6 +109,10 @@ RSpec.describe User, type: :model do
         let(:image_file) { "sample_3MB.jpg" }
 
         it { is_expected.to be_falsey }
+        it "メッセージチェック" do
+          user.valid?
+          expect(user.errors.full_messages).to match_array("アバターのファイルサイズは3MBまでです。")
+        end
       end
     end
 
@@ -138,24 +142,40 @@ RSpec.describe User, type: :model do
           let(:image_file) { "sample.gif" }
 
           it { is_expected.to be_falsey }
+          it "メッセージチェック" do
+            user.valid?
+            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+          end
         end
 
         context "bmp" do
           let(:image_file) { "sample.bmp" }
 
           it { is_expected.to be_falsey }
+          it "メッセージチェック" do
+            user.valid?
+            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+          end
         end
 
         context "svg" do
           let(:image_file) { "sample.svg" }
 
           it { is_expected.to be_falsey }
+          it "メッセージチェック" do
+            user.valid?
+            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+          end
         end
 
         context "tiff" do
           let(:image_file) { "sample.tiff" }
 
           it { is_expected.to be_falsey }
+          it "メッセージチェック" do
+            user.valid?
+            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+          end
         end
       end
     end

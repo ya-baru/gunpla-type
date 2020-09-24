@@ -24,7 +24,7 @@ class User < ApplicationRecord
               message: "のファイル形式が有効ではありません。",
             },
             size: {
-              less_than: 3.megabytes, message: "のファイルサイズは3MBです。",
+              less_than: 3.megabytes, message: "のファイルサイズは3MBまでです。",
             }
 
   def display_avatar

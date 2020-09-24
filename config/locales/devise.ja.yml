@@ -11,6 +11,7 @@ ja:
         current_sign_in_ip: 現在のログインIPアドレス
         username: ユーザー名
         profile: プロフィール
+        avatar: アバター
         email: メールアドレス
         email_confirmation: 新しいメールアドレス（確認用）
         encrypted_password: 暗号化パスワード
