@@ -25,17 +25,7 @@ jobs:
           paths:
             - ./vendor/bundle
             - ./node_modules
-      - persist_to_workspace:
-          root: ~/gunpla-type
-          paths:
-            - ./*
 
-  code_analyze:
-    <<: *defaults
-    steps:
-      # - checkout
-      - attach_workspace:
-          at: ~/gunpla-type
       - run:
           name: Run rubocop
           command: bundle exec rubocop --require rubocop-airbnb --parallel
@@ -46,12 +36,6 @@ jobs:
           name: Run brakeman
           command: bundle exec brakeman
 
-  rspec:
-    <<: *defaults
-    steps:
-      # - checkout
-      - attach_workspace:
-          at: ~/gunpla-type
       - run:
           name: Install System Dependencies
           command: |
@@ -69,12 +53,6 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
 
-  heroku_deploy:
-    <<: *defaults
-    steps:
-      # - checkout
-      - attach_workspace:
-          at: ~/gunpla-type
       - run:
           name: Install Heroku CLI
           command: |
@@ -99,19 +77,18 @@ jobs:
       - run:
           name: heroku maintenance off
           command: heroku maintenance:off --app ${HEROKU_APP_NAME}
-
-workflows:
-  version: 2.1
-  workflows:
-    jobs:
-      - build
-      - code_analyze:
-          requires:
-            - build
-      - rspec:
-          requires:
-            - build
-      - heroku_deploy:
-          requires:
-            - code_analyze
-            - rspec
+# workflows:
+#   version: 2.1
+#   workflows:
+#     jobs:
+#       - build
+#       - code_analyze:
+#           requires:
+#             - build
+#       - rspec:
+#           requires:
+#             - build
+#       - heroku_deploy:
+#           requires:
+#             - code_analyze
+#             - rspec
