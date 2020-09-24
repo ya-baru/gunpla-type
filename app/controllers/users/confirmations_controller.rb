@@ -13,7 +13,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       redirect_to account_confirmation_mail_sent_url
     else
       render :new
-      # redirect_to confirmation_send_url, flash: { error: resource.errors.full_messages }
     end
   end
 

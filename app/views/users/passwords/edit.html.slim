@@ -9,14 +9,10 @@
       .form-group
         = f.label :password, "新規パスワード"
         = f.password_field :password, autofocus: true, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
-        - if resource.errors.include?(:password)
-          p style="color: red;"
-            = resource.errors.full_messages_for(:password).first
+        = render "users/shared/error_messages", error_msg: :password
       .form-group
         = f.label :password_confirmation
         = f.password_field :password_confirmation, class: "form-control"
-        - if resource.errors.include?(:password_confirmation)
-          p style="color: red;"
-            = resource.errors.full_messages_for(:password_confirmation).first
+        = render "users/shared/error_messages", error_msg: :password_confirmation
       .text-center
         = f.submit "変更する", class: "btn btn-primary w-250px mt-4"

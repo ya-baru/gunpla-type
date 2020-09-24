@@ -10,15 +10,11 @@
           .form-group
             = f.label :email, "新しいメールアドレス"
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-            - if resource.errors.include?(:email)
-              p style="color: red;"
-                = resource.errors.full_messages_for(:email).first
+            = render "users/shared/error_messages", error_msg: :email
           .form-group
             = f.label :email_confirmation
             = f.email_field :email_confirmation, class: "form-control"
-            - if resource.errors.include?(:email_confirmation)
-              p style="color: red;"
-                = resource.errors.full_messages_for(:email_confirmation).first
+            = render "users/shared/error_messages", error_msg: :email_confirmation
           .text-center
             = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
 

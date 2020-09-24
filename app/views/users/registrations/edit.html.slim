@@ -10,15 +10,11 @@
           .form-group
             = f.label :username
             = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"
-            - if resource.errors.include?(:username)
-              p style="color: red;"
-                = resource.errors.full_messages_for(:username).first
+            = render "users/shared/error_messages", error_msg: :username
           .form-group
             = f.label :profile
             = f.text_area :profile, size: "10x5", class: "form-control"
-            - if resource.errors.include?(:profile)
-              p style="color: red;"
-                = resource.errors.full_messages_for(:profile).first
+            = render "users/shared/error_messages", error_msg: :profile
           .form-group
             = f.label :avatar, "ユーザー画像", class: "image_label"
               .prev-contents.d-lg-flex

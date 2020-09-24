@@ -10,9 +10,7 @@
       .form-group.mt-4
         = f.label :email
         = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "例: gunpla@type.com", class: "form-control"
-        - if resource.errors.include?(:email)
-          p style="color: red;"
-            = resource.errors.full_messages_for(:email).first
+        = render "users/shared/error_messages", error_msg: :email
       .text-center
         = f.submit "送信する", class: "btn btn-primary w-250px mt-4"
       br
