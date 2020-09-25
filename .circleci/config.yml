@@ -78,7 +78,7 @@ jobs:
           name: Run Rspec
           command: |
             mkdir /tmp/test-results
-            bundle exec rspec --format RspecJunitFormatter \
+            bundle exec rspec
             —-profile 100 \
             --out test_results/rspec.xml \
             --format documentation \
