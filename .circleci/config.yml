@@ -47,7 +47,6 @@ jobs:
           command: bundle exec brakeman
 
   rspec:
-    working_directory: ~/gunpla-type
     <<: *defaults
     docker:
       - image: circleci/postgres:11.7
