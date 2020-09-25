@@ -1,10 +1,11 @@
 defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
-    - image: circleci/ruby:2.7.1-buster-node-browsers
+    - image: circleci/ruby:2.7.1
       environment:
         BUNDLE_PATH: vendor/bundle
         TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+
 version: 2.1
 jobs:
   build:
@@ -47,8 +48,12 @@ jobs:
           command: bundle exec brakeman
 
   rspec:
-    <<: *defaults
+    working_directory: ~/gunpla-type
     docker:
+      - image: circleci/ruby:2.7.1-buster-node-browsers
+        environment:
+          BUNDLE_PATH: vendor/bundle
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
       - image: circleci/postgres:11.7
         environment:
           TZ: "/usr/share/zoneinfo/Asia/Tokyo"
