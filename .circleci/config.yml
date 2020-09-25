@@ -1,17 +1,20 @@
-defaults: &defaults
-  working_directory: ~/gunpla-type
-  docker:
-    - image: circleci/ruby:2.7.1-buster-node-browsers-legacy
-      environment:
-        BUNDLE_PATH: vendor/bundle
-        PGHOST: 127.0.0.1
-        PGUSER: postgres
-        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
-
 version: 2.1
 jobs:
   build:
-    <<: *defaults
+    working_directory: ~/gunpla-type
+    docker:
+      - image: circleci/ruby:2.7.1-buster-node-browsers-legacy
+        environment:
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+      - image: circleci/postgres:11.7
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: app_test
+          POSTGRES_PASSWORD: password
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
     steps:
       - checkout
       - restore_cache:
@@ -35,7 +38,6 @@ jobs:
             - ./*
 
   code_analyze:
-    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/gunpla-type
@@ -51,13 +53,6 @@ jobs:
 
   rspec:
     parallelism: 2
-    <<: *defaults
-      - image: circleci/postgres:11.7
-        environment:
-          POSTGRES_USER: postgres
-          POSTGRES_DB: app_test
-          POSTGRES_PASSWORD: password
-          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
     steps:
       - attach_workspace:
           at: ~/gunpla-type
@@ -83,7 +78,6 @@ jobs:
             RAILS_ENV: test
 
   heroku_deploy:
-    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/gunpla-type
