@@ -79,7 +79,6 @@ jobs:
           command: |
             mkdir /tmp/test-results
             bundle exec rspec
-            —-profile 100 \
             --out test_results/rspec.xml \
             --format documentation \
             $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
