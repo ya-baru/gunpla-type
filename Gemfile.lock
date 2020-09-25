@@ -187,7 +187,7 @@ GEM
       rack
     orm_adapter (0.5.0)
     parallel (1.19.2)
-    parser (2.7.1.4)
+    parser (2.7.1.5)
       ast (~> 2.4.1)
     pg (1.2.3)
     pry (0.13.1)
@@ -278,8 +278,6 @@ GEM
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
     rspec-support (3.9.3)
-    rspec_junit_formatter (0.4.1)
-      rspec-core (>= 2, < 4, != 2.12.0)
     rubocop (0.76.0)
       jaro_winkler (~> 1.5.1)
       parallel (~> 1.10)
@@ -415,7 +413,6 @@ DEPENDENCIES
   rails-erd
   rails_best_practices
   rspec-rails
-  rspec_junit_formatter
   rubocop-airbnb
   sass-rails (~> 6.0)
   selenium-webdriver
