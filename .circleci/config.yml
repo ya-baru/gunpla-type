@@ -49,6 +49,7 @@ jobs:
 
   rspec:
     <<: *defaults
+    docker:
       - image: circleci/postgres:11.7
         environment:
           POSTGRES_PASSWORD: password
