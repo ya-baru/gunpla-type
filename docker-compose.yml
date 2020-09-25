@@ -3,7 +3,7 @@ services:
   db:
     image: postgres:12.4-alpine
     ports:
-      - "5433:5432"
+      - "5432:5432"
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
     environment:
@@ -19,17 +19,12 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - DATABASE_HOST=db
       - RAILS_SYSTEM_TESTING_SCREENSHOT=inline
     stdin_open: true
     tty: true
     depends_on:
       - db
-      # - chrome
-
-  # chrome:
-  #   image: selenium/standalone-chrome:latest
-  #   ports:
-  #     - 4444:4444
 
   https-portal:
     image: steveltn/https-portal:1
