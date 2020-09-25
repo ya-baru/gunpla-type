@@ -1,7 +1,7 @@
 defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
-    - image: circleci/ruby:2.7.1-buster-node-browsers
+    - image: circleci/ruby:2.7.1-buster-node-browsers-legacy
       environment:
         BUNDLE_PATH: vendor/bundle
         PGHOST: 127.0.0.1
@@ -78,11 +78,10 @@ jobs:
           name: Run Rspec
           command: |
             mkdir /tmp/test-results
-            bundle exec rspec
-            --profile 100 \
-            --out test_results/rspec.xml \
-            --format documentation \
-            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec --profile 100 \
+                              --out test_results/rspec.xml \
+                              --format documentation \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
           environment:
             RAILS_ENV: test
       - store_test_results:
