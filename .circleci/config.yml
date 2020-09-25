@@ -56,6 +56,7 @@ jobs:
           TZ: "/usr/share/zoneinfo/Asia/Tokyo"
       - image: circleci/postgres:11.7
         environment:
+          POSTGRES_PASSWORD: password
           TZ: "/usr/share/zoneinfo/Asia/Tokyo"
     parallelism: 2
     steps:
