@@ -65,4 +65,11 @@ RSpec.configure do |config|
 
   config.include RequestSpecHelper, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+
+  # タイムヘルパーの設定
+  config.include ActiveSupport::Testing::TimeHelpers
+
+  # OmuniAutuモックの設定
+  OmniAuth.config.test_mode = true
+  config.include OmniAuthHelper
 end

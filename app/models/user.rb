@@ -1,9 +1,13 @@
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable,
-         :confirmable, :lockable, :timeoutable, :trackable,
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable,
+         :confirmable,
+         :lockable,
+         :timeoutable,
+         :trackable,
          :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   has_one_attached :avatar, dependent: :destroy
@@ -20,7 +24,7 @@ class User < ApplicationRecord
               message: "のファイル形式が有効ではありません。",
             },
             size: {
-              less_than: 3.megabytes, message: "のファイルサイズは3MBです。",
+              less_than: 3.megabytes, message: "のファイルサイズは3MBまでです。",
             }
 
   def display_avatar
@@ -34,7 +38,6 @@ class User < ApplicationRecord
         uid: auth.uid,
         provider: auth.provider,
         username: auth.info.name,
-        image: auth.info.image,
         email: User.dummy_email(auth),
         password: Devise.friendly_token[0, 20]
       )

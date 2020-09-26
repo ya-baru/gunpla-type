@@ -1,4 +1,4 @@
-- provide(:title, 'メールアドレス編集')
+- provide(:title, "メールアドレス編集")
 .row.mx-auto
   .col-lg-8.order-lg-2
     .card.mt-4.px-0.shadow-sm
@@ -10,27 +10,12 @@
           .form-group
             = f.label :email, "新しいメールアドレス"
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-            - if resource.errors.include?(:email)
-              p style="color: red;"
-                = resource.errors.full_messages_for(:email).first
+            = render "users/shared/error_messages", error_msg: :email
           .form-group
             = f.label :email_confirmation
             = f.email_field :email_confirmation, class: "form-control"
-            - if resource.errors.include?(:email_confirmation)
-              p style="color: red;"
-                = resource.errors.full_messages_for(:email_confirmation).first
+            = render "users/shared/error_messages", error_msg: :email_confirmation
           .text-center
             = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
 
-
-  .col-lg-4.order-lg-1
-    .card.mt-4.px-0.shadow-sm.align-self-start
-      .card-header
-        h2
-          | メニュー
-      .card-body
-    .card.mt-4.px-0.shadow-sm.align-self-start
-      .card-header
-        h2
-          | アカウント管理
-      .card-body
+  = render "account_management"

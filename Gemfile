@@ -54,7 +54,7 @@ end
 group :test do
   gem 'capybara'
   gem 'launchy'
-  gem 'webdrivers'
+  gem 'selenium-webdriver'
   gem 'rspec-rails'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'

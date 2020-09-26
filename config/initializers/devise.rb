@@ -27,7 +27,7 @@ Devise.setup do |config|
   config.mailer_sender = Rails.application.credentials.gmail[:address]
 
   # Configure the class responsible to send e-mails.
-  # config.mailer = 'Devise::Mailer'
+  config.mailer = 'Users::Mailer'
 
   # Configure the parent class responsible to send e-mails.
   # config.parent_mailer = 'ActionMailer::Base'
@@ -129,10 +129,10 @@ Devise.setup do |config|
   # config.pepper = '02f9d274ccead0b3ab5fbdf4983e2c70fd5c87ca5e3f3f1aa8092e8e1131b3406915e154fe94a3676517a4b6129935b75b031e5863f4825359e5d3eb216bd1f4'
 
   # Send a notification to the original email when the user's email is changed.
-  config.send_email_changed_notification = true
+  config.send_email_changed_notification = false
 
   # Send a notification email when the user's password is changed.
-  config.send_password_change_notification = true
+  config.send_password_change_notification = false
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
@@ -224,7 +224,7 @@ Devise.setup do |config|
   # Time interval you can reset your password with a reset password key.
   # Don't put a too small interval or your users won't have the time to
   # change their passwords.
-  config.reset_password_within = 2.hours
+  config.reset_password_within = 30.minutes
 
   # When set to false, does not sign a user in automatically after their password is
   # reset. Defaults to true, so a user is signed in automatically after a reset.

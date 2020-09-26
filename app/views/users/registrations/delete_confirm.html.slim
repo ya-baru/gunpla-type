@@ -1,0 +1,4 @@
+.text-center.jumbotron.mt-4
+  p
+    | ボタンをクリックすると、退会手続きが完了します。
+    = button_to "退会する", destroy_user_registration_path, method: :delete, class: "btn btn-danger"

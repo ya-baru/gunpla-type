@@ -11,6 +11,7 @@ ja:
         current_sign_in_ip: 現在のログインIPアドレス
         username: ユーザー名
         profile: プロフィール
+        avatar: アバター
         email: メールアドレス
         email_confirmation: 新しいメールアドレス（確認用）
         encrypted_password: 暗号化パスワード
@@ -50,7 +51,7 @@ ja:
     mailer:
       confirmation_instructions:
         action: メールアドレスの確認
-        greeting: "%{recipient}様"
+        greeting: "こんにちは、%{recipient}様"
         instruction: 以下のリンクをクリックし、メールアドレスの確認手続を完了させてください。
         subject: メールアドレス確認メール
       email_changed:
@@ -63,14 +64,14 @@ ja:
         subject: パスワードの変更について
       reset_password_instructions:
         action: パスワード変更
-        greeting: "%{recipient}様"
+        greeting: "こんにちは、%{recipient}様"
         instruction: パスワード再設定の依頼を受けたため、メールを送信しています。下のリンクからパスワードの再設定ができます。
         instruction_2: パスワード再設定の依頼をしていない場合、このメールを無視してください。
         instruction_3: パスワードの再設定は、上のリンクから新しいパスワードを登録するまで完了しません。
         subject: パスワードの再設定について
       unlock_instructions:
         action: アカウントのロック解除
-        greeting: "%{recipient}様"
+        greeting: "こんにちは、%{recipient}様"
         instruction: アカウントのロックを解除するには下のリンクをクリックしてください。
         message: ログイン失敗が繰り返されたため、アカウントはロックされています。
         subject: アカウントの凍結解除について
@@ -110,6 +111,8 @@ ja:
       signed_up_but_unconfirmed: 本人確認用のメールを送信しました。メール内のリンクからアカウントを有効化させてください。
       update_needs_confirmation: アカウント情報を変更しました。変更されたメールアドレスの本人確認のため、本人確認用メールより確認処理をおこなってください。
       updated: アカウント情報を変更しました。
+      email_updated: メールアドレスが正しく変更されました。
+      password_updated: パスワードが正しく変更されました。
       updated_but_not_signed_in: あなたのアカウントは正常に更新されましたが、パスワードが変更されたため、再度ログインしてください。
     sessions:
       already_signed_out: 既にログアウト済みです。

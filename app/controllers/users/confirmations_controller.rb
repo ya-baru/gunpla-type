@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Users::ConfirmationsController < Devise::ConfirmationsController
+  before_action :login_user
   # def new
   #   super
   # end
@@ -12,13 +13,20 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       redirect_to account_confirmation_mail_sent_url
     else
       render :new
-      # redirect_to confirmation_send_url, flash: { error: resource.errors.full_messages }
     end
   end
 
-  # def show
-  #   super
-  # end
+  def show
+    self.resource = resource_class.confirm_by_token(params[:confirmation_token])
+    yield resource if block_given?
+
+    if resource.errors.empty?
+      flash[:notice] = I18n.t("devise.confirmations.confirmed")
+      redirect_to new_user_session_url
+    else
+      render :new
+    end
+  end
 
   # protected
 

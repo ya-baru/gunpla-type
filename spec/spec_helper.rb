@@ -4,6 +4,7 @@ SimpleCov.formatters = [
   SimpleCov::Formatter::HTMLFormatter,
 ]
 SimpleCov.start 'rails' do
+  add_filter ['app/jobs/']
   add_filter do |source_file|
     source_file.lines.count < 7
   end
@@ -108,4 +109,8 @@ RSpec.configure do |config|
   #   # test failures related to randomization by passing the same `--seed` value
   #   # as the one that triggered the failure.
   #   Kernel.srand config.seed
+
+  config.before(:all) do
+    FactoryBot.reload
+  end
 end

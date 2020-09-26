@@ -1,10 +1,14 @@
 # frozen_string_literal: true
 
 class Users::RegistrationsController < Devise::RegistrationsController
-  prepend_before_action :OAuth_user?, only: [:edit_email, :update_email, :edit_password, :update_password]
-  before_action :authenticate_scope!, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password]
-  before_action :sign_in_required, only: [:edit, :update, :edit_email, :update_email, :edit_password, :update_password, :destroy]
-  before_action :set_minimum_password_length, only: [:new, :edit_password]
+  prepend_before_action :authenticate_scope!, only: %i(
+    edit update edit_email update_email edit_password update_password delete_confirm destroy
+  )
+  before_action :authenticate_user!, only: %i(
+    edit update edit_email update_email edit_password update_password delete_confirm destroy
+  )
+  before_action :OAuth_user?, only: %i(edit_email update_email edit_password update_password)
+  before_action :set_minimum_password_length, only: %i(new edit_password)
 
   def new
     @user = User.new(session[:user] || {})
@@ -37,75 +41,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   def update
-    binding.pry
     self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
     resource_updated = update_resource(resource, account_update_params)
     yield resource if block_given?
 
     if account_update_params[:avatar].present?
-      return if resource.uid?
       resource.avatar.attach(account_update_params[:avatar])
     end
 
     if resource_updated
-      flash[:notice] = "アカウント情報を変更しました。"
-      redirect_to user_url(current_user)
+      flash[:notice] = I18n.t("devise.registrations.updated")
+      redirect_to users_profile_url(current_user)
     else
       render :edit
     end
   end
 
-  def edit_email
-    render :edit_email
-  end
-
-  def update_email
-    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    resource.attributes = account_update_params
-    resource_updated = resource.save(context: :change_email)
+  def destroy
+    resource.destroy
+    Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
+    flash[:notice] = I18n.t("devise.registrations.destroyed")
     yield resource if block_given?
-
-    if resource_updated
-      flash[:notice] = "メールアドレスが正しく変更されました。"
-      redirect_to user_url(current_user)
-    else
-      render :edit_email
-    end
+    redirect_to root_url
   end
-
-  def edit_password
-    render :edit_password
-  end
-
-  def update_password
-    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
-    resource_updated = update_resource(resource, account_update_params)
-    yield resource if block_given?
-
-    if resource_updated
-      flash[:notice] = "パスワードが正しく変更されました。"
-      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-      redirect_to user_url(current_user)
-    else
-      clean_up_passwords resource
-      psassword_invalid_message
-      set_minimum_password_length
-      render 'edit_password'
-    end
-  end
-
-  # def destroy
-  #   super
-  # end
-
-  # GET /resource/cancel
-  # Forces the session data which is usually expired after sign
-  # in to be expired now. This is useful if the user wants to
-  # cancel oauth signing in/up in the middle of the process,
-  # removing all OAuth session data.
-  # def cancel
-  #   super
-  # end
 
   def new_confirm
     @user = User.new(sign_up_params)
@@ -121,6 +79,43 @@ class Users::RegistrationsController < Devise::RegistrationsController
     redirect_to signup_url
   end
 
+  def edit_email; end
+
+  def update_email
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    resource.attributes = account_update_params
+    resource_updated = resource.save(context: :change_email)
+    yield resource if block_given?
+
+    if resource_updated
+      flash[:notice] = I18n.t("devise.registrations.email_updated")
+      redirect_to users_profile_url(current_user)
+    else
+      render :edit_email
+    end
+  end
+
+  def edit_password; end
+
+  def update_password
+    self.resource = resource_class.to_adapter.get!(send(:"current_#{resource_name}").to_key)
+    resource_updated = update_resource(resource, account_update_params)
+    yield resource if block_given?
+
+    if resource_updated
+      flash[:notice] = I18n.t("devise.registrations.password_updated")
+      bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
+      redirect_to users_profile_url(current_user)
+    else
+      clean_up_passwords resource
+      psassword_invalid_message
+      set_minimum_password_length
+      render 'edit_password'
+    end
+  end
+
+  def delete_confirm; end
+
   protected
 
   def update_resource(resource, params)
@@ -129,9 +124,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # The path used after sign up.
-  def after_sign_up_path_for(resource)
-    user_url(resource)
-  end
+  # def after_sign_up_path_for(resource)
+  #   super(resource)
+  # end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
@@ -150,6 +145,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def OAuth_user?
-    redirect_to user_url(current_user) if current_user.uid?
+    redirect_to users_profile_url(current_user) if current_user.uid?
   end
 end

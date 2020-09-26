@@ -1,7 +1,10 @@
 defaults: &defaults
   working_directory: ~/gunpla-type
   docker:
-    - image: circleci/ruby:2.7.1-node-browsers
+    - image: circleci/ruby:2.7.1-buster-node-browsers
+      environment:
+        BUNDLE_PATH: vendor/bundle
+        TZ: "/usr/share/zoneinfo/Asia/Tokyo"
 
 version: 2.1
 jobs:
@@ -13,18 +16,17 @@ jobs:
           keys:
             - v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
             - v1-bundle-
-      - run: bundle config --local path vendor/bundle
       - run:
           name: bundle and yarn install
           command: |
             gem install bundler
-            bundle check || bundle install --jobs=4 --retry=3 --clean
-            bundle exec yarn install
+            bundle check || bundle install --clean --jobs=4 --retry=3
+            yarn install
       - save_cache:
           key: v1-bundle-{{ checksum "Gemfile.lock" }}-{{ checksum "yarn.lock" }}
           paths:
-            - ./vendor/bundle
-            - ./node_modules
+            - vendor/bundle
+            - node_modules
       - persist_to_workspace:
           root: ~/gunpla-type
           paths:
@@ -33,7 +35,6 @@ jobs:
   code_analyze:
     <<: *defaults
     steps:
-      - checkout
       - attach_workspace:
           at: ~/gunpla-type
       - run:
@@ -47,9 +48,18 @@ jobs:
           command: bundle exec brakeman
 
   rspec:
-    <<: *defaults
+    working_directory: ~/gunpla-type
+    docker:
+      - image: circleci/ruby:2.7.1-buster-node-browsers
+        environment:
+          BUNDLE_PATH: vendor/bundle
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+      - image: circleci/postgres:11.7
+        environment:
+          POSTGRES_PASSWORD: password
+          TZ: "/usr/share/zoneinfo/Asia/Tokyo"
+    parallelism: 2
     steps:
-      - checkout
       - attach_workspace:
           at: ~/gunpla-type
       - run:
@@ -63,16 +73,19 @@ jobs:
       - run:
           name: Create db
           command: bundle exec rake db:create db:schema:load --trace
+          environment:
+            RAILS_ENV: test
       - run:
           name: Run Rspec
-          command: RAILS_ENV=test bundle exec rspec
-      - store_test_results:
-          path: /tmp/test-results
+          command: |
+            mkdir /tmp/test-results
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+          environment:
+            RAILS_ENV: test
 
   heroku_deploy:
     <<: *defaults
     steps:
-      - checkout
       - attach_workspace:
           at: ~/gunpla-type
       - run:
@@ -102,7 +115,7 @@ jobs:
 
 workflows:
   version: 2.1
-  pikachu:
+  workflows:
     jobs:
       - build
       - code_analyze:
