@@ -82,6 +82,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
+gem 'cancancan'
+gem 'rails_admin'
 
 # Image
 gem 'active_storage_validations'

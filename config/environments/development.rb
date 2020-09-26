@@ -78,5 +78,5 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  config.web_console.whitelisted_ips = '172.24.0.1'
+  config.web_console.whitelisted_ips = '172.19.0.1'
 end
