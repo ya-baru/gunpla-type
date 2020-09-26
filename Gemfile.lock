@@ -255,6 +255,7 @@ GEM
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    redcarpet (3.5.0)
     regexp_parser (1.8.0)
     require_all (3.0.0)
     responders (3.0.1)
@@ -412,6 +413,7 @@ DEPENDENCIES
   rails (~> 6.0.3)
   rails-erd
   rails_best_practices
+  redcarpet
   rspec-rails
   rubocop-airbnb
   sass-rails (~> 6.0)

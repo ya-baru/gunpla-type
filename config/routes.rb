@@ -2,7 +2,10 @@ Rails.application.routes.draw do
   root 'users/home#index'
 
   scope module: :users do
+    get 'company', to: 'about#company'
+    get 'privacy', to: 'about#privacy'
     get 'term', to: 'about#term'
+    get 'questions', to: 'about#questions'
   end
 
   devise_for :users,

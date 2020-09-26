@@ -39,7 +39,7 @@
 
 FROM ruby:2.7.1-alpine
 
-ENV RUNTIME_PACKAGES="git vim nodejs yarn postgresql tzdata gmp-dev ruby-dev graphviz less imagemagick curl fontconfig" \
+ENV RUNTIME_PACKAGES="git vim nodejs yarn postgresql tzdata gmp-dev ruby-dev graphviz less imagemagick curl fontconfig make" \
   CHROME_PACKAGES="chromium-chromedriver zlib-dev chromium xvfb wait4ports xorg-server dbus ttf-freefont mesa-dri-swrast udev" \
   BUILD_PACKAGES="build-base curl-dev postgresql-dev linux-headers libxml2-dev" \
   ROOT="/gunpla-type" \
