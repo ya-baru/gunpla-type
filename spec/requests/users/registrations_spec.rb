@@ -170,6 +170,18 @@ RSpec.describe "Users::Registrations", type: :request do
           expect(user.password).not_to eq "new-password"
         end
       end
+
+      context "admin_flg", :focus do
+        let(:url) do
+          patch update_user_registration_path(user), params: { user: {
+            admin_flg: true,
+          } }
+        end
+
+        it "変更されていないこと" do
+          expect(user.admin_flg).to be_falsey
+        end
+      end
     end
   end
 

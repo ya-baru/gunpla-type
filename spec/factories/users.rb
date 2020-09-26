@@ -6,6 +6,10 @@ FactoryBot.define do
     password_confirmation { "password" }
     confirmed_at { Time.current }
 
+    trait :admin do
+      admin_flg { true }
+    end
+
     trait :unconfirmation do
       email { "user@example.com" }
       confirmation_token { Devise.token_generator.generate(User, :confirmation_token) }
