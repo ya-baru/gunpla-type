@@ -17,7 +17,7 @@ RSpec.describe "Users::Sessions", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_mypage_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
 
     context "未ログインユーザー" do
@@ -36,14 +36,14 @@ RSpec.describe "Users::Sessions", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_mypage_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
 
     context "未ログインユーザー" do
       let(:login) { nil }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_mypage_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
 
     context "アカウント凍結ユーザー" do

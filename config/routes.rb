@@ -55,7 +55,7 @@ Rails.application.routes.draw do
     get 'unlock_mail_sent', to: 'users/notices#unlock'
   end
 
-  namespace :users do
+  scope module: :users do
     resources :mypage, only: %i(show)
   end
 

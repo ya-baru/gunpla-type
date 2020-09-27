@@ -11,7 +11,7 @@ RSpec.describe "Users::mypage", type: :request do
   end
 
   describe "#show" do
-    let(:url) { get users_mypage_path(user) }
+    let(:url) { get mypage_path(user) }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }

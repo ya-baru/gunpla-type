@@ -29,7 +29,7 @@ RSpec.describe "ProfileUpdate", type: :system do
       click_on "更新する"
 
       aggregate_failures do
-        expect(current_path).to eq users_mypage_path(user)
+        expect(current_path).to eq mypage_path(user)
         expect(page).to have_selector(".alert-success", text: "アカウント情報を変更しました。")
         expect(page).to have_selector("img[src$='sample.jpg']")
         expect(user.reload.username).to eq "new-user"
@@ -59,7 +59,7 @@ RSpec.describe "ProfileUpdate", type: :system do
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
-        expect(current_path).to eq users_mypage_path(user)
+        expect(current_path).to eq mypage_path(user)
         expect(page).to have_selector(".alert-success", text: "メールアドレスが正しく変更されました。")
         expect(user.reload.email).to eq "new@example.com"
       end
@@ -90,9 +90,22 @@ RSpec.describe "ProfileUpdate", type: :system do
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
-        expect(current_path).to eq users_mypage_path(user)
+        expect(current_path).to eq mypage_path(user)
         expect(page).to have_selector(".alert-success", text: "パスワードが正しく変更されました。")
         # expect(user.reload.password).to eq "new-password"
+      end
+    end
+  end
+
+  describe "退会の手続きテスト" do
+    it "確認画面を経てアカウントを削除する" do
+      click_on "退会の手続き"
+
+      aggregate_failures do
+        expect(page).to have_title("退会の手続き - GUNPLA-Type")
+        expect { click_on "退会する" }.to change(User, :count).by(-1)
+        expect(current_path).to eq root_path
+        expect(page).to have_selector(".alert-success", text: "アカウントを削除しました。またのご利用をお待ちしております。")
       end
     end
   end

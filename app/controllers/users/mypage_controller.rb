@@ -3,6 +3,6 @@ class Users::MypageController < ApplicationController
 
   def show
     @user = User.find_by(id: params[:id])
-    return redirect_to users_mypage_path(current_user) if @user.blank?
+    return redirect_to mypage_path(current_user) if @user.blank?
   end
 end
