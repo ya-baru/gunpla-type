@@ -56,7 +56,7 @@ Rails.application.routes.draw do
   end
 
   namespace :users do
-    resources :profile, only: %i(show)
+    resources :mypage, only: %i(show)
   end
 
   # resources :users, only: [:show]

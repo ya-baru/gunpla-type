@@ -17,7 +17,7 @@ RSpec.describe "Users::Confirmations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to users_mypage_path(user) }
     end
 
     context "未ログインユーザー" do
@@ -34,7 +34,7 @@ RSpec.describe "Users::Confirmations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to users_mypage_path(user) }
       it "メール送信せずリダイレクトすること" do
         expect(ActionMailer::Base.deliveries.count).to eq 0
       end

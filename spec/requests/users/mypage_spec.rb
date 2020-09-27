@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Profiles", type: :request do
+RSpec.describe "Users::mypage", type: :request do
   subject { response }
 
   let(:user) { create(:user) }
@@ -11,7 +11,7 @@ RSpec.describe "Users::Profiles", type: :request do
   end
 
   describe "#show" do
-    let(:url) { get users_profile_path(user) }
+    let(:url) { get users_mypage_path(user) }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
