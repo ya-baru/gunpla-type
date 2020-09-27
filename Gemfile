@@ -90,4 +90,8 @@ gem 'active_storage_validations'
 gem 'image_processing'
 gem 'mini_magick'
 
+# Markdown
 gem 'redcarpet'
+
+# SEO
+gem 'gretel'

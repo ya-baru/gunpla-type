@@ -1,3 +1,6 @@
 - provide(:title, "運営情報")
+- breadcrumb :company
+= breadcrumbs separator: " &rsaquo; "
+
 .jumbotron.mt-4
   = markdown(@company)
