@@ -11,6 +11,9 @@ RSpec.describe "Password", type: :system do
         # 失敗
         aggregate_failures do
           expect(page).to have_title("パスワード再設定の方法 - GUNPLA-Type")
+          expect(page).to have_selector("a", text: "ホーム")
+          expect(page).to have_selector("span", text: "パスワード再設定の方法")
+
           expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
           expect(page).to have_content("メールアドレスを入力してください")
         end

@@ -8,40 +8,38 @@ RSpec.describe "Users::Abouts", type: :system do
       before { visit company_path }
 
       it { is_expected.to have_title("運営情報 - GUNPLA-Type") }
+      it { is_expected.to have_selector("a", text: "ホーム") }
+      it { is_expected.to have_selector("span", text: "運営情報") }
     end
 
     context "privacy" do
       before { visit privacy_path }
 
       it { is_expected.to have_title("プライバシーポリシー - GUNPLA-Type") }
+      it { is_expected.to have_selector("a", text: "ホーム") }
+      it { is_expected.to have_selector("span", text: "プライバシーポリシー") }
     end
 
     context "term" do
       before { visit term_path }
 
       it { is_expected.to have_title("利用規約 - GUNPLA-Type") }
+      it { is_expected.to have_selector("a", text: "ホーム") }
+      it { is_expected.to have_selector("span", text: "利用規約") }
     end
 
     context "questions" do
       before { visit questions_path }
 
       it { is_expected.to have_title("よくある質問 - GUNPLA-Type") }
-    end
-  end
+      it { is_expected.to have_selector("a", text: "ホーム") }
+      it { is_expected.to have_selector("span", text: "よくある質問") }
 
-  describe "よくある質問ページ内におけるハイパーリンクチェック" do
-    before { visit questions_path }
-
-    context "アカウント有効化の案内" do
-      it { is_expected.to have_link "こちら", href: "/account_confirmation/" }
-    end
-
-    context "アカウント凍結解除方法" do
-      it { is_expected.to have_link "こちら", href: "/account_unlock/" }
-    end
-
-    context "パスワード再設定の方法" do
-      it { is_expected.to have_link "こちら", href: "/password/" }
+      describe "ハイパーリンクチェック" do
+        it { is_expected.to have_link "こちら", href: "/account_confirmation/" }
+        it { is_expected.to have_link "こちら", href: "/account_unlock/" }
+        it { is_expected.to have_link "こちら", href: "/password/" }
+      end
     end
   end
 end

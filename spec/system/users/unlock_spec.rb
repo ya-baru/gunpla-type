@@ -31,6 +31,9 @@ RSpec.describe "Unlock", type: :system do
         visit new_account_unlock_path
         aggregate_failures do
           expect(page).to have_title("アカウント凍結解除の方法 - GUNPLA-Type")
+          expect(page).to have_selector("a", text: "ホーム")
+          expect(page).to have_selector("span", text: "アカウント凍結解除の方法")
+
           expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
           expect(page).to have_content("メールアドレスを入力してください")
         end

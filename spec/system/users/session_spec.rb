@@ -6,7 +6,11 @@ RSpec.describe "Session", type: :system do
   describe "メールアドレスによるログインとログアウトの機能チェック" do
     it "登録情報でログイン後にログアウトをする" do
       visit new_user_session_path
-      expect(page).to have_title("ログイン - GUNPLA-Type")
+      aggregate_failures do
+        expect(page).to have_title("ログイン - GUNPLA-Type")
+        expect(page).to have_selector("a", text: "ホーム")
+        expect(page).to have_selector("span", text: "ログイン")
+      end
 
       # ログイン失敗
       click_on "ログインする"
@@ -20,6 +24,8 @@ RSpec.describe "Session", type: :system do
       aggregate_failures do
         expect(page).to have_content("ログインしました")
         expect(page).to have_title("マイページ - GUNPLA-Type")
+        expect(page).to have_selector("a", text: "ホーム")
+        expect(page).to have_selector("span", text: "マイページ")
         expect(current_path).to eq mypage_path(user)
       end
 
