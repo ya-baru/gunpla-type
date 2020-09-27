@@ -9,7 +9,7 @@
         h2
           | プロフィール編集
       .card-body
-        = form_with model: resource, as: resource_name, url: update_user_registration_path(resource_name), local: true do |f|
+        = form_with model: resource, url: update_user_registration_path, local: true do |f|
           .form-group
             = f.label :username
             = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"

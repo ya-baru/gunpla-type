@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "ProfileUpdate", type: :system do
+RSpec.describe "UserUpdate", type: :system do
   let(:user) { create(:user) }
 
   before do
