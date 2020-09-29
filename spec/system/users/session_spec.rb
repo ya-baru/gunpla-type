@@ -8,8 +8,8 @@ RSpec.describe "Session", type: :system do
       visit new_user_session_path
       aggregate_failures do
         expect(page).to have_title("ログイン - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("span", text: "ログイン")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "ログイン")
       end
 
       # ログイン失敗
@@ -24,8 +24,8 @@ RSpec.describe "Session", type: :system do
       aggregate_failures do
         expect(page).to have_content("ログインしました")
         expect(page).to have_title("マイページ - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("span", text: "マイページ")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "マイページ")
         expect(current_path).to eq mypage_path(user)
       end
 

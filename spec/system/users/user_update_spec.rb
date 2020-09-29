@@ -12,14 +12,14 @@ RSpec.describe "UserUpdate", type: :system do
     it "必要な情報を入力して更新させる" do
       aggregate_failures do
         expect(page).to have_title("プロフィール編集 - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("a", text: "マイページ")
-        expect(page).to have_selector("span", text: "プロフィール編集")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "マイページ")
+        expect(page).to have_selector("li", text: "プロフィール編集")
       end
 
       # 失敗
       fill_in "ユーザー名", with: ""
-      fill_in "プロフィール", with: "a" * 256
+      fill_in "プロフィール", with: "li" * 256
       click_on "更新する"
 
       aggregate_failures do
@@ -48,9 +48,9 @@ RSpec.describe "UserUpdate", type: :system do
       click_on "メールアドレス編集"
       aggregate_failures do
         expect(page).to have_title("メールアドレス編集 - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("a", text: "マイページ")
-        expect(page).to have_selector("span", text: "メールアドレス編集")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "マイページ")
+        expect(page).to have_selector("li", text: "メールアドレス編集")
       end
 
       # 失敗
@@ -81,9 +81,9 @@ RSpec.describe "UserUpdate", type: :system do
       click_on "パスワード編集"
       aggregate_failures do
         expect(page).to have_title("パスワード編集 - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("a", text: "マイページ")
-        expect(page).to have_selector("span", text: "パスワード編集")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "マイページ")
+        expect(page).to have_selector("li", text: "パスワード編集")
       end
 
       # 失敗
@@ -118,9 +118,9 @@ RSpec.describe "UserUpdate", type: :system do
 
       aggregate_failures do
         expect(page).to have_title("退会の手続き - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("a", text: "マイページ")
-        expect(page).to have_selector("span", text: "退会の手続き")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "マイページ")
+        expect(page).to have_selector("li", text: "退会の手続き")
 
         expect { click_on "退会する" }.to change(User, :count).by(-1)
         expect(current_path).to eq root_path

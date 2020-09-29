@@ -8,8 +8,8 @@ RSpec.describe "Signup", type: :system do
       visit new_user_registration_path
       aggregate_failures do
         expect(page).to have_title("新規登録 - GUNPLA-Type")
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("span", text: "新規登録")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "新規登録")
       end
 
       # 無効な情報
@@ -30,9 +30,9 @@ RSpec.describe "Signup", type: :system do
       # 確認画面へ移動、入力情報を確認
       aggregate_failures do
         expect(page).to have_title "登録確認 - GUNPLA-Type"
-        expect(page).to have_selector("a", text: "ホーム")
-        expect(page).to have_selector("a", text: "新規登録")
-        expect(page).to have_selector("span", text: "確認画面")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "新規登録")
+        expect(page).to have_selector("li", text: "確認画面")
         expect(current_path).to eq signup_confirm_path
         expect(all('tbody tr')[0]).to have_content "user"
         expect(all('tbody tr')[1]).to have_content "user@example.com"

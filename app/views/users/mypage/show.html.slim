@@ -1,15 +1,14 @@
 - provide(:title, "マイページ")
 - breadcrumb :mypage, @user
-= breadcrumbs separator: " &rsaquo; "
 
 h1
   | ユーザーページ
 p
-  = current_user.username
+  = @user.username
 p
-  = current_user.profile
-- if current_user.avatar.attached?
-  = image_tag current_user.display_avatar
+  = @user.profile
+- if @user.avatar.attached?
+  = image_tag @user.display_avatar
 = link_to "プロフィール編集", edit_user_registration_path
-- if current_user.admin_flg?
+- if @user.admin_flg?
   = link_to "管理者ページ", rails_admin_path
