@@ -1,0 +1,14 @@
+- provide(:title, "マイページ")
+- breadcrumb :mypage, @user
+
+h1
+  | ユーザーページ
+p
+  = @user.username
+p
+  = @user.profile
+- if @user.avatar.attached?
+  = image_tag @user.display_avatar
+= link_to "プロフィール編集", edit_user_registration_path
+- if @user.admin_flg?
+  = link_to "管理者ページ", rails_admin_path

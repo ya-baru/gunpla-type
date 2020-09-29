@@ -15,7 +15,7 @@ RSpec.describe "Users::Passwords", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
 
     context "未ログインユーザー" do
@@ -37,7 +37,7 @@ RSpec.describe "Users::Passwords", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status 302 }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
       it "メール送信しないこと" do
         expect(ActionMailer::Base.deliveries.count).to eq 0
       end
@@ -88,7 +88,7 @@ RSpec.describe "Users::Passwords", type: :request do
           aggregate_failures do
             expect(User.first.valid_password?("new_password")).to be_truthy
             expect(response).to have_http_status(302)
-            expect(response).to redirect_to users_profile_path(user)
+            expect(response).to redirect_to mypage_path(user)
             expect(flash[:notice]).to eq "パスワードが正しく変更されました。"
           end
 

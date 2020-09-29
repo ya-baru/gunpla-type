@@ -6,7 +6,11 @@ RSpec.describe "Signup", type: :system do
   describe "新規ユーザー登録からアカウントの有効化までのチェック" do
     it "有効な情報を入力後、メール認証からアカウントを有効にする" do
       visit new_user_registration_path
-      expect(page).to have_title("新規ユーザー登録 - GUNPLA-Type")
+      aggregate_failures do
+        expect(page).to have_title("新規登録 - GUNPLA-Type")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "新規登録")
+      end
 
       # 無効な情報
       click_on "アカウントを作成する"
@@ -26,6 +30,9 @@ RSpec.describe "Signup", type: :system do
       # 確認画面へ移動、入力情報を確認
       aggregate_failures do
         expect(page).to have_title "登録確認 - GUNPLA-Type"
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "新規登録")
+        expect(page).to have_selector("li", text: "確認画面")
         expect(current_path).to eq signup_confirm_path
         expect(all('tbody tr')[0]).to have_content "user"
         expect(all('tbody tr')[1]).to have_content "user@example.com"

@@ -1,0 +1,11 @@
+- breadcrumbs.tap do |links|
+  - if links.any?
+    .container
+      ul.breadcrumb.bg-transparent.mb-0
+        - links.each do |link|
+          - if link.current?
+            li.breadcrumb-item.active
+              = link.text
+          - else
+            li.breadcrumb-item
+              = link_to link.text, link.url

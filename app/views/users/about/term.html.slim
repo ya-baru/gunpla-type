@@ -1,2 +1,7 @@
-h1 Pages#term
-p Find me in app/views/pages/term.html.slim
+- provide(:title, "利用規約")
+- breadcrumb :term
+
+.jumbotron.mt-4
+  = markdown(@term)
+  .text-right
+    | 以上

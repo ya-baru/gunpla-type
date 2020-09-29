@@ -17,7 +17,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
 
     context "未ログインユーザー" do
@@ -36,7 +36,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
       it "新しく登録されないこと" do
         expect(User.count).to eq 1
       end
@@ -95,7 +95,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
       it "正常に更新されること" do
         expect(user.reload).to have_attributes(
           username: "change_name",
@@ -121,7 +121,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in other_user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(other_user) }
+      it { is_expected.to redirect_to mypage_path(other_user) }
       it "更新されないこと" do
         expect(user.reload).not_to have_attributes(
           username: "change_name",
@@ -168,6 +168,18 @@ RSpec.describe "Users::Registrations", type: :request do
 
         it "変更されていないこと" do
           expect(user.password).not_to eq "new-password"
+        end
+      end
+
+      context "admin_flg" do
+        let(:url) do
+          patch update_user_registration_path(user), params: { user: {
+            admin_flg: true,
+          } }
+        end
+
+        it "変更されていないこと" do
+          expect(user.admin_flg).to be_falsey
         end
       end
     end
@@ -278,7 +290,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
   end
 
@@ -294,7 +306,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
       it "正常に更新されること" do
         expect(user.reload).to have_attributes(email: "new@example.com")
       end
@@ -314,7 +326,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in other_user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(other_user) }
+      it { is_expected.to redirect_to mypage_path(other_user) }
       it "更新されないこと" do
         expect(user.reload).not_to have_attributes(email: "new@example.com")
       end
@@ -325,7 +337,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
       it "更新されないこと" do
         expect(user.reload).not_to have_attributes(email: "new@example.com")
       end
@@ -394,7 +406,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
     end
   end
 
@@ -421,7 +433,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in other_user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(other_user) }
+      it { is_expected.to redirect_to mypage_path(other_user) }
       it "更新されないこと" do
         expect(other_user.reload).not_to have_attributes(password: "new-password")
       end
@@ -432,7 +444,7 @@ RSpec.describe "Users::Registrations", type: :request do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to users_profile_path(user) }
+      it { is_expected.to redirect_to mypage_path(user) }
       it "更新されないこと" do
         expect(user.reload).not_to have_attributes(password: "new-password")
       end

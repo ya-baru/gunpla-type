@@ -6,7 +6,11 @@ RSpec.describe "Session", type: :system do
   describe "メールアドレスによるログインとログアウトの機能チェック" do
     it "登録情報でログイン後にログアウトをする" do
       visit new_user_session_path
-      expect(page).to have_title("ログイン - GUNPLA-Type")
+      aggregate_failures do
+        expect(page).to have_title("ログイン - GUNPLA-Type")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "ログイン")
+      end
 
       # ログイン失敗
       click_on "ログインする"
@@ -19,8 +23,10 @@ RSpec.describe "Session", type: :system do
 
       aggregate_failures do
         expect(page).to have_content("ログインしました")
-        expect(page).to have_title("#{user.username} - GUNPLA-Type")
-        expect(current_path).to eq users_profile_path(user)
+        expect(page).to have_title("マイページ - GUNPLA-Type")
+        expect(page).to have_selector("li", text: "ホーム")
+        expect(page).to have_selector("li", text: "マイページ")
+        expect(current_path).to eq mypage_path(user)
       end
 
       # ログアウト
@@ -47,11 +53,11 @@ RSpec.describe "Session", type: :system do
       it "３０日後に自動でログアウトする" do
         expect(user.reload.remember_created_at).not_to eq nil
         travel_to 30.days.after do
-          expect(current_path).to eq users_profile_path(user)
+          expect(current_path).to eq mypage_path(user)
         end
 
         travel_to 31.days.after do
-          visit users_profile_path(user)
+          visit mypage_path(user)
           expect(page).to have_selector(".alert-danger", text: "ログインしてください。")
           expect(current_path).to eq new_user_session_path
         end
@@ -64,7 +70,7 @@ RSpec.describe "Session", type: :system do
       it "１時間経過でタイムアウトする" do
         expect(user.reload.remember_created_at).to eq nil
         travel_to 60.minutes.after do
-          visit users_profile_path(user)
+          visit mypage_path(user)
           expect(page).to have_selector(".alert-danger", text: "ログインしてください。")
           expect(current_path).to eq new_user_session_path
         end

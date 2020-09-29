@@ -12,3 +12,8 @@ Rails.application.config.assets.paths << Rails.root.join('node_modules')
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
 # Rails.application.config.assets.precompile += %w( admin.js admin.css )
+
+# ci内でのセグメンテーションエラー対応 コンパイル並列実行を停止
+Rails.application.config.assets.configure do |env|
+  env.export_concurrent = false
+end

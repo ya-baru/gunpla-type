@@ -78,7 +78,6 @@ jobs:
       - run:
           name: Run Rspec
           command: |
-            mkdir /tmp/test-results
             bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
           environment:
             RAILS_ENV: test

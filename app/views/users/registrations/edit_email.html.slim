@@ -1,4 +1,6 @@
 - provide(:title, "メールアドレス編集")
+- breadcrumb :email_edit, @user
+
 .row.mx-auto
   .col-lg-8.order-lg-2
     .card.mt-4.px-0.shadow-sm
@@ -6,7 +8,7 @@
         h2
           | メールアドレス編集
       .card-body
-        = form_with model: resource, as: resource_name, url: update_email_user_registation_path(resource_name), local: true do |f|
+        = form_with model: resource, url: update_email_user_registation_path, local: true do |f|
           .form-group
             = f.label :email, "新しいメールアドレス"
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"

@@ -3,12 +3,13 @@ services:
   db:
     image: postgres:12.4-alpine
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - ./tmp/db:/var/lib/postgresql/data
+    restart: always
     environment:
-      POSTGRES_PASSWORD: password
       POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
       TZ: Asia/Tokyo
 
   web:
@@ -19,23 +20,23 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - DATABASE_HOST=db
-      - RAILS_SYSTEM_TESTING_SCREENSHOT=inline
+      DATABASE_HOST: db
+      RAILS_SYSTEM_TESTING_SCREENSHOT: inline
     stdin_open: true
     tty: true
     depends_on:
       - db
 
-  https-portal:
-    image: steveltn/https-portal:1
-    ports:
-      - "80:80"
-      - "443:443"
-    links:
-      - web
-    restart: always
-    environment:
-      DOMAINS: "web.local -> http://web:3000"
-      STAGE: local
-    depends_on:
-      - web
+  # https-portal:
+  #   image: steveltn/https-portal:1
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   links:
+  #     - web
+  #   restart: always
+  #   environment:
+  #     DOMAINS: "web.local -> http://web:3000"
+  #     STAGE: local
+  #   depends_on:
+  #     - web
