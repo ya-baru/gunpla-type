@@ -31,7 +31,11 @@ class ApplicationController < ActionController::Base
   private
 
   def after_sign_in_path_for(resource)
-    mypage_path(resource)
+    if resource.admin_flg?
+      rails_admin_path
+    else
+      mypage_path(resource)
+    end
   end
 
   def login_user
