@@ -3,7 +3,7 @@
 
 .row.mx-auto
   .col-lg-8.order-lg-2
-    .card.mt-4.px-0.shadow-sm
+    .card.px-0.shadow-sm
       .card-header
         h2
           | プロフィール編集
@@ -23,9 +23,9 @@
               .prev-contents.d-lg-flex
                 - if current_user.avatar.present?
                   .prev-content
-                    = image_tag current_user.avatar, alt: "preview", class: "prev-image", size: "150x150"
+                    = image_tag current_user.avatar, alt: "preview", class: "prev-image shadow", size: "150x150"
                 - else
-                  img.photo-icon src="https://placehold.jp/150x150.png?text=Non-Image"
+                  img.photo-icon.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
                 .align-self-center.mt-3.mt-lg-0
                   = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
           .text-center
