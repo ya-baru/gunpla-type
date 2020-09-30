@@ -20,12 +20,14 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
           /     | お知らせ
           li.nav-item
             = link_to mypage_path(current_user.id), class: "nav-link text-white" do
-              i.far.fa-user.mr-1
+              i.fas.fa-user.mr-1
               | マイページ
           li.nav-item
             = link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do
               i.fas.fa-sign-out-alt.mr-1
               | ログアウト
+          = render "layouts/header_navbar_list"
+
         - else
           li.nav-item
             = link_to new_user_registration_path, class: "nav-link text-white" do
@@ -35,19 +37,4 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
             = link_to new_user_session_path, class: "nav-link text-white" do
               i.fas.fa-sign-in-alt.mr-2
               | ログイン
-          li.nav-item.d-block.d-md-none
-            a.nav-link.text-white href="#"
-              i.fas.fa-search.mr-2
-              | ガンプラ一覧
-          li.nav-item.d-block.d-md-none
-            a.nav-link.text-white href="#"
-              i.fas.fa-star.mr-2
-              | みんなのレビュー
-          li.nav-item.d-block.d-md-none
-            a.nav-link.text-white href="#"
-              i.fas.fa-crown.mr-2
-              | ランキング
-          li.nav-item.d-block.d-md-none
-            a.nav-link.text-white href="#"
-              i.fas.fa-rss.mr-2
-              | ニュース
+          = render "layouts/header_navbar_list"
