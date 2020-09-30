@@ -1,50 +1,48 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
 
+@import "users/custom-variables";
+@import "users/social";
+@import "users/option";
+
 h2 {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 0;
 }
+// universal
+
+body {
+  background-color: $light-gray;
+}
+
 a {
+  color: inherit;
   &:hover,
   &:focus {
     opacity: 0.7;
     text-decoration: none;
   }
 }
-.btn-sns {
-  margin: 14px 0;
-  display: block;
-}
-.w-250px {
-  width: 250px !important;
-}
-.w-200px {
-  width: 200px !important;
-}
-.w-100px {
-  width: 100px !important;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.btn {
-  color: #fff;
-  transition: 0.3s;
-  &:hover,
-  &:focus {
-    opacity: 0.7;
-    color: #fff;
-  }
-}
-.btn-fb {
-  background-color: #4267b2;
-}
-.btn-tw {
-  background-color: #2ca7e0;
+.jumbotron {
+  background-color: $white;
 }
 
-.btn-gg {
-  background-color: #28a745;
+.image-box img {
+  max-width: 100%;
+}
+
+footer {
+  margin-top: auto;
+  background-color: $dark;
+  width: 100%;
 }
 
 #error_explanation {
@@ -54,9 +52,16 @@ a {
     margin: 0 0 30px 0;
   }
 }
+
 .field_with_errors {
   input {
     background-color: #fcc;
     @extend .is-invalid;
   }
+}
+
+.pagenaation {
+}
+
+#page-top {
 }
