@@ -1,19 +1,28 @@
 .col-lg-4.order-lg-1
-  .card.mt-4.px-0.shadow-sm.align-self-start
-    .card-header
-      h2
-        | メニュー
-    .card-body
-  .card.mt-4.px-0.shadow-sm.align-self-start
+  .card.px-0.shadow-sm.align-self-start
     .card-header
       h2
         | アカウント管理
-    .card-body
-      = link_to "プロフィール編集", edit_user_registration_path
-      br
-      - unless current_user.uid?
-        = link_to "パスワード編集", edit_password_user_registration_path
-        br
-        = link_to "メールアドレス編集", edit_email_user_registration_path
-        br
-      = link_to "退会の手続き", signout_confirm_path
+    .card-body.p-0
+      ul.list-group.list-group-flush
+        li.list-group-item.list-group-item-action.p-0
+          = link_to mypage_path(current_user.id), class: "d-block p-3" do
+            i.fas.fa-user.mr-2
+            | マイページ
+        li.list-group-item.list-group-item-action.p-0
+          = link_to edit_user_registration_path, class: "d-block p-3" do
+            i.fas.fa-user-edit.mr-2
+            | プロフィール編集
+        - unless current_user.uid?
+          li.list-group-item.list-group-item-action.p-0
+            = link_to edit_password_user_registration_path, class: "d-block p-3" do
+              i.fas.fa-user-lock.mr-2
+              | パスワード編集
+          li.list-group-item.list-group-item-action.p-0
+            = link_to edit_email_user_registration_path, class: "d-block p-3" do
+              i.far.fa-envelope.mr-2
+              | メールアドレス編集
+        li.list-group-item.list-group-item-action.p-0
+          = link_to signout_confirm_path, class: "d-block p-3" do
+            i.fas.fa-user-alt-slash.mr-2
+            | 退会の手続き

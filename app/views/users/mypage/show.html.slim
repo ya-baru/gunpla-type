@@ -1,14 +1,138 @@
 - provide(:title, "マイページ")
 - breadcrumb :mypage, @user
 
-h1
-  | ユーザーページ
-p
-  = @user.username
-p
-  = @user.profile
-- if @user.avatar.attached?
-  = image_tag @user.display_avatar
-= link_to "プロフィール編集", edit_user_registration_path
-- if @user.admin_flg?
-  = link_to "管理者ページ", rails_admin_path
+section
+  .d-flex.align-items-center
+    figure.user_avatar.mr-4
+      = link_to mypage_path(@user) do
+        - if @user.avatar.attached?
+          = image_tag @user.display_avatar, class: "shadow"
+        - else
+          img.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
+    .user.d-flex.align-items-center
+      .user-box.mr-4
+        = link_to mypage_path(@user) do
+          h2
+            = @user.username
+          p.mb-0
+            | レビュー 10件
+        p.mb-2
+          | お気に入り 10件
+      .user-btn
+        - if current_user?(@user)
+          = link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-info rounded-pill"
+        - else
+          span id="follow-#{@user.id}"
+            a.btn.btn-info.rounded-pill href="#"
+              | フォローする
+
+section.user_profile.mb-5.col-sm-7
+  p.font-weight-bold.mb-0
+    | プロフィール
+  = simple_format(h(@user.profile), {}, sanitize: false)
+
+section.user_stats.mb-4.pb-3.border-bottom.border-secondary
+  .d-flex.justify-content-around
+    a href="#"
+      strong
+        | いいね！
+        span#iines
+          | (10)
+    a href="#"
+      strong
+        | フォロー
+        span#following
+          | (10)
+    a href="#"
+      strong#followers
+        | フォロワー
+        span#iines
+          | (10)
+
+section
+  h1
+    | レビューリスト（10）
+
+
+
+
+/ .card
+/   img.card-img-top src="https://placehold.jp/600x600.png?text=Non-Image"
+/   .card-body
+/     h5.card-title
+/       | タイトル
+/     p.card-text
+/       | テキスト
+ol.user_grid
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿
+  li.card.shadow-sm
+    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .card-body
+      h5.card-title
+        | タイトル
+      h6.card-subtitle.text-muted.mb-2
+        | サブタイトル
+      p.card-text
+        | 2020年08月19日投稿

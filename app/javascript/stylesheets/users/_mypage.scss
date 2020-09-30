@@ -1,0 +1,22 @@
+.user_avatar {
+  img {
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+  }
+}
+
+.user_grid {
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  padding-left: 0;
+}
+
+.photo-icon {
+  border-radius: 50%;
+}
+
+.prev-image {
+  border-radius: 50%;
+}
