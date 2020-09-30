@@ -1,0 +1,40 @@
+nav.navbar.navbar-expand-md.bg-dark.navbar-dark
+  .container
+    h1
+      = link_to "GUNPLA-Type", root_path, class: "navbar-brand font-weight-bold"
+
+    button.navbar-toggler type="button" data-toggle="collapse" data-target="#change-navbar" aria-controls="change-navbar" aria-expanded="false" aria-label="Toggle navigation"
+      span.navbar-toggler-icon.collapse-close
+
+    .collapse.navbar-collapse#change-navbar
+      ul.navbar-nav.ml-auto
+        - if user_signed_in?
+          li.nav-item
+            a.nav-link.text-white href="#"
+              span style="color: orange;"
+                i.far.fa-bell.mr-2
+                | お知らせ
+          / li.nav-item
+          /   a.nav-link.text-white href="#"
+          /     i.far.fa-bell.mr-2
+          /     | お知らせ
+          li.nav-item
+            = link_to mypage_path(current_user.id), class: "nav-link text-white" do
+              i.fas.fa-user.mr-1
+              | マイページ
+          li.nav-item
+            = link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do
+              i.fas.fa-sign-out-alt.mr-1
+              | ログアウト
+          = render "layouts/header_navbar_list"
+
+        - else
+          li.nav-item
+            = link_to new_user_registration_path, class: "nav-link text-white" do
+              i.fas.fa-user-plus.mr-2
+              | 新規登録
+          li.nav-item
+            = link_to new_user_session_path, class: "nav-link text-white" do
+              i.fas.fa-sign-in-alt.mr-2
+              | ログイン
+          = render "layouts/header_navbar_list"

@@ -9,7 +9,7 @@ RSpec.describe "Session", type: :system do
       aggregate_failures do
         expect(page).to have_title("ログイン - GUNPLA-Type")
         expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "ログイン")
+        expect(page).to have_selector("li", text: "新規登録")
       end
 
       # ログイン失敗
@@ -24,6 +24,7 @@ RSpec.describe "Session", type: :system do
       aggregate_failures do
         expect(page).to have_content("ログインしました")
         expect(page).to have_title("マイページ - GUNPLA-Type")
+        expect(page).to have_selector("li", text: "お知らせ")
         expect(page).to have_selector("li", text: "ホーム")
         expect(page).to have_selector("li", text: "マイページ")
         expect(current_path).to eq mypage_path(user)

@@ -1,0 +1,26 @@
+.btn {
+  color: $white;
+  transition: 0.3s;
+  &:hover,
+  &:focus {
+    opacity: 0.7;
+    color: $white;
+  }
+}
+
+.btn-sns {
+  margin: 14px 0;
+  display: block;
+}
+
+.btn-fb {
+  background-color: $facebook;
+}
+
+.btn-tw {
+  background-color: $twitter;
+}
+
+.btn-gg {
+  background-color: $google;
+}

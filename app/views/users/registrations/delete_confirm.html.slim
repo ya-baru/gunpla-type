@@ -1,7 +1,9 @@
 - provide(:title, "退会の手続き")
 - breadcrumb :signout_confirm, @user
 
-.text-center.jumbotron.mt-4
+.text-center.jumbotron
+  h2.mb-4
+    | 退会の手続き
   p
     | ボタンをクリックすると、退会手続きが完了します。
-    = button_to "退会する", destroy_user_registration_path, method: :delete, class: "btn btn-danger"
+  = button_to "退会する", destroy_user_registration_path, method: :delete, class: "btn btn-danger"
