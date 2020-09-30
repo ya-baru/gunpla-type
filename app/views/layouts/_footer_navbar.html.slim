@@ -1,0 +1,23 @@
+.bg-white.py-5
+  .container
+    .row
+      .col-md-4.mb-3
+        p.font-weight-bold.border-bottom.mb-2
+          | サイト情報
+        p
+          = link_to "運営情報", company_path
+      .col-md-4.mb-3
+        p.font-weight-bold.border-bottom.mb-2
+          | プライバシーと利用規約
+        p
+          = link_to "プライバシーポリシー", privacy_path
+        p
+          = link_to "利用規約", term_path
+      .col-md-4.mb-3
+        p.font-weight-bold.border-bottom.mb-2
+          | ヘルプ
+        p
+          = link_to "よくある質問", questions_path
+        P
+          a href="#"
+            | お問い合わせ
