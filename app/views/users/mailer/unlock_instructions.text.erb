@@ -1,0 +1,17 @@
+<%= I18n.t("devise.mailer.unlock_instructions.greeting", recipient: @resource.username) %>
+
+<%= I18n.t("devise.mailer.unlock_instructions.message") %>
+<%= I18n.t("devise.mailer.unlock_instructions.instruction") %>
+
+<%= link_to I18n.t("devise.mailer.unlock_instructions.action"), unlock_url(@resource, unlock_token: @token) %>
+
+<%= I18n.t("devise.mailer.unlock_instructions.instruction_2") %>
+
+
+—————————————————————————————————
+
+GUNPLA-Type
+メールアドレス： <%= Rails.application.credentials.gmail[:address] %>
+電話番号： 000-1234-5678
+
+—————————————————————————————————

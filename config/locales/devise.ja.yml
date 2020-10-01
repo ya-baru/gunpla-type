@@ -53,29 +53,31 @@ ja:
       confirmation_instructions:
         action: メールアドレスの確認
         greeting: "こんにちは、%{recipient}様"
-        instruction: 以下のリンクをクリックし、メールアドレスの確認手続を完了させてください。
-        subject: メールアドレス確認メール
+        instruction: ご登録ありがとうございます。以下のリンクをクリックし、メールアドレスの確認手続を完了させてください。
+        instruction_2: ※このメールに身に覚えのない場合は削除してください。
+        subject: GUNPLA-Type メールアドレス確認メール
       email_changed:
         greeting: こんにちは、%{recipient}様。
         message: あなたのメール変更（%{email}）のお知らせいたします。
-        subject: メール変更完了。
+        subject: GUNPLA-Type メール変更完了。
       password_change:
         greeting: "%{recipient}様"
         message: パスワードが再設定されたことを通知します。
-        subject: パスワードの変更について
+        subject: GUNPLA-Type パスワードの変更について
       reset_password_instructions:
         action: パスワード変更
         greeting: "こんにちは、%{recipient}様"
         instruction: パスワード再設定の依頼を受けたため、メールを送信しています。下のリンクからパスワードの再設定ができます。
         instruction_2: パスワード再設定の依頼をしていない場合、このメールを無視してください。
         instruction_3: パスワードの再設定は、上のリンクから新しいパスワードを登録するまで完了しません。
-        subject: パスワードの再設定について
+        subject: GUNPLA-Type パスワードの再設定について
       unlock_instructions:
         action: アカウントのロック解除
         greeting: "こんにちは、%{recipient}様"
         instruction: アカウントのロックを解除するには下のリンクをクリックしてください。
+        instruction_2: ※このメールに身に覚えのない場合は削除してください。
         message: ログイン失敗が繰り返されたため、アカウントはロックされています。
-        subject: アカウントの凍結解除について
+        subject: GUNPLA-Type アカウントの凍結解除について
     omniauth_callbacks:
       failure: "%{kind} アカウントによる認証に失敗しました。理由：（%{reason}）"
       success: "%{kind} アカウントによる認証に成功しました。"
