@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Signup", type: :system do
+  let(:user) { build(:user) }
   let(:valid_token) { User.last.confirmation_token }
 
   describe "新規ユーザー登録からアカウントの有効化までのチェック" do
@@ -21,10 +22,10 @@ RSpec.describe "Signup", type: :system do
       end
 
       # 有効な情報
-      fill_in "ユーザー名", with: "user"
-      fill_in "メールアドレス", with: "user@example.com"
-      fill_in "パスワード", with: "password"
-      fill_in "確認用パスワード", with: "password"
+      fill_in "ユーザー名", with: user.username
+      fill_in "メールアドレス", with: user.email
+      fill_in "パスワード", with: user.password
+      fill_in "確認用パスワード", with: user.password
       click_on "アカウントを作成する"
 
       # 確認画面へ移動、入力情報を確認
@@ -34,21 +35,21 @@ RSpec.describe "Signup", type: :system do
         expect(page).to have_selector("li", text: "新規登録")
         expect(page).to have_selector("li", text: "確認画面")
         expect(current_path).to eq signup_confirm_path
-        expect(all('tbody tr')[0]).to have_content "user"
-        expect(all('tbody tr')[1]).to have_content "user@example.com"
-        expect(all('tbody tr')[2]).to have_content "password"
+        expect(all('tbody tr')[0]).to have_content user.username
+        expect(all('tbody tr')[1]).to have_content user.email
+        expect(all('tbody tr')[2]).to have_content user.password
       end
 
       # 一度、『戻る』ボタンで入力画面へ戻りパスワード関連のみ入力
       click_on "戻る"
       aggregate_failures do
-        expect(page).to have_field "ユーザー名", with: "user"
-        expect(page).to have_field "メールアドレス", with: "user@example.com"
-        expect(page).not_to have_field "パスワード", with: "password"
-        expect(page).not_to have_field "確認用パスワード", with: "password"
+        expect(page).to have_field "ユーザー名", with: user.username
+        expect(page).to have_field "メールアドレス", with: user.email
+        expect(page).not_to have_field "パスワード", with: user.password
+        expect(page).not_to have_field "確認用パスワード", with: user.password
       end
-      fill_in "パスワード", with: "password"
-      fill_in "確認用パスワード", with: "password"
+      fill_in "パスワード", with: user.password
+      fill_in "確認用パスワード", with: user.password
       click_on "アカウントを作成する"
 
       # 『確定』ボタンをクリックでメールが送信され、送信完了画面へリダイレクトされる

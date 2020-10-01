@@ -18,6 +18,15 @@ crumb :questions do
   link "よくある質問", questions_path
 end
 
+crumb :contacts do
+  link "お問い合わせ", new_user_contact_path
+end
+
+crumb :contact_confirm do
+  link "送信確認", contact_confirm_path
+  parent :contacts
+end
+
 crumb :signup do
   link "新規登録", new_user_registration_path
 end

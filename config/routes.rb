@@ -10,6 +10,14 @@ Rails.application.routes.draw do
     get 'questions', to: 'about#questions'
   end
 
+  scope module: :users do
+    get 'contact', to: 'contacts#new', as: :new_user_contact
+    match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
+    post 'contact', to: 'contacts#create', as: :user_contact
+    post 'contact', to: 'contacts#new', action: :contact_confirm_back
+    post 'contact_confirm_back', to: 'contacts#confirm_back'
+  end
+
   devise_for :users,
              skip: %i(registrations sessions confirmations unlocks passwords),
              controllers: {

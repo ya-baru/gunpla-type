@@ -1,0 +1,45 @@
+
+p
+  | *このメールはシステムからの自動返信です。
+br/
+
+p
+  => @contact.name
+  | 様
+p
+  | お世話になっております。
+  | GUMPLA-Typeへのお問い合わせありがとうございました。
+p
+  | 以下の内容でお問い合わせを受け付けいたしました。
+  | ２営業日以内に、担当者よりご連絡いたしますので今しばらくお待ちくださいませ。
+br/
+
+p
+  | ━━━━━━□■□ お問い合わせ内容 □■□━━━━━━
+p
+  | お名前:
+  =< @contact.name
+p
+  | メールアドレス:
+  =< @contact.email
+p
+  | ご用件:
+  =< simple_format(h(@contact.message), {}, sanitize: false)
+p
+  | お問い合わせ日時:
+  =< @contact.created_at.to_s(:datetime_jp)
+p
+  | ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+br/
+
+p
+  | —————————————————————————————————
+p
+  | GUNPLA-Type
+p
+  | メールアドレス：
+  =< Rails.application.credentials.gmail[:address]
+p
+  | 電話番号： 000-1234-5678
+p
+  | —————————————————————————————————

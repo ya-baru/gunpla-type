@@ -7,7 +7,7 @@
     .card.px-0.shadow-sm
       .card-header
         h2
-          | 新規ユーザー登録
+          | 新規登録
       .card-body
         = form_with model: resource, url: signup_confirm_path, html: { method: :post }, local: true do |f|
           .form-group
