@@ -117,6 +117,10 @@ workflows:
   workflows:
     jobs:
       - build
+          filters:
+            branches:
+              ignore:
+                - master
       - code_analyze:
           requires:
             - build

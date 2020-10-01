@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  before_action :configure_permitted_params, if: :devise_controller?
+
   unless Rails.env.development?
     rescue_from StandardError, with: :error_500
     rescue_from ActiveRecord::RecordNotFound,
@@ -19,7 +21,10 @@ class ApplicationController < ActionController::Base
     render body: nil, status: :internal_server_error
   end
 
-  before_action :configure_permitted_params, if: :devise_controller?
+  def notice_slack(message)
+    notifier = Slack::Notifier.new(Rails.application.credentials.slack[:secret_url])
+    notifier.ping(message)
+  end
 
   protected
 
