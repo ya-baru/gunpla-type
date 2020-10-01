@@ -23,7 +23,7 @@ RSpec.describe Users::Mailer, type: :mailer do
       expect { mail.deliver_now }.to change { ActionMailer::Base.deliveries.count }.by(1)
     end
 
-    it "メールの内容チェック", :focus do
+    it "メールの内容チェック" do
       expect(mail.subject).to eq I18n.t('devise.mailer.confirmation_instructions.subject')
       expect(mail.from.first).to eq @from
       expect(mail.to.first).to eq user.email

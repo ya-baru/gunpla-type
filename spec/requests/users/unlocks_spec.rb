@@ -83,12 +83,14 @@ RSpec.describe "Users::Unlocks", type: :request do
       end
 
       context "有効なアクセス" do
+        let(:valid_token) { User.last.unlock_token }
+
         def login_error
           post user_session_path, params: { user: { email: user.email, password: "miss" } }
         end
 
         def extract_unlock_url(mail)
-          body = mail.body.encoded
+          body = mail.html_part.body.encoded
           body[/http[^"]+/]
         end
 

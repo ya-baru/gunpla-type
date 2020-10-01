@@ -245,7 +245,7 @@ RSpec.describe "Users::Registrations", type: :request do
   end
 
   describe "#confirm_back" do
-    let(:url) { post signup_confirm_back_path }
+    let(:url) { post signup_confirm_back_path, params: { user: attributes_for(:user) } }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
