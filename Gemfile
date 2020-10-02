@@ -96,3 +96,6 @@ gem 'redcarpet'
 
 # SEO
 gem 'gretel'
+
+# select
+gem 'active_hash'

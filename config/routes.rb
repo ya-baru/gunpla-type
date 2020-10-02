@@ -3,21 +3,6 @@ Rails.application.routes.draw do
 
   root 'users/home#index'
 
-  scope module: :users do
-    get 'company', to: 'about#company'
-    get 'privacy', to: 'about#privacy'
-    get 'term', to: 'about#term'
-    get 'questions', to: 'about#questions'
-  end
-
-  scope module: :users do
-    get 'contact', to: 'contacts#new', as: :new_user_contact
-    match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
-    post 'contact', to: 'contacts#create', as: :user_contact
-    post 'contact', to: 'contacts#new', action: :contact_confirm_back
-    post 'contact_confirm_back', to: 'contacts#confirm_back'
-  end
-
   devise_for :users,
              skip: %i(registrations sessions confirmations unlocks passwords),
              controllers: {
@@ -60,13 +45,27 @@ Rails.application.routes.draw do
   end
 
   scope module: :users do
-    resources :mypage, only: %i(show)
-    get 'account_confirmation_mail_sent', to: 'notices#account_confirm'
-    get 'password_reset_mail_sent', to: 'notices#password_reset'
-    get 'unlock_mail_sent', to: 'notices#unlock'
-  end
+    # about
+    get 'company', to: 'about#company'
+    get 'privacy', to: 'about#privacy'
+    get 'term', to: 'about#term'
+    get 'questions', to: 'about#questions'
 
-  # resources :users, only: [:show]
+    # contact
+    get 'contact', to: 'contacts#new', as: :new_user_contact
+    match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
+    post 'contact', to: 'contacts#create', as: :user_contact
+    post 'contact', to: 'contacts#new', action: :contact_confirm_back
+    post 'contact_confirm_back', to: 'contacts#confirm_back'
+
+    # completes
+    get 'account_confirmation_mail_sent', to: 'completes#account_confirm'
+    get 'password_reset_mail_sent', to: 'completes#password_reset'
+    get 'unlock_mail_sent', to: 'completes#unlock'
+
+    resources :mypage, only: %i(show)
+    resources :gunplas, except: %i(destroy)
+  end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
