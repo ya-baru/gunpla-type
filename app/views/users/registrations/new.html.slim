@@ -11,20 +11,16 @@
       .card-body
         = form_with model: resource, url: signup_confirm_path, html: { method: :post }, local: true do |f|
           .form-group
-            = f.label :username
-            span.form-require 必須
+            = f.label :username, class: "form-require"
             = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "例: Amuro Ray"
           .form-group
-            = f.label :email
-            span.form-require 必須
+            = f.label :email, class: "form-require"
             = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
           .form-group
-            = f.label :password
-            span.form-require 必須
+            = f.label :password, class: "form-require"
             = f.password_field :password, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
           .form-group
-            = f.label :password_confirmation
-            span.form-require 必須
+            = f.label :password_confirmation, class: "form-require"
             = f.password_field :password_confirmation, class: "form-control lead"
           .text-center.border-top.mt-4.pt-4
             = f.submit "アカウントを作成する", class: "btn btn-primary w-250px"

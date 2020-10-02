@@ -54,18 +54,18 @@ RSpec.describe "UserUpdate", type: :system do
       end
 
       # 失敗
-      fill_in "新しいメールアドレス", with: ""
-      fill_in "新しいメールアドレス（確認用）", with: ""
+      fill_in "user[email]", with: ""
+      fill_in "user[email_confirmation]", with: ""
       click_on "更新する"
 
       aggregate_failures do
         expect(page).to have_content "メールアドレスを入力してください"
-        expect(page).to have_content "新しいメールアドレス（確認用）を入力してください"
+        expect(page).to have_content "確認用メールアドレスを入力してください"
       end
 
       # 成功
-      fill_in "新しいメールアドレス", with: "new@example.com"
-      fill_in "新しいメールアドレス（確認用）", with: "new@example.com"
+      fill_in "user[email]", with: "new@example.com"
+      fill_in "user[email_confirmation]", with: "new@example.com"
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
@@ -87,9 +87,9 @@ RSpec.describe "UserUpdate", type: :system do
       end
 
       # 失敗
-      fill_in "新しいパスワード", with: ""
-      fill_in "確認用パスワード", with: ""
-      fill_in "現在のパスワード", with: ""
+      fill_in "user[password]", with: ""
+      fill_in "user[password_confirmation]", with: ""
+      fill_in "user[current_password]", with: ""
       click_on "更新する"
 
       aggregate_failures do
@@ -99,9 +99,9 @@ RSpec.describe "UserUpdate", type: :system do
       end
 
       # 成功
-      fill_in "新しいパスワード", with: "new-password"
-      fill_in "確認用パスワード", with: "new-password"
-      fill_in "現在のパスワード", with: user.password
+      fill_in "user[password]", with: "new-password"
+      fill_in "user[password_confirmation]", with: "new-password"
+      fill_in "user[current_password]", with: user.password
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }

@@ -67,12 +67,15 @@ footer {
 }
 
 .form-require {
-  font-size: 0.9rem;
-  color: $white;
-  background-color: $red;
-  border-radius: 3px;
-  padding: 3px;
-  margin-left: 4px;
+  &::after {
+    content: "必須";
+    font-size: 0.9rem;
+    color: $white;
+    background-color: $red;
+    border-radius: 3px;
+    padding: 3px;
+    margin-left: 4px;
+  }
 }
 // .pagenaation {
 // }

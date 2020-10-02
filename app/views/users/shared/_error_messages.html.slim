@@ -1,3 +1,3 @@
-- if resource.errors.include?(error_msg)
+- if errors.include?(error_msg)
   p style="color: red;"
-    = resource.errors.full_messages_for(error_msg).first
+    = errors.full_messages_for(error_msg).first

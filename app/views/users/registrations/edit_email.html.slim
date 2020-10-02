@@ -10,15 +10,13 @@
       .card-body
         = form_with model: resource, url: update_email_user_registation_path, local: true do |f|
           .form-group
-            = f.label :email, "新しいメールアドレス"
-            span.form-require 必須
+            = f.label :email, class: "form-require"
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-            = render "users/shared/error_messages", error_msg: :email
+            = render "users/shared/error_messages", errors: resource.errors, error_msg: :email
           .form-group
-            = f.label :email_confirmation
-            span.form-require 必須
+            = f.label :email_confirmation, class: "form-require"
             = f.email_field :email_confirmation, class: "form-control"
-            = render "users/shared/error_messages", error_msg: :email_confirmation
+            = render "users/shared/error_messages", errors: resource.errors, error_msg: :email_confirmation
           .text-center.border-top.pt-4.mt-4
             = f.submit "更新する", class: "btn btn-primary w-250px"
 

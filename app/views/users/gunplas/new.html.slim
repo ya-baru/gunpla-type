@@ -1,4 +1,5 @@
 - provide(:title, sub_title="ガンプラ登録")
+- breadcrumb :gunpla_up
 
 .row.mx-auto
   .col-lg-8
@@ -9,14 +10,14 @@
       .card-body
         = form_with model: @gunpla, url: gunplas_path, local: true do |f|
           .form-group.pb-3
-            = f.label :name
-            span.form-require 必須
+            = f.label :name, class: "form-require"
             = f.text_field :name, autofoucus: true, class: "form-control", placeholder: "例: HGUC 191 RX-78-2ガンダム"
+            = render "users/shared/error_messages", errors: @gunpla.errors, error_msg: :name
           .form-group.pb-3
-            = f.label :sales_id
-            span.form-require 必須
+            = f.label :sales_id, class: "form-require"
             div
               =< f.collection_select(:sales_id, Sales.all, :id, :name, { include_blank: "---" } )
+            = render "users/shared/error_messages", errors: @gunpla.errors, error_msg: :sales_id
           .text-center.border-top.pb-2
             = f.submit "ガンプラを登録する", class: "btn btn-primary w-250px mt-4"
 
