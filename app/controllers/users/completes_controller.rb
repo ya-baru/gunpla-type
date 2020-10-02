@@ -1,4 +1,4 @@
-class Users::NoticesController < ApplicationController
+class Users::CompletesController < ApplicationController
   before_action :login_user
 
   def account_confirm
