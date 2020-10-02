@@ -1,4 +1,6 @@
 class Gunpla < ApplicationRecord
+  include StringNormalizable
+
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :sales
 

@@ -64,7 +64,10 @@ Rails.application.routes.draw do
     get 'unlock_mail_sent', to: 'completes#unlock'
 
     resources :mypage, only: %i(show)
-    resources :gunplas, except: %i(destroy)
+
+    post 'gunplas/new', to: 'gunplas#create', as: :gunplas
+    patch 'gunplas/:id/edit', to: 'gunplas#update', as: :gunpla
+    resources :gunplas, except: %i(create update destroy)
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
