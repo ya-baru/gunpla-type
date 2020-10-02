@@ -22,6 +22,7 @@ module GunplaType
 
     # タイムゾーン
     config.time_zone = "Asia/Tokyo"
+
     # DB内のデフォルト時間
     config.active_record.default_timezone = :local
 

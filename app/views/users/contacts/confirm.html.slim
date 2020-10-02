@@ -1,10 +1,10 @@
-- provide(:title, "送信確認")
+- provide(:title, sub_title="送信確認")
 - breadcrumb :contact_confirm
 
 .card.col-lg-8.mx-auto.shadow-sm
   .card-body
-    h2
-      | 送信確認
+    h2.mb-2
+      = sub_title
     table.table
       tbody
         tr.row

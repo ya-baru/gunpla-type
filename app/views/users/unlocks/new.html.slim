@@ -13,6 +13,6 @@
         = f.label :email
         = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "例: gunpla@type.com", class: "form-control"
         = render "users/shared/error_messages", error_msg: :email
-      .form-group.text-center
+      .text-center.border-top.mt-4
         = f.submit "送信する", class: "btn btn-primary w-250px mt-4"
     = link_to "ログインする", new_user_session_path

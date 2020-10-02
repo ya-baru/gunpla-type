@@ -1,29 +1,33 @@
-- provide(:title, "新規登録")
+- provide(:title, sub_title="新規登録")
 - msg = "登録"
 - breadcrumb :signup
 
 .row.mx-auto
-  .col-lg-8.order-lg-2
-    .card.px-0.shadow-sm
+  .col-lg-8.order-lg-2.mb-4
+    .card.shadow-sm
       .card-header
         h2
-          | 新規登録
+          = sub_title
       .card-body
         = form_with model: resource, url: signup_confirm_path, html: { method: :post }, local: true do |f|
           .form-group
             = f.label :username
+            span.form-require 必須
             = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "例: Amuro Ray"
           .form-group
             = f.label :email
+            span.form-require 必須
             = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
           .form-group
             = f.label :password
+            span.form-require 必須
             = f.password_field :password, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
           .form-group
             = f.label :password_confirmation
+            span.form-require 必須
             = f.password_field :password_confirmation, class: "form-control lead"
-          .text-center
-            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
+          .text-center.border-top.mt-4.pt-4
+            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px"
           br
           = link_to "利用規約", term_path
           | と

@@ -1,20 +1,23 @@
-- provide(:title, "お問い合わせ")
+- provide(:title, sub_title="お問い合わせ")
 - breadcrumb :contacts
 
 .card.col-md-10.mx-auto.px-0
   .card-header
     h2
-      | お問い合わせ
+      = sub_title
   .card-body
     = form_with model: @contact, url: contact_confirm_path, html: { method: :post }, local: true do |f|
       .form-group
         = f.label :name
+        span.form-require 必須
         = f.text_field :name, autofoucus: true, autocomplete: "name", class: "form-control", placeholder: "例: Amuro Ray"
       .form-group
         = f.label :email
+        span.form-require 必須
         = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
       .form-group
         = f.label :message
+        span.form-require 必須
         = f.text_area :message, class: "form-control", placeholder: "1000文字以内...", size: "10x10"
-      .text-center
-        = f.submit "送信する", class: "btn btn-primary w-250px mt-4"
+      .text-center.border-top.mt-5.py-4
+        = f.submit "送信する", class: "btn btn-primary w-250px"

@@ -1,9 +1,9 @@
-- provide(:title, "プロフィール編集")
+- provide(:title, sub_title="プロフィール編集")
 - breadcrumb :profile_edit, @user
 
 .row.mx-auto
-  .col-lg-8.order-lg-2
-    .card.px-0.shadow-sm
+  .col-lg-8.order-lg-2.mb-4
+    .card.shadow-sm
       .card-header
         h2
           | プロフィール編集
@@ -11,6 +11,7 @@
         = form_with model: resource, url: update_user_registration_path, local: true do |f|
           .form-group
             = f.label :username
+            span.form-require 必須
             = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"
             = render "users/shared/error_messages", error_msg: :username
           .form-group
@@ -20,7 +21,7 @@
           .form-group
             = f.label :avatar, class: "image_label"
               | ユーザー画像
-              .prev-contents.d-lg-flex
+              .prev-contents.d-lg-flex.mt-2
                 - if current_user.avatar.present?
                   .prev-content
                     = image_tag current_user.avatar, alt: "preview", class: "prev-image shadow", size: "150x150"
@@ -28,8 +29,8 @@
                   img.photo-icon.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
                 .align-self-center.mt-3.mt-lg-0
                   = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
-          .text-center
-            = f.submit "更新する", class: "btn btn-primary w-250px mt-4"
+          .text-center.border-top.pt-4
+            = f.submit "更新する", class: "btn btn-primary w-250px"
 
   = render "account_management"
 

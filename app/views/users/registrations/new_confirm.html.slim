@@ -1,10 +1,10 @@
-- provide(:title, "登録確認")
+- provide(:title, sub_title="登録確認")
 - breadcrumb :signup_confirm
 
 .card.col-lg-8.mx-auto.shadow-sm
   .card-body
-    h2
-      | 登録確認
+    h2.mb-2
+      = sub_title
     table.table
       tbody
         tr
