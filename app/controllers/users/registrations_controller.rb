@@ -48,21 +48,16 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if account_update_params[:avatar].present?
       resource.avatar.attach(account_update_params[:avatar])
     end
+    return render :edit unless resource_updated
 
-    if resource_updated
-      flash[:notice] = I18n.t("devise.registrations.updated")
-      redirect_to mypage_url(current_user)
-    else
-      render :edit
-    end
+    redirect_to mypage_url(current_user), notice: I18n.t("devise.registrations.updated")
   end
 
   def destroy
     resource.destroy
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
-    flash[:notice] = I18n.t("devise.registrations.destroyed")
     yield resource if block_given?
-    redirect_to root_url
+    redirect_to root_url, notice: I18n.t("devise.registrations.destroyed")
   end
 
   def new_confirm
@@ -86,13 +81,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     resource.attributes = account_update_params
     resource_updated = resource.save(context: :change_email)
     yield resource if block_given?
+    return render :edit_email unless resource_updated
 
-    if resource_updated
-      flash[:notice] = I18n.t("devise.registrations.email_updated")
-      redirect_to mypage_url(current_user)
-    else
-      render :edit_email
-    end
+    redirect_to mypage_url(current_user), notice: I18n.t("devise.registrations.email_updated")
   end
 
   def edit_password; end
@@ -103,9 +94,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
 
     if resource_updated
-      flash[:notice] = I18n.t("devise.registrations.password_updated")
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-      redirect_to mypage_url(current_user)
+      redirect_to mypage_url(current_user), notice: I18n.t("devise.registrations.password_updated")
     else
       clean_up_passwords resource
       psassword_invalid_message
@@ -120,6 +110,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def update_resource(resource, params)
     return resource.update_with_password(params) if params.key?(:password)
+
     resource.update_without_password(params)
   end
 

@@ -20,14 +20,11 @@ class Users::ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
-
     return render :new unless @contact.save
 
     Users::ContactMailer.contact_mail(@contact).deliver_now
     slack_info
-
-    flash[:notice] = "お問い合わせを受け付けました"
-    redirect_to root_path
+    redirect_to root_path, notice: "お問い合わせを受け付けました"
   end
 
   private
