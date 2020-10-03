@@ -3,11 +3,12 @@
 
 .row.mx-auto
   .col-lg-8
-    .card.shadow-sm
+    .card.shadow-sm.mb-2
       .card-header
         h2
           | ガンプラを探す
       .card-body
+        | レビューしたいガンプラを探そう！
         .text-center
           = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px mt-4"
         div
@@ -18,24 +19,7 @@
         h2
           = sub_title
       .card-body
-        ol.d-flex.justify-content-between.flex-wrap.p-0
+        ol.row.p-0.justify-content-around
           = render @gunplas
 
-
-  .col-lg-4.d-none.d-lg-block
-    .card.shadow-sm.mb-4
-      .card-body
-        | このサイトについて
-
-    .card.shadow-sm.mb-4
-      .card-header
-        h5
-          | 最近チェックしたレビュー
-      .card-body
-
-
-    .card.shadow-sm
-      .card-header
-        h5
-          | SNS
-      .card-body
+  = render "sidebar"

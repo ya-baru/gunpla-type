@@ -1,5 +1,6 @@
 class Users::GunplasController < ApplicationController
   before_action :authenticate_user!, only: %i(new create edit update)
+  before_action :set_up, only: %i(show edit update)
 
   def index
     @gunplas = Gunpla.all
@@ -21,14 +22,22 @@ class Users::GunplasController < ApplicationController
   end
 
   def edit
+    @gunpla = Gunpla.find(params[:id])
   end
 
   def update
+    return render :edit unless @gunpla.update(ganpla_params)
+
+    redirect_to @gunpla, notice: "ガンプラを更新しました"
   end
 
   private
 
   def ganpla_params
     params.require(:gunpla).permit(:name, :sales_id)
+  end
+
+  def set_up
+    @gunpla = Gunpla.find(params[:id])
   end
 end
