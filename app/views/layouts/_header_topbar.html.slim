@@ -19,14 +19,14 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
           /     i.far.fa-bell.mr-2
           /     | お知らせ
           li.nav-item
-            = link_to mypage_path(current_user.id), class: "nav-link text-white" do
+            = link_to mypage_path(current_user), class: "nav-link text-white" do
               i.fas.fa-user.mr-1
               | マイページ
           li.nav-item
             = link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do
               i.fas.fa-sign-out-alt.mr-1
               | ログアウト
-          = render "layouts/header_navbar_list"
+          = render "layouts/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"
 
         - else
           li.nav-item
@@ -37,4 +37,4 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
             = link_to new_user_session_path, class: "nav-link text-white" do
               i.fas.fa-sign-in-alt.mr-2
               | ログイン
-          = render "layouts/header_navbar_list"
+          = render "layouts/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"
