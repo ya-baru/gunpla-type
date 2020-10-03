@@ -1,2 +1,41 @@
-h1 Gunplas#index
-p Find me in app/views/gunplas/index.html.slim
+- provide(:title, sub_title="ガンプラ一覧")
+- breadcrumb :gunpla_list
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm
+      .card-header
+        h2
+          | ガンプラを探す
+      .card-body
+        .text-center
+          = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px mt-4"
+        div
+          | ※レビューしたいガンプラが見つからない場合は、こちらから登録をお願いします。
+
+    .card.shadow-sm
+      .card-header
+        h2
+          = sub_title
+      .card-body
+        ol.d-flex.justify-content-between.flex-wrap.p-0
+          = render @gunplas
+
+
+  .col-lg-4.d-none.d-lg-block
+    .card.shadow-sm.mb-4
+      .card-body
+        | このサイトについて
+
+    .card.shadow-sm.mb-4
+      .card-header
+        h5
+          | 最近チェックしたレビュー
+      .card-body
+
+
+    .card.shadow-sm
+      .card-header
+        h5
+          | SNS
+      .card-body

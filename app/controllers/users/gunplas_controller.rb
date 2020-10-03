@@ -2,6 +2,7 @@ class Users::GunplasController < ApplicationController
   before_action :authenticate_user!, only: %i(new create edit update)
 
   def index
+    @gunplas = Gunpla.all
   end
 
   def show

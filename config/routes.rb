@@ -65,9 +65,9 @@ Rails.application.routes.draw do
 
     resources :mypage, only: %i(show)
 
-    post 'gunplas/new', to: 'gunplas#create', as: :gunplas
-    patch 'gunplas/:id/edit', to: 'gunplas#update', as: :gunpla
     resources :gunplas, except: %i(create update destroy)
+    post 'gunplas/new', to: 'gunplas#create'
+    patch 'gunplas/:id/edit', to: 'gunplas#update'
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
