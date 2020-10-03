@@ -11,6 +11,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       TZ: Asia/Tokyo
+    cap_add:
+      - SYS_ADMIN
+    security_opt:
+      - seccomp:unconfined
 
   web:
     build: .
