@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_02_015947) do
+ActiveRecord::Schema.define(version: 2020_10_06_105435) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,14 @@ ActiveRecord::Schema.define(version: 2020_10_02_015947) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "ancestry"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ancestry"], name: "index_categories_on_ancestry"
+  end
+
   create_table "contacts", force: :cascade do |t|
     t.string "name", limit: 20, null: false
     t.string "email", limit: 255, null: false
@@ -49,6 +57,7 @@ ActiveRecord::Schema.define(version: 2020_10_02_015947) do
     t.integer "sales_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "category_id", null: false
   end
 
   create_table "users", force: :cascade do |t|

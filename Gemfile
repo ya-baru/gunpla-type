@@ -82,6 +82,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
+
+# Admin
 gem 'cancancan'
 gem 'rails_admin'
 
@@ -99,3 +101,6 @@ gem 'gretel'
 
 # select
 gem 'active_hash'
+
+# Category
+gem 'ancestry'

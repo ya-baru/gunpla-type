@@ -58,16 +58,26 @@ Rails.application.routes.draw do
     post 'contact', to: 'contacts#new', action: :contact_confirm_back
     post 'contact_confirm_back', to: 'contacts#confirm_back'
 
-    # completes
+    # complete
     get 'account_confirmation_mail_sent', to: 'completes#account_confirm'
     get 'password_reset_mail_sent', to: 'completes#password_reset'
     get 'unlock_mail_sent', to: 'completes#unlock'
 
+    # mypage
     resources :mypage, only: %i(show)
 
-    resources :gunplas, except: %i(create update destroy)
-    post 'gunplas/new', to: 'gunplas#create'
-    patch 'gunplas/:id/edit', to: 'gunplas#update'
+    # gunpla
+    resources :gunplas, expect: %i(create update destroy) do
+      collection do
+        post 'new', to: 'gunplas#create', as: :create
+        get 'get_category_children', defaults: { format: 'json' }
+        get 'get_category_grandchildren', defaults: { format: 'json' }
+      end
+
+      member do
+        match 'edit', to: 'gunplas#update', via: %i(patch put), as: :update
+      end
+    end
   end
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

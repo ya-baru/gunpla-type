@@ -8,7 +8,7 @@
         h2
           = sub_title
       .card-body
-        = form_with model: @gunpla, url: edit_gunpla_path(@gunpla), local: true do |f|
+        = form_with model: @gunpla, url: update_gunpla_path(@gunpla), local: true do |f|
           .form-group.pb-3
             = f.label :name, class: "form-require"
             = f.text_field :name, autofoucus: true, class: "form-control", placeholder: "例: HGUC 191 RX-78-2ガンダム"
