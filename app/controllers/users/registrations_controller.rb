@@ -11,13 +11,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   before_action :set_minimum_password_length, only: %i(new edit_password)
 
   def new
-    @user = User.new(session[:user] || {})
-    session[:user] = nil
+    @user = User.new
     respond_with @user
   end
 
   def create
     build_resource(sign_up_params)
+    return render :new if params[:back].present?
 
     resource.save
     yield resource if block_given?
@@ -61,17 +61,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new_confirm
+    return redirect_to new_user_registration_url unless params[:user].present?
+
     @user = User.new(sign_up_params)
-
-    unless @user.valid?
-      session[:user] = valid_params
-      redirect_to signup_url, flash: { danger: @user.errors.full_messages.join(",") }
-    end
-  end
-
-  def confirm_back
-    session[:user] = valid_params
-    redirect_to signup_url
+    render :new unless @user.valid?
   end
 
   def edit_email; end

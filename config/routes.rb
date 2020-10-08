@@ -18,7 +18,6 @@ Rails.application.routes.draw do
     get 'signout_confirm', to: 'users/registrations#delete_confirm'
     post 'signup', to: 'users/registrations#create', as: :user_registration
     post 'signup', to: 'users/registrations#new', action: :signup_confirm_back
-    post 'signup_confirm_back', to: 'users/registrations#confirm_back'
     patch 'user/edit', to: 'users/registrations#update', as: :update_user_registration
     patch 'user/edit_email', to: 'users/registrations#update_email', as: :update_email_user_registation
     patch 'user/edit_password', to: 'users/registrations#update_password', as: :update_password_user_registration

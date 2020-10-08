@@ -24,10 +24,4 @@
         = f.hidden_field :password
         = f.hidden_field :password_confirmation
         = f.submit "確定", class: "btn btn-primary w-100px mr-3"
-
-      = form_with model: @user, url: signup_confirm_back_path, local: true do |f|
-        = f.hidden_field :username
-        = f.hidden_field :email
-        = f.hidden_field :password
-        = f.hidden_field :password_confirmation
-        = f.submit "戻る", class: "btn btn-secondary w-100px"
+        = f.submit "戻る", name: "back", class: "btn btn-secondary w-100px"
