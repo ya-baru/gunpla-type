@@ -1,7 +1,8 @@
 class Users::GunplasController < ApplicationController
   before_action :authenticate_user!, only: %i(new create edit update)
-  before_action :set_up, only: %i(show edit update)
-  before_action :set_parents, only: [:new, :create]
+  before_action :set_gunpla, only: %i(show edit update)
+  before_action :set_category_parents, only: %i(new create edit update)
+  before_action :set_category_data, only: %i(edit update)
 
   def index
     @gunplas = Gunpla.all
@@ -22,9 +23,7 @@ class Users::GunplasController < ApplicationController
     redirect_to mypage_path(current_user), notice: "ガンプラ登録に成功しました"
   end
 
-  def edit
-    @gunpla = Gunpla.find(params[:id])
-  end
+  def edit; end
 
   def update
     return render :edit unless @gunpla.update(ganpla_params)
@@ -46,11 +45,20 @@ class Users::GunplasController < ApplicationController
     params.require(:gunpla).permit(:name, :sales_id, :category_id)
   end
 
-  def set_up
+  def set_gunpla
     @gunpla = Gunpla.find(params[:id])
   end
 
-  def set_parents
-    @category_parent_array = Category.where(ancestry: nil)
+  def set_category_parents
+    @category_parents = Category.where(ancestry: nil)
+  end
+
+  def set_category_data
+    @category_children = @gunpla.category.parent.parent.children
+    @category_grandchildren = @gunpla.category.parent.children
+
+    @category_grandchild = @gunpla.category
+    @category_child = @category_grandchild.parent
+    @category_parent = @category_child.parent
   end
 end
