@@ -244,25 +244,6 @@ RSpec.describe "Users::Registrations", type: :request do
     end
   end
 
-  describe "#confirm_back" do
-    let(:url) { post signup_confirm_back_path, params: { user: attributes_for(:user) } }
-
-    context "ログインユーザー" do
-      let(:login) { sign_in user }
-
-      it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to new_user_registration_path }
-    end
-
-    context "アカウント未有効化ユーザー" do
-      let(:unconfirm_user) { create(:user, :unconfirmation) }
-      let(:login) { nil }
-
-      it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to new_user_registration_path }
-    end
-  end
-
   describe "#edit_email" do
     let(:url) { get edit_email_user_registration_path(user) }
 

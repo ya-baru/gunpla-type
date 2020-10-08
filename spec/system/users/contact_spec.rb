@@ -18,7 +18,6 @@ RSpec.describe "Contact", type: :system do
       aggregate_failures do
         expect(page).to have_content("お名前を入力してください")
         expect(page).to have_content("メールアドレスを入力してください")
-        expect(page).to have_content("メールアドレスは不正な値です")
         expect(page).to have_content("ご用件を入力してください")
       end
 

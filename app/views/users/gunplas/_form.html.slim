@@ -1,0 +1,40 @@
+.col-lg-8
+  .card.shadow-sm
+    .card-header
+      h2
+        = sub_title
+    .card-body.my-3
+      = form_with model: gunpla, url: url, local: true do |f|
+        table.table.table-bordered.text-nowrap
+          tr.form-group
+            th
+              = f.label :name, class: "form-require"
+              = render "users/shared/error_messages", errors: gunpla.errors, error_msg: :name
+            td
+              = f.text_field :name, autofoucus: true, class: "form-control", placeholder: "例: HGUC 191 RX-78-2ガンダム"
+          tr.append_category
+            th
+              .form-require カテゴリー
+              = render "users/shared/error_messages", errors: gunpla.errors, error_msg: :category_id
+            td
+              .form-group.pb-1
+                = f.label "作品", for: "gunpla_parent_category"
+                #category_parent
+                  = f.collection_select :category_id, category_parents, :id, :name, { selected: category_parent, include_blank: "選択して下さい" }, id: "gunpla_parent_category", class: "form-control"
+              .form-group.pb-1
+                = f.label "グレード", for: "gunpla_child_category"
+                #category_child
+                  = f.collection_select :category_id, category_children, :id, :name, { selected: category_child }, id: "gunpla_child_category", class: "form-control"
+              .form-group
+                = f.label "スケール", for: "gunpla_grandchild_category"
+                #category_grandchild
+                  = f.collection_select :category_id, category_grandchildren, :id, :name, { selected: category_grandchild }, id: "gunpla_grandchild_category", class: "form-control"
+          tr.form-group
+            th
+              = f.label :sales_id, class: "form-require"
+              = render "users/shared/error_messages", errors: gunpla.errors, error_msg: :sales_id
+            td
+              div
+                =< f.collection_select(:sales_id, Sales.all, :id, :name, { include_blank: "選択して下さい" }, class: "form-control" )
+        .text-center
+          = f.submit "ガンプラを登録する", class: "btn btn-primary w-250px mt-4"

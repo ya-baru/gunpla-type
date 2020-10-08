@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 2020_10_06_105435) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category_id", null: false
+    t.index ["category_id"], name: "index_gunplas_on_category_id"
   end
 
   create_table "users", force: :cascade do |t|

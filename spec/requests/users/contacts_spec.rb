@@ -19,12 +19,6 @@ RSpec.describe "Users::Contacts", type: :request do
     it { is_expected.to have_http_status 200 }
   end
 
-  describe "#confirm_back" do
-    let(:url) { post contact_confirm_back_path, params: { contact: attributes_for(:contact) } }
-
-    it { is_expected.to have_http_status 302 }
-  end
-
   describe "#create" do
     let(:url) { post user_contact_path, params: { contact: attributes_for(:contact) } }
 

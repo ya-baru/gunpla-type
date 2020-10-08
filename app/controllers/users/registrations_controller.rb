@@ -61,7 +61,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def new_confirm
-    return redirect_to new_user_registration_url unless params[:user].present?
+    return redirect_to new_user_registration_url if params[:user].blank?
 
     @user = User.new(sign_up_params)
     render :new unless @user.valid?

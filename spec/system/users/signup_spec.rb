@@ -16,9 +16,9 @@ RSpec.describe "Signup", type: :system do
       # 無効な情報
       click_on "アカウントを作成する"
       aggregate_failures do
-        expect(page).to have_selector(".alert-danger", text: "ユーザー名を入力してください")
-        expect(page).to have_selector(".alert-danger", text: "メールアドレスを入力してください")
-        expect(page).to have_selector(".alert-danger", text: "パスワードを入力してください")
+        expect(page).to have_content("ユーザー名を入力してください")
+        expect(page).to have_content("メールアドレスを入力してください")
+        expect(page).to have_content("パスワードを入力してください")
       end
 
       # 有効な情報

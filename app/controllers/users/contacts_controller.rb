@@ -4,7 +4,7 @@ class Users::ContactsController < ApplicationController
   end
 
   def confirm
-    return redirect_to new_user_contact_url unless params[:contact].present?
+    return redirect_to new_user_contact_url if params[:contact].blank?
 
     @contact = Contact.new(contact_params)
     render :new unless @contact.valid?

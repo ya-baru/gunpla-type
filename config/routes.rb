@@ -65,7 +65,7 @@ Rails.application.routes.draw do
     resources :mypage, only: %i(show)
 
     # gunpla
-    resources :gunplas, expect: %i(create update destroy) do
+    resources :gunplas, except: %i(create update destroy) do
       collection do
         post 'new', to: 'gunplas#create', as: :create
         get 'get_category_children', defaults: { format: 'json' }
@@ -77,5 +77,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
 end
