@@ -1,4 +1,4 @@
-$(function () {
+$(document).on("turbolinks:load", function () {
   function appendOption(category) {
     var html = `<option value="${category.id}">${category.name}</option>`;
     return html;
@@ -6,21 +6,17 @@ $(function () {
   function appendChildrenBox(insertHTML) {
     var childSelectHtml = "";
     childSelectHtml = `
-                        <select id="gunpla_child_category" name="gunpla[category_id]" class="select_field form-control">
-                          <option value="">選択して下さい</option>
-                          ${insertHTML}
-                        </select>
+                        <option value="">
+                          選択して下さい
+                        </option>
+                        ${insertHTML}
                       `;
-    $("#category_child").append(childSelectHtml);
+    $("#gunpla_child_category").append(childSelectHtml);
   }
   function appendGrandchildrenBox(insertHTML) {
     var grandchildSelectHtml = "";
-    grandchildSelectHtml = `
-                            <select id="gunpla_grandchild_category" name="gunpla[category_id]" class="select_field form-control">
-                              ${insertHTML}
-                            </select>
-                            `;
-    $("#category_grandchild").append(grandchildSelectHtml);
+    grandchildSelectHtml = `${insertHTML}`;
+    $("#gunpla_grandchild_category").append(grandchildSelectHtml);
   }
 
   $("#gunpla_parent_category").on("change", function () {
@@ -33,8 +29,7 @@ $(function () {
         dataType: "json",
       })
         .done(function (children) {
-          $("#gunpla_child_category").remove();
-          $("#gunpla_grandchild_category").remove();
+          $("#gunpla_child_category option").remove();
           var insertHTML = "";
           children.forEach(function (child) {
             insertHTML += appendOption(child);
@@ -45,12 +40,13 @@ $(function () {
           alert("データ取得に失敗しました");
         });
     } else {
-      $("#gunpla_child_category").remove();
-      $("#gunpla_grandchild_category").remove();
+      $("#gunpla_child_category option").remove();
+      $("#gunpla_grandchild_category option").remove();
     }
   });
   $("#category_child").on("change", "#gunpla_child_category", function () {
     var childId = document.getElementById("gunpla_child_category").value;
+
     if (childId != "") {
       $.ajax({
         url: "/gunplas/get_category_grandchildren",
@@ -59,7 +55,7 @@ $(function () {
         dataType: "json",
       })
         .done(function (grandchildren) {
-          $("#gunpla_grandchild_category").remove();
+          $("#gunpla_grandchild_category option").remove();
           var insertHTML = "";
           grandchildren.forEach(function (grandchild) {
             insertHTML += appendOption(grandchild);
@@ -70,7 +66,7 @@ $(function () {
           alert("データ取得に失敗しました");
         });
     } else {
-      $("#gunpla_grandchild_category").remove();
+      $("#gunpla_grandchild_category option").remove();
     }
   });
 });
