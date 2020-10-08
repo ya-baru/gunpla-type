@@ -1,26 +1,19 @@
 class Users::ContactsController < ApplicationController
   def new
-    @contact = Contact.new(session[:contact] || {})
-    session[:contact] = nil
+    @contact = Contact.new
   end
 
   def confirm
+    return redirect_to new_user_contact_url unless params[:contact].present?
+
     @contact = Contact.new(contact_params)
-
-    unless @contact.valid?
-      session[:contact] = contact_params
-      redirect_to new_user_contact_url, flash: { danger: @contact.errors.full_messages.join(",") }
-    end
-  end
-
-  def confirm_back
-    session[:contact] = contact_params
-    redirect_to new_user_contact_url
+    render :new unless @contact.valid?
   end
 
   def create
     @contact = Contact.new(contact_params)
     return render :new unless @contact.save
+    return render :new if params[:back].present?
 
     Users::ContactMailer.contact_mail(@contact).deliver_now
     slack_info

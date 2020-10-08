@@ -56,7 +56,6 @@ Rails.application.routes.draw do
     match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
     post 'contact', to: 'contacts#create', as: :user_contact
     post 'contact', to: 'contacts#new', action: :contact_confirm_back
-    post 'contact_confirm_back', to: 'contacts#confirm_back'
 
     # complete
     get 'account_confirmation_mail_sent', to: 'completes#account_confirm'
