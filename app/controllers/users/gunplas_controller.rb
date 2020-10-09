@@ -1,5 +1,5 @@
 class Users::GunplasController < ApplicationController
-  before_action :authenticate_user!, only: %i(new create edit update)
+  before_action :authenticate_user!, only: %i(new create edit update get_category_children get_category_grandchildren)
   before_action :set_gunpla, only: %i(show edit update)
   before_action :set_category_parents, only: %i(new create edit update)
   before_action :set_category_data, only: %i(edit update)
@@ -20,7 +20,7 @@ class Users::GunplasController < ApplicationController
     @gunpla = Gunpla.new(ganpla_params)
     return render :new unless @gunpla.save
 
-    redirect_to mypage_path(current_user), notice: "ガンプラ登録に成功しました"
+    redirect_to @gunpla, notice: "ガンプラ登録に成功しました"
   end
 
   def edit; end
