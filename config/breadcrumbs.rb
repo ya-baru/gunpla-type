@@ -78,6 +78,7 @@ end
 
 crumb :gunpla_up do
   link "ガンプラ登録", new_gunpla_path
+  parent :gunpla_list
 end
 
 crumb :gunpla_list do
