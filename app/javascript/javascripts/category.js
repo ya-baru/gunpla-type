@@ -3,16 +3,18 @@ $(document).on("turbolinks:load", function () {
     var html = `<option value="${category.id}">${category.name}</option>`;
     return html;
   }
+
   function appendChildrenBox(insertHTML) {
     var childSelectHtml = "";
     childSelectHtml = `
-                        <option value="">
-                          選択して下さい
-                        </option>
-                        ${insertHTML}
-                      `;
+                          <option value="">
+                            選択して下さい
+                          </option>
+                          ${insertHTML}
+                        `;
     $("#gunpla_child_category").append(childSelectHtml);
   }
+
   function appendGrandchildrenBox(insertHTML) {
     var grandchildSelectHtml = "";
     grandchildSelectHtml = `${insertHTML}`;
@@ -30,6 +32,7 @@ $(document).on("turbolinks:load", function () {
       })
         .done(function (children) {
           $("#gunpla_child_category option").remove();
+          $("#gunpla_grandchild_category option").remove();
           var insertHTML = "";
           children.forEach(function (child) {
             insertHTML += appendOption(child);
@@ -44,6 +47,7 @@ $(document).on("turbolinks:load", function () {
       $("#gunpla_grandchild_category option").remove();
     }
   });
+
   $("#category_child").on("change", "#gunpla_child_category", function () {
     var childId = document.getElementById("gunpla_child_category").value;
 
