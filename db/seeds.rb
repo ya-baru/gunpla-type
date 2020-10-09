@@ -16,9 +16,18 @@ User.create!(
   admin_flg: true
 )
 
-
 require "csv"
 
 CSV.foreach('db/category.csv') do |row|
   Category.create(id: row[0], name: row[1], ancestry: row[2])
+end
+
+30.times do |n|
+  category = %w(65 66 67 68 69 70 71 74 75 76 81).sample
+  sales = %w(1 2 3 4 5).sample
+  Gunpla.create!(
+    name: "RX-78-#{1+n} ガンダム",
+    category_id: category,
+    sales_id: sales
+  )
 end
