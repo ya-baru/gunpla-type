@@ -5,7 +5,7 @@ RSpec.describe Category, type: :model do
 
   it "ファクトリーが有効であること" do
     expect(build(:category)).to be_valid
+    expect(build(:parent_category)).to be_valid
     expect(build(:child_category)).to be_valid
-    expect(build(:grandchild_category)).to be_valid
   end
 end

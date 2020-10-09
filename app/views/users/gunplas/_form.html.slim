@@ -37,4 +37,4 @@
               div
                 =< f.collection_select(:sales_id, Sales.all, :id, :name, { include_blank: "選択して下さい" }, class: "form-control" )
         .text-center
-          = f.submit "ガンプラを登録する", class: "btn btn-primary w-250px mt-4"
+          = f.submit "ガンプラを#{btn}する", class: "btn btn-primary w-250px mt-4"

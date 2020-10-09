@@ -20,7 +20,7 @@ class Users::GunplasController < ApplicationController
     @gunpla = Gunpla.new(ganpla_params)
     return render :new unless @gunpla.save
 
-    redirect_to @gunpla, notice: "ガンプラ登録に成功しました"
+    redirect_to @gunpla, notice: "ガンプラの登録に成功しました"
   end
 
   def edit; end

@@ -11,3 +11,4 @@ ja:
       gunpla:
         name: 商品名
         sales_id: 販売方法
+        category_id: カテゴリー
