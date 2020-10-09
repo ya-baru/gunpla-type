@@ -73,4 +73,17 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
       end
     end
   end
+
+  describe "ガンプラ一覧ページのチェック" do
+    let!(:gunpla) { create_list(:gunpla, 10)}
+
+    it "各種要素が正常に表示されていることを検証する" do
+      visit gunplas_path
+
+      expect(page).to have_css ".pagination"
+      Gunpla.paginates_per(page: 1).each do |gunpla|
+        expect(all("ol li").count).to eq 9
+      end
+    end
+  end
 end

@@ -104,3 +104,6 @@ gem 'active_hash'
 
 # Category
 gem 'ancestry'
+
+# Pagination
+gem 'kaminari'

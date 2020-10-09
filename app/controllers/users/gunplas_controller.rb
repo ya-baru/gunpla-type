@@ -5,7 +5,7 @@ class Users::GunplasController < ApplicationController
   before_action :set_category_data, only: %i(edit update)
 
   def index
-    @gunplas = Gunpla.all
+    @gunplas = Gunpla.page(params[:page]).per(9)
   end
 
   def show

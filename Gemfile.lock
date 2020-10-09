@@ -469,6 +469,7 @@ DEPENDENCIES
   html2slim
   image_processing
   jbuilder (~> 2.7)
+  kaminari
   launchy
   listen (~> 3.2)
   mini_magick

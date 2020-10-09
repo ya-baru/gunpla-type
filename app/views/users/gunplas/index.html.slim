@@ -21,5 +21,7 @@
       .card-body
         ol.row.p-0.justify-content-around
           = render @gunplas
+        .mt-5
+          = paginate @gunplas
 
   = render "sidebar"
