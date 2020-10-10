@@ -14,7 +14,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
       aggregate_failures do
         expect(page).to have_title("ガンプラ登録 - GUNPLA-Type")
         expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "ガンプラ一覧")
+        expect(page).to have_selector("li", text: "ガンプラリスト")
         expect(page).to have_selector("li", text: "ガンプラ登録")
         expect(find("#gunpla_parent_category")).to have_content "選択して下さい"
         expect(find("#gunpla_child_category")).not_to have_content "HGUC"
@@ -54,7 +54,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
       aggregate_failures do
         expect(page).to have_title("ガンプラ編集 - GUNPLA-Type")
         expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "ガンプラ一覧")
+        expect(page).to have_selector("li", text: "ガンプラリスト")
         expect(page).to have_selector("li", text: gunpla.name)
         expect(page).to have_select("作品", selected: "機動戦士ガンダム")
         expect(find("#gunpla_child_category")).to have_content "HGUC"
@@ -74,7 +74,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
     end
   end
 
-  describe "ガンプラ一覧ページのチェック" do
+  describe "ガンプラリストページのチェック" do
     let!(:gunpla) { create_list(:gunpla, 10)}
 
     it "各種要素が正常に表示されていることを検証する" do

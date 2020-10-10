@@ -82,7 +82,7 @@ crumb :gunpla_up do
 end
 
 crumb :gunpla_list do
-  link "ガンプラ一覧", gunplas_path
+  link "ガンプラリスト", gunplas_path
 end
 
 crumb :gunpla do |gunpla|

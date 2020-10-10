@@ -1,4 +1,4 @@
-- provide(:title, sub_title="ガンプラ一覧")
+- provide(:title, sub_title="ガンプラリスト")
 - breadcrumb :gunpla_list
 
 .row.mx-auto
@@ -10,64 +10,23 @@
       .card-body
         = render "search_form"
 
-        / .drop.drop-hover
-        /   button.btn.btn-secondary.dropdown-toggle type="button" data-toggle="dropdown"
-        /     | ガンプラを探す
-        /   ul.dropdown-menu
-        /     li.dropright.drop-hover
-        /       a.dropdown-item.dropdown-toggle href="#" data-toggle="dropdown"
-        /         | ガンダム
-        /       ul.dropdown-menu
-        /         li.dropright.drop-hover
-        /           a.dropdown-item.dropdown-toggle href="#" data-toggle="dropdown"
-        /             | ザク
-        /           ul.dropdown-menu
-        /             li
-        /               a.dropdown-item href="#"
-        /                 | ピカチュウ
-        /             li
-        /               a.dropdown-item href="#"
-        /                 | ミミッキュ
-        /         li.dropright.drop-hover
-        /           a.dropdown-item.dropdown-toggle href="#" data-toggle="dropdown"
-        /             | ヤンバル
-        /           ul.dropdown-menu
-        /             li
-        /               a.dropdown-item href="#"
-        /                 | ユウリ
-        /             li
-        /               a.dropdown-item href="#"
-        /                 | はるか
-
-        /         li
-        /           a.dropdown-item href="#"
-        /             | トトロ
-        /     li
-        /       a.dropdown-item href="#"
-        /         | ラスカル
-
-
         .dropdown
-          a.dropdown-toggle.category_box data-toggle="dropdown"
+          a.dropdown-toggle.category_box data-toggle="dropdown" type="button" data-reference="parent" data-flip="false"
             i.fas.fa-list-ul
             span
-              |  カテゴリーから探す
-          .dropdown-menu.p-4
+              | カテゴリーから探す
+          ul.dropdown-menu
             .row
               .parent_list.col
-                h6.border-bottom
+                h6.border-bottom.text-center
                   | 作品
-                ul.nav.flex-column
-                  - @category_parents.each do |parent_category|
-                    li.nav-item
-                      = link_to parent_category.name, select_category_index_gunpla_path(parent_category.id), id: "#{parent_category.id}", class: "parent_category"
-              .children_list.col
-              .grandchildren_list.col
+                - @category_parents.each do |parent_category|
+                  li.dropright.drop-hover class="parent-#{parent_category.id}"
+                    = link_to parent_category.name, select_category_index_gunpla_path(parent_category.id), id: "#{parent_category.id}", class: "parent_category dropdown-item dropdown-toggle"
 
         .border-top.py-4.mt-4
           em
             | ガンプラが見つからない場合は、こちらから追加登録をお願いします。
-
           .text-center
             = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px"
 
@@ -87,35 +46,33 @@
 javascript:
   $(function() {
     function appendChildrenList(child) {
-      var html = `
-                  <li class="nav-item">
-                    <a id="${child.id}" class="child_category" href="/gunplas/${child.id}/select_category_index">
-                      ${child.name}
-                    </a>
-                  </li>
-                 `;
+      var html =
+        `
+          <li class="dropright drop-hover child-${child.id}">
+            <a id="${child.id}" class="child_category dropdown-item dropdown-toggle" href="/gunplas/${child.id}/select_category_index">
+              ${child.name}
+            </a>
+          </li>
+        `;
       return html;
     }
 
     function appendChildrenBox(insertHTML) {
-      var childSelectHtml = `
-                  <div class="child_category_box">
-                    <h6 class="border-bottom child_header">グレード</h6>
-                    <ul class="nav flex-column">
-                      ${insertHTML}
-                    </ul>
-                  </div>
-                 `;
-      $(".children_list").append(childSelectHtml);
+      var childSelectHtml =
+        `
+          <ul class="dropdown-menu child_category_box">
+            <h6 class="border-bottom text-center">グレード</h6>
+            ${insertHTML}
+          </ul>
+        `;
+      return childSelectHtml;
     }
-
-
 
     function appendGrandChildList(grandchild) {
       var html =
         `
-          <li role="presentation">
-            <a id="${grandchild.id}" class="grandchild_category" href="/gunplas/${grandchild.id}/select_category_index">
+          <li class="dropright drop-hover child-${grandchild.id}">
+            <a id="${grandchild.id}" class="grandchild_category dropdown-item" href="/gunplas/${grandchild.id}/select_category_index">
               ${grandchild.name}
             </a>
           </li>
@@ -126,13 +83,12 @@ javascript:
     function appendGrandChildrenBox(insertHTML) {
       var grandchildSelectHtml =
         `
-          <div class="grandchild_category_box">
-            <h6 class="border-bottom grandchild_header">スケール</h6>
-            <ul class="nav flex-column">
-              ${insertHTML}
-            </ul>
-          </div>
+          <ul class="dropdown-menu grandchild_category_box">
+            <h6 class="border-bottom text-center">スケール</h6>
+            ${insertHTML}
+          </ul>
         `;
+      return grandchildSelectHtml;
       $(".grandchildren_list").append(grandchildSelectHtml);
     }
 
@@ -155,7 +111,8 @@ javascript:
         children.forEach(function(child) {
           insertHTML += appendChildrenList(child);
         });
-        appendChildrenBox(insertHTML);
+        var html = appendChildrenBox(insertHTML);
+        $(".parent-"+`${parentId}`).append(html);
       })
     });
 
@@ -172,7 +129,8 @@ javascript:
         grandchildren.forEach(function(grandchild) {
           insertHTML += appendGrandChildList(grandchild);
         });
-        appendGrandChildrenBox(insertHTML);
+        var html = appendGrandChildrenBox(insertHTML);
+        $(".child-"+`${childId}`).append(html);
       })
     });
   });
