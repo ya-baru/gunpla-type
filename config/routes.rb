@@ -71,9 +71,12 @@ Rails.application.routes.draw do
         post 'new', to: 'gunplas#create', as: :create
         get 'get_category_children', defaults: { format: 'json' }
         get 'get_category_grandchildren', defaults: { format: 'json' }
+        # get 'select_category_index', defaults: { format: 'json' }
+        # get 'category_window', defaults: { format: 'json' }
       end
 
       member do
+        get 'select_category_index', to: 'gunplas#select_category_index'
         match 'edit', to: 'gunplas#update', via: %i(patch put), as: :update
       end
     end

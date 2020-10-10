@@ -25,8 +25,8 @@ $(document).on("turbolinks:load", function () {
     var parentId = document.getElementById("gunpla_parent_category").value;
     if (parentId != "") {
       $.ajax({
-        url: "/gunplas/get_category_children/",
         type: "GET",
+        url: "/gunplas/get_category_children/",
         data: { parent_id: parentId },
         dataType: "json",
       })
@@ -53,8 +53,8 @@ $(document).on("turbolinks:load", function () {
 
     if (childId != "") {
       $.ajax({
-        url: "/gunplas/get_category_grandchildren",
         type: "GET",
+        url: "/gunplas/get_category_grandchildren",
         data: { child_id: childId },
         dataType: "json",
       })

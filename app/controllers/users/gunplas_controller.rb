@@ -1,18 +1,39 @@
 class Users::GunplasController < ApplicationController
-  before_action :authenticate_user!, only: %i(new create edit update get_category_children get_category_grandchildren)
+  before_action :authenticate_user!, only: %i(new create edit update)
   before_action :set_gunpla, only: %i(show edit update)
-  before_action :set_category_parents, only: %i(new create edit update)
+  before_action :set_category_parents, only: %i(new create edit update index search select_category_index)
   before_action :set_category_data, only: %i(edit update)
 
   def index
     @search = Gunpla.ransack(params[:q])
     @gunplas = @search.result.page(params[:page]).per(9)
+
   end
 
   def search
     @search = Gunpla.search(search_params)
     @gunplas = @search.result.page(params[:page]).per(9)
     @gunplas_count = @search.result.count
+  end
+
+  def category_window
+    @children = Category.find(params[:parent_id]).children
+  end
+
+  def select_category_index
+    @category = Category.find_by(id: params[:id])
+
+    if @category.ancestry == nil
+      category = Category.find_by(id: params[:id]).indirect_ids
+      @gunplas = []
+      find_gunpla(category)
+    elsif @category.ancestry.include?("/")
+      @gunplas = Gunpla.where(category_id: params[:id])
+    else
+      category = Category.find_by(id: params[:id]).child_ids
+      @gunplas = []
+      find_gunpla(category)
+    end
   end
 
   def show
@@ -39,11 +60,11 @@ class Users::GunplasController < ApplicationController
   end
 
   def get_category_children
-    @category_children = Category.find("#{params[:parent_id]}").children
+    @category_children = Category.find(params[:parent_id]).children
   end
 
   def get_category_grandchildren
-    @category_grandchildren = Category.find("#{params[:child_id]}").children
+    @category_grandchildren = Category.find(params[:child_id]).children
   end
 
   private
@@ -71,5 +92,16 @@ class Users::GunplasController < ApplicationController
     @category_grandchild = @gunpla.category
     @category_child = @category_grandchild.parent
     @category_parent = @category_child.parent
+  end
+
+  def find_gunpla(category)
+    category.each do |id|
+      gunpla_list = Gunpla.where(category_id: id)
+      if gunpla_list.present?
+        gunpla_list.each do |gunpla|
+          @gunplas.push(gunpla) if gunpla.present?
+        end
+      end
+    end
   end
 end

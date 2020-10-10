@@ -1,6 +1,8 @@
+
 = search_form_for(@search, url: search_gunplas_path) do |f|
-  p
-    = f.label :name_cont, "商品名"
-    = f.search_field :name_cont, class: "form-control"
-  .text-center
-    = f.submit "検索", class: "btn btn-info w-250px"
+  = f.label :name_cont, "レビューしたいガンプラを探そう！"
+  dl.search
+    dt.search_field
+      = f.search_field :name_cont, class: "form-control"
+    dd.search_btn
+      = f.submit "検索", class: "btn btn-info"

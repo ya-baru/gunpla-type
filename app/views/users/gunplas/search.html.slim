@@ -8,13 +8,30 @@
         h2
           | ガンプラを探す
       .card-body
-        | レビューしたいガンプラを探そう！
         = render "search_form"
 
+        .dropdown
+          button.dropdown-toggle type="button" data-toggle="dropdown"
+            i.fas.fa-list-ul
+            span
+              |  カテゴリーから探す
+          .dropdown-menu.p-4
+            .row
+              .parent_list
+                .col
+                  h6.border-bottom
+                    | 作品
+                  ul.nav.flex-column
+                    - @category_parents.each do |parent_category|
+                      li.nav-item
+                        = link_to parent_category.name, select_category_index_gunpla_path(parent_category.id), id: "#{parent_category.id}", class: "parent_category"
+              .children_list
+              .grandchildren_list
+
         .text-center.mt-4
-          em
-            | レビューしたいガンプラが見つからない場合は、こちらから登録をお願いします。
           = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px"
+        em
+          | ガンプラが見つからない場合は、こちらから追加登録をお願いします。
 
     .card.shadow-sm
       .card-header
@@ -33,3 +50,98 @@
             = paginate @gunplas
 
   = render "sidebar"
+
+
+javascript:
+  $(function() {
+    function appendChildrenList(child) {
+      var html = `
+                  <li class="nav-item">
+                    <a id="${child.id}" class="child_category" href="/gunplas/${child.id}/select_category_index">
+                      ${child.name}
+                    </a>
+                  </li>
+                 `;
+      return html;
+    }
+
+    function appendChildrenBox(insertHTML) {
+      var childSelectHtml = `
+                  <div class="col child_category_box">
+                    <h6 class="border-bottom child_header">グレード</h6>
+                    <ul class="nav flex-column">
+                      ${insertHTML}
+                    </ul>
+                  </div>
+                 `;
+      $(".children_list").append(childSelectHtml);
+    }
+
+
+
+    function appendGrandChildList(grandchild) {
+      var html =
+        `
+          <li role="presentation">
+            <a id="${grandchild.id}" class="grandchild_category" href="/gunplas/${grandchild.id}/select_category_index">
+              ${grandchild.name}
+            </a>
+          </li>
+        `;
+      return html;
+    }
+
+    function appendGrandChildrenBox(insertHTML) {
+      var grandchildSelectHtml =
+        `
+          <div class="col grandchild_category_box">
+            <h6 class="border-bottom grandchild_header">スケール</h6>
+            <ul class="nav flex-column">
+              ${insertHTML}
+            </ul>
+          </div>
+        `;
+      $(".grandchildren_list").append(grandchildSelectHtml);
+    }
+
+    $(".parent_category").on("mouseover", function() {
+      var parentId = this.id;
+      $(".child_category_box").remove();
+      $(".grandchild_category_box").remove();
+      $.ajax({
+        type: "GET",
+        url: "/gunplas/get_category_children",
+        data: { parent_id: parentId },
+        dataType: "json",
+      }).done(function(children) {
+        var insertHTML = "";
+        children.forEach(function(child) {
+          insertHTML += appendChildrenList(child);
+        });
+        appendChildrenBox(insertHTML);
+      })
+      .fail(function () {
+        alert("データ取得に失敗しました");
+      });
+    });
+
+    $(document).on("mouseover", ".child_category", function() {
+      var childId = this.id;
+      $(".grandchild_category_box").remove();
+      $.ajax({
+        type: "GET",
+        url: "/gunplas/get_category_grandchildren",
+        data: { child_id: childId },
+        dataType: "json",
+      }).done(function(grandchildren) {
+        var insertHTML = "";
+        grandchildren.forEach(function(grandchild) {
+          insertHTML += appendGrandChildList(grandchild);
+        });
+        appendGrandChildrenBox(insertHTML);
+      })
+      .fail(function () {
+        alert("データ取得に失敗しました");
+      });
+    });
+  });
