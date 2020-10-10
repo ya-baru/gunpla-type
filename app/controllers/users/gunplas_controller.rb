@@ -5,7 +5,14 @@ class Users::GunplasController < ApplicationController
   before_action :set_category_data, only: %i(edit update)
 
   def index
-    @gunplas = Gunpla.page(params[:page]).per(9)
+    @search = Gunpla.ransack(params[:q])
+    @gunplas = @search.result.page(params[:page]).per(9)
+  end
+
+  def search
+    @search = Gunpla.search(search_params)
+    @gunplas = @search.result.page(params[:page]).per(9)
+    @gunplas_count = @search.result.count
   end
 
   def show
@@ -43,6 +50,10 @@ class Users::GunplasController < ApplicationController
 
   def ganpla_params
     params.require(:gunpla).permit(:name, :sales_id, :category_id)
+  end
+
+  def search_params
+    params.require(:q).permit(:name_cont)
   end
 
   def set_gunpla

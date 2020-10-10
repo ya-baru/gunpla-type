@@ -1,0 +1,35 @@
+- provide(:title, sub_title="検索結果")
+/ - breadcrumb :gunpla_list
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm.mb-2
+      .card-header
+        h2
+          | ガンプラを探す
+      .card-body
+        | レビューしたいガンプラを探そう！
+        = render "search_form"
+
+        .text-center.mt-4
+          em
+            | レビューしたいガンプラが見つからない場合は、こちらから登録をお願いします。
+          = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px"
+
+    .card.shadow-sm
+      .card-header
+        h2
+          = "#{sub_title}（#{@gunplas_count}）"
+      .card-body
+        - if @gunplas.count.zero?
+          strong
+            = "『#{params[:q][:name_cont]}』"
+          span
+            | に一致するガンプラはありませんでした。
+        - else
+          ol.row.p-0.justify-content-around
+            = render @gunplas
+          .mt-5
+            = paginate @gunplas
+
+  = render "sidebar"

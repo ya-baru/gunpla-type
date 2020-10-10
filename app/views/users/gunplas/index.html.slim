@@ -9,6 +9,7 @@
           | ガンプラを探す
       .card-body
         | レビューしたいガンプラを探そう！
+        = render "search_form"
         .text-center
           = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px mt-4"
         div

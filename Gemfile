@@ -99,7 +99,7 @@ gem 'redcarpet'
 # SEO
 gem 'gretel'
 
-# select
+# Select
 gem 'active_hash'
 
 # Category
@@ -107,3 +107,6 @@ gem 'ancestry'
 
 # Pagination
 gem 'kaminari'
+
+# Search
+gem 'ransack'
