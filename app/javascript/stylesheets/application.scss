@@ -6,6 +6,7 @@
 @import "users/option";
 
 @import "users/mypage";
+@import "users/gunpla";
 
 h2 {
   font-size: 1.4rem;
@@ -81,11 +82,6 @@ footer {
 .card-width {
   width: 30%;
 }
-// .pagenaation {
-// }
-
-// #page-top {
-// }
 
 .search {
   position: relative;
@@ -115,13 +111,10 @@ footer {
       border-radius: 17px;
       color: $white;
       outline: none;
-      &:hover {
+      &:hover,
+      &:focus {
         opacity: 0.5;
       }
     }
   }
-}
-
-.drop-hover:hover > .dropdown-menu {
-  display: block !important;
 }

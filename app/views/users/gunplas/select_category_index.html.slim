@@ -1,2 +1,3 @@
-- @gunplas.each do |gunpla|
-  = gunpla.name
+- if @gunplas.present?
+  - @gunplas.each do |gunpla|
+    = gunpla.name

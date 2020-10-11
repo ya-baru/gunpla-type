@@ -1,4 +1,6 @@
 class Users::GunplasController < ApplicationController
+  include CategorySearch
+
   before_action :authenticate_user!, only: %i(new create edit update)
   before_action :set_gunpla, only: %i(show edit update)
   before_action :set_parent_categories, only: %i(new create edit update index search_index select_category_index)
@@ -21,9 +23,14 @@ class Users::GunplasController < ApplicationController
     render :index
   end
 
+  def autocomplete
+    names = Gunpla.by_name_like(autocomplete_params[:name]).pluck(:name).reject(&:blank?)
+    render json: names
+  end
+
   def select_category_index
     @category = Category.find_by(id: params[:id])
-    @category.category_listup
+    category_listup(@category)
   end
 
   def show
@@ -67,6 +74,10 @@ class Users::GunplasController < ApplicationController
     params.require(:q).permit(:name_cont)
   end
 
+  def autocomplete_params
+    params.permit(:name)
+  end
+
   def set_gunpla
     @gunpla = Gunpla.find(params[:id])
   end
@@ -84,13 +95,25 @@ class Users::GunplasController < ApplicationController
     @category_parent = @category_child.parent
   end
 
-  def find_gunpla(category_ids)
-    @gunplas = []
-    category_ids.each do |id|
-      gunpla_arry = Gunpla.where(category_id: id).reject(&:blank?)
-      gunpla_arry.each do |gunpla|
-        @gunplas.push(gunpla) if gunpla_arry.present?
-      end
-    end
-  end
+  # def category_listup(category)
+  #   if category.ancestry.nil?
+  #     indirect_category_ids = category.indirect_ids
+  #     find_gunpla(indirect_category_ids)
+  #   elsif category.ancestry.include?("/")
+  #     @gunplas = Gunpla.where(category_id: params[:id])
+  #   else
+  #     child_category_ids = category.child_ids
+  #     find_gunpla(child_category_ids)
+  #   end
+  # end
+
+  # def find_gunpla(category_ids)
+  #   @gunplas = []
+  #   category_ids.each do |id|
+  #     gunpla_arry = Gunpla.where(category_id: id).reject(&:blank?)
+  #     gunpla_arry.each do |gunpla|
+  #       @gunplas.push(gunpla) if gunpla.present?
+  #     end
+  #   end
+  # end
 end

@@ -10,7 +10,7 @@
       .card-body
         == render "search_form", search: @search
 
-        .dropdown
+        .dropdown.d-none.d-lg-block
           a.dropdown-toggle.category_box data-toggle="dropdown" type="button" data-reference="parent" data-flip="false"
             i.fas.fa-list-ul
             span
@@ -39,7 +39,7 @@
             | に一致するガンプラはありませんでした。
         - else
           ol.row.p-0.justify-content-around
-            == render "gunpla", @gunplas
+            == render partial: "gunpla", collection: @gunplas
           .mt-5
             = paginate @gunplas
 

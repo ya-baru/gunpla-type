@@ -68,9 +68,10 @@ Rails.application.routes.draw do
     resources :gunplas, except: %i(create update destroy) do
       collection do
         get 'search', to: 'gunplas#search_index'
-        post 'new', to: 'gunplas#create', as: :create
+        get 'autocomplete', to: 'gunplas#autocomplete'
         get 'get_category_children', defaults: { format: 'json' }
         get 'get_category_grandchildren', defaults: { format: 'json' }
+        post 'new', to: 'gunplas#create', as: :create
       end
 
       member do
