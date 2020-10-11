@@ -3,15 +3,15 @@ html
   head
     title
       = full_title(sub_title: yield(:title))
-    = render "layouts/rails_default"
-    = render "layouts/shim"
+    == render "layouts/rails_default"
+    == render "layouts/shim"
   body
     .wrapper
       header
-        = render "layouts/header"
+        == render "layouts/header"
       .container.my-5
-        = render "layouts/breadcrumbs"
-        = render "layouts/flash_messages"
+        == render "layouts/breadcrumbs"
+        == render "layouts/flash_messages"
         = yield
       footer
-        = render "layouts/footer"
+        == render "layouts/footer"

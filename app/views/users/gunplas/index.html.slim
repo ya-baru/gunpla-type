@@ -1,5 +1,5 @@
-- provide(:title, sub_title="ガンプラリスト")
-- breadcrumb :gunpla_list
+- provide(:title, @sub_title)
+- breadcrumb @breadcumb
 
 .row.mx-auto
   .col-lg-8
@@ -8,7 +8,7 @@
         h2
           | ガンプラを探す
       .card-body
-        = render "search_form"
+        == render "search_form", search: @search
 
         .dropdown
           a.dropdown-toggle.category_box data-toggle="dropdown" type="button" data-reference="parent" data-flip="false"
@@ -20,10 +20,7 @@
               .parent_list.col
                 h6.border-bottom.text-center
                   | 作品
-                - @category_parents.each do |parent_category|
-                  li.dropright.drop-hover class="parent-#{parent_category.id}"
-                    = link_to parent_category.name, select_category_index_gunpla_path(parent_category.id), id: "#{parent_category.id}", class: "parent_category dropdown-item dropdown-toggle"
-
+                == render partial: "category", collection: @parent_categories, as: :parent_category
         .border-top.py-4.mt-4
           em
             | ガンプラが見つからない場合は、こちらから追加登録をお願いします。
@@ -33,104 +30,17 @@
     .card.shadow-sm
       .card-header
         h2
-          = sub_title
+          = "#{@sub_title}（#{@gunplas_count}）"
       .card-body
-        ol.row.p-0.justify-content-around
-          = render @gunplas
-        .mt-5
-          = paginate @gunplas
+        - if @gunplas.count.zero? && current_page?(search_gunplas_path)
+          strong
+            = "『#{params[:q][:name_cont]}』"
+          span
+            | に一致するガンプラはありませんでした。
+        - else
+          ol.row.p-0.justify-content-around
+            == render "gunpla", @gunplas
+          .mt-5
+            = paginate @gunplas
 
-  = render "sidebar"
-
-
-javascript:
-  $(function() {
-    function appendChildrenList(child) {
-      var html =
-        `
-          <li class="dropright drop-hover child-${child.id}">
-            <a id="${child.id}" class="child_category dropdown-item dropdown-toggle" href="/gunplas/${child.id}/select_category_index">
-              ${child.name}
-            </a>
-          </li>
-        `;
-      return html;
-    }
-
-    function appendChildrenBox(insertHTML) {
-      var childSelectHtml =
-        `
-          <ul class="dropdown-menu child_category_box">
-            <h6 class="border-bottom text-center">グレード</h6>
-            ${insertHTML}
-          </ul>
-        `;
-      return childSelectHtml;
-    }
-
-    function appendGrandChildList(grandchild) {
-      var html =
-        `
-          <li class="dropright drop-hover child-${grandchild.id}">
-            <a id="${grandchild.id}" class="grandchild_category dropdown-item" href="/gunplas/${grandchild.id}/select_category_index">
-              ${grandchild.name}
-            </a>
-          </li>
-        `;
-      return html;
-    }
-
-    function appendGrandChildrenBox(insertHTML) {
-      var grandchildSelectHtml =
-        `
-          <ul class="dropdown-menu grandchild_category_box">
-            <h6 class="border-bottom text-center">スケール</h6>
-            ${insertHTML}
-          </ul>
-        `;
-      return grandchildSelectHtml;
-      $(".grandchildren_list").append(grandchildSelectHtml);
-    }
-
-    $(".category_box").on("click", function(){
-      $(".child_category_box").remove();
-      $(".grandchild_category_box").remove();
-    });
-
-    $(".parent_category").on("mouseover", function() {
-      var parentId = this.id;
-      $.ajax({
-        type: "GET",
-        url: "/gunplas/get_category_children",
-        data: { parent_id: parentId },
-        dataType: "json",
-      }).done(function(children) {
-        $(".child_category_box").remove();
-        $(".grandchild_category_box").remove();
-        var insertHTML = "";
-        children.forEach(function(child) {
-          insertHTML += appendChildrenList(child);
-        });
-        var html = appendChildrenBox(insertHTML);
-        $(".parent-"+`${parentId}`).append(html);
-      })
-    });
-
-    $(document).on("mouseover", ".child_category", function() {
-      var childId = this.id;
-      $.ajax({
-        type: "GET",
-        url: "/gunplas/get_category_grandchildren",
-        data: { child_id: childId },
-        dataType: "json",
-      }).done(function(grandchildren) {
-        $(".grandchild_category_box").remove();
-        var insertHTML = "";
-        grandchildren.forEach(function(grandchild) {
-          insertHTML += appendGrandChildList(grandchild);
-        });
-        var html = appendGrandChildrenBox(insertHTML);
-        $(".child-"+`${childId}`).append(html);
-      })
-    });
-  });
+  == render "sidebar"

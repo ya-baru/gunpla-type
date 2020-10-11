@@ -75,7 +75,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
   end
 
   describe "ガンプラリストページのチェック" do
-    let!(:gunpla) { create_list(:gunpla, 10)}
+    let!(:gunpla) { create_list(:gunpla, 10) }
 
     it "各種要素が正常に表示されていることを検証する" do
       visit gunplas_path

@@ -9,4 +9,4 @@
     em
       | アカウント登録したメールアドレスをご入力してください
     = form_with model: resource, url: account_unlock_path, local: true do |f|
-      = render "users/shared/email_form", f: f
+      == render "users/shared/email_form", f: f

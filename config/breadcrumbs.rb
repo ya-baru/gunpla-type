@@ -85,6 +85,11 @@ crumb :gunpla_list do
   link "ガンプラリスト", gunplas_path
 end
 
+crumb :gunpla_search do
+  link "検索結果", search_gunplas_path
+  parent :gunpla_list
+end
+
 crumb :gunpla do |gunpla|
   link gunpla.name, gunpla_path(gunpla)
   parent :gunpla_list, gunpla

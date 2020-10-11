@@ -67,12 +67,10 @@ Rails.application.routes.draw do
     # gunpla
     resources :gunplas, except: %i(create update destroy) do
       collection do
-        get 'search', to: 'gunplas#search'
+        get 'search', to: 'gunplas#search_index'
         post 'new', to: 'gunplas#create', as: :create
         get 'get_category_children', defaults: { format: 'json' }
         get 'get_category_grandchildren', defaults: { format: 'json' }
-        # get 'select_category_index', defaults: { format: 'json' }
-        # get 'category_window', defaults: { format: 'json' }
       end
 
       member do

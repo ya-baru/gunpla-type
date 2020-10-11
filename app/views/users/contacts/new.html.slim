@@ -10,15 +10,15 @@
       .form-group
         = f.label :name, class: "form-require"
         = f.text_field :name, autofoucus: true, autocomplete: "name", class: "form-control", placeholder: "例: Amuro Ray"
-        = render "users/shared/error_messages", errors: @contact.errors, error_msg: :name
+        == render "users/shared/error_messages", errors: @contact.errors, error_msg: :name
       .form-group
         = f.label :email, class: "form-require"
         = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
-        = render "users/shared/error_messages", errors: @contact.errors, error_msg: :email
+        == render "users/shared/error_messages", errors: @contact.errors, error_msg: :email
       .form-group
         = f.label :message, class: "form-require"
         = f.text_area :message, class: "form-control", placeholder: "1000文字以内...", size: "10x10"
-        = render "users/shared/error_messages", errors: @contact.errors, error_msg: :message
+        == render "users/shared/error_messages", errors: @contact.errors, error_msg: :message
 
       .text-center.border-top.mt-5.py-4
         = f.submit "送信する", class: "btn btn-primary w-250px"

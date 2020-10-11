@@ -13,19 +13,19 @@
           .form-group
             = f.label :username, class: "form-require"
             = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "例: Amuro Ray"
-            = render "users/shared/error_messages", errors: resource.errors, error_msg: :username
+            == render "users/shared/error_messages", errors: resource.errors, error_msg: :username
           .form-group
             = f.label :email, class: "form-require"
             = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
-            = render "users/shared/error_messages", errors: resource.errors, error_msg: :email
+            == render "users/shared/error_messages", errors: resource.errors, error_msg: :email
           .form-group
             = f.label :password, class: "form-require"
             = f.password_field :password, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
-            = render "users/shared/error_messages", errors: resource.errors, error_msg: :password
+            == render "users/shared/error_messages", errors: resource.errors, error_msg: :password
           .form-group
             = f.label :password_confirmation, class: "form-require"
             = f.password_field :password_confirmation, class: "form-control lead"
-            = render "users/shared/error_messages", errors: resource.errors, error_msg: :password_confirmation
+            == render "users/shared/error_messages", errors: resource.errors, error_msg: :password_confirmation
           .text-center.border-top.mt-4.pt-4
             = f.submit "アカウントを作成する", class: "btn btn-primary w-250px"
           br
@@ -34,4 +34,4 @@
           = link_to "プライバシーポリシー", privacy_path
           | について
 
-  = render "users/shared/sns_account", msg: msg
+  == render "users/shared/sns_account", msg: msg

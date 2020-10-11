@@ -120,40 +120,16 @@ RSpec.describe "Users::Gunplas", type: :request do
   end
 
   describe "#get_category_children" do
+    let(:login) { nil }
     let(:url) { get get_category_children_gunplas_path, params: { parent_id: Category.first.id } }
 
-    context "ログインユーザー" do
-      let(:login) { sign_in user }
-
-      it { is_expected.to have_http_status 200 }
-    end
-
-    context "未ログインユーザー" do
-      let(:login) { nil }
-
-      it { is_expected.to have_http_status 401 }
-      it "リクエストエラーになること" do
-        expect(response.body).to include("アカウント登録もしくはログインしてください。")
-      end
-    end
+    it { is_expected.to have_http_status 200 }
   end
 
   describe "#get_category_grandchildren" do
+    let(:login) { nil }
     let(:url) { get get_category_grandchildren_gunplas_path, params: { child_id: Category.second.id } }
 
-    context "ログインユーザー" do
-      let(:login) { sign_in user }
-
-      it { is_expected.to have_http_status 200 }
-    end
-
-    context "未ログインユーザー" do
-      let(:login) { nil }
-
-      it { is_expected.to have_http_status 401 }
-      it "リクエストエラーになること" do
-        expect(response.body).to include("アカウント登録もしくはログインしてください。")
-      end
-    end
+    it { is_expected.to have_http_status 200 }
   end
 end

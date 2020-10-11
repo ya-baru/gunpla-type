@@ -2,11 +2,11 @@
 - breadcrumb :gunpla_up
 
 .row.mx-auto
-  = render "form",
+  == render "form",
     sub_title: sub_title,
     url: create_gunplas_path,
     gunpla: @gunpla,
-    category_parents: @category_parents,
+    parent_categories: @parent_categories,
     category_children: [],
     category_grandchildren: [],
     category_parent: nil,
@@ -14,4 +14,4 @@
     category_grandchild: nil,
     btn: "登録"
 
-  = render "sidebar"
+  == render "sidebar"

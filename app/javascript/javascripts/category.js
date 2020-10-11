@@ -6,12 +6,13 @@ $(document).on("turbolinks:load", function () {
 
   function appendChildrenBox(insertHTML) {
     var childSelectHtml = "";
-    childSelectHtml = `
-                          <option value="">
-                            選択して下さい
-                          </option>
-                          ${insertHTML}
-                        `;
+    childSelectHtml =
+      `
+        <option value="">
+          選択して下さい
+        </option>
+        ${insertHTML}
+      `;
     $("#gunpla_child_category").append(childSelectHtml);
   }
 
@@ -22,7 +23,7 @@ $(document).on("turbolinks:load", function () {
   }
 
   $("#gunpla_parent_category").on("change", function () {
-    var parentId = document.getElementById("gunpla_parent_category").value;
+    var parentId = this.value;
     if (parentId != "") {
       $.ajax({
         type: "GET",
@@ -49,8 +50,7 @@ $(document).on("turbolinks:load", function () {
   });
 
   $("#category_child").on("change", "#gunpla_child_category", function () {
-    var childId = document.getElementById("gunpla_child_category").value;
-
+    var childId = this.value;
     if (childId != "") {
       $.ajax({
         type: "GET",
