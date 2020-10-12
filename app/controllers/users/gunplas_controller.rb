@@ -13,7 +13,6 @@ class Users::GunplasController < ApplicationController
     @gunplas_count = @search.result.count
     @sub_title = "ガンプラリスト"
     @breadcumb = :gunpla_list
-    @histories = current_user.browsing_histories.order(created_at: :desc).includes([:gunpla])
   end
 
   def search_index

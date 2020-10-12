@@ -2,21 +2,10 @@
   .card.shadow-sm.mb-2
     .card-body
       | このサイトについて
-
-  .card.shadow-sm.mb-2
-    .card-header
-      h5
-        | 閲覧履歴
-    .card-body.p-0
-      - if histories.present?
-        ul.list-group.list-group-flush
-          = render partial: "gunpla_histories", collection: histories, as: :history
-      - else
-        .p-3.text-center
-          | 閲覧履歴はありません
-
+  = cell(:gunpla_history).(:show)
   .card.shadow-sm
     .card-header
       h5
-        | SNS
+        | ツイート
     .card-body
+      <a class="twitter-timeline" href="https://twitter.com/Earth_noid0811?ref_src=twsrc%5Etfw">Tweets by Earth_noid0811</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
