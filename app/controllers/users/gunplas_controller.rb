@@ -1,5 +1,6 @@
 class Users::GunplasController < ApplicationController
   include CategorySearch
+  include GunplaHistory
 
   before_action :authenticate_user!, only: %i(new create edit update)
   before_action :set_gunpla, only: %i(show edit update)
@@ -12,6 +13,7 @@ class Users::GunplasController < ApplicationController
     @gunplas_count = @search.result.count
     @sub_title = "ガンプラリスト"
     @breadcumb = :gunpla_list
+    @histories = current_user.browsing_histories.order(created_at: :desc).includes([:gunpla])
   end
 
   def search_index
@@ -35,6 +37,7 @@ class Users::GunplasController < ApplicationController
 
   def show
     @gunpla = Gunpla.find(params[:id])
+    gunpla_history_save(@gunpla) if user_signed_in?
   end
 
   def new

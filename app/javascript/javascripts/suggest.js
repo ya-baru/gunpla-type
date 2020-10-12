@@ -1,4 +1,4 @@
-$(function() {
+$(document).on("turbolinks:load", function () {
   const dataList = function(request, response) {
     $.ajax({
       type: "GET",

@@ -11,6 +11,8 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:facebook, :twitter, :google_oauth2]
 
   has_one_attached :avatar, dependent: :destroy
+  has_many :browsing_histories, dependent: :destroy
+  has_many :gunpla_histories, through: :browsing_histories, source: :gunpla
 
   validates :username, presence: true, length: { maximum: 20 }
   validates :profile, length: { maximum: 255 }

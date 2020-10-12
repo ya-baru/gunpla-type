@@ -5,6 +5,8 @@ class Gunpla < ApplicationRecord
   belongs_to_active_hash :sales
   belongs_to :category
 
+  has_many :browsing_histories, dependent: :destroy
+
   validates :name, presence: true, length: { maximum: 50 }
   validates :sales_id, presence: true
   validates :category_id, presence: true

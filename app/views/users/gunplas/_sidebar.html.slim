@@ -6,8 +6,14 @@
   .card.shadow-sm.mb-2
     .card-header
       h5
-        | 最近チェックしたレビュー
-    .card-body
+        | 閲覧履歴
+    .card-body.p-0
+      - if histories.present?
+        ul.list-group.list-group-flush
+          = render partial: "gunpla_histories", collection: histories, as: :history
+      - else
+        .p-3.text-center
+          | 閲覧履歴はありません
 
   .card.shadow-sm
     .card-header
