@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include AvatarResize
+
   devise :database_authenticatable,
          :registerable,
          :recoverable,
@@ -28,10 +30,6 @@ class User < ApplicationRecord
             size: {
               less_than: 3.megabytes, message: "のファイルサイズは3MBまでです。",
             }
-
-  def display_avatar
-    avatar.variant(resize_to_limit: [150, 150])
-  end
 
   class << self
     def find_for_oauth(auth)

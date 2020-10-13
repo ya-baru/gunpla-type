@@ -8,5 +8,6 @@ class Sales < ActiveHash::Base
   ]
 
   include ActiveHash::Associations
+
   has_many :gunplas
 end

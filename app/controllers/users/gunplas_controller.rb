@@ -22,11 +22,6 @@ class Users::GunplasController < ApplicationController
     render :index
   end
 
-  def autocomplete
-    names = Gunpla.by_name_like(autocomplete_params[:name]).pluck(:name).reject(&:blank?)
-    render json: names
-  end
-
   def select_category_index
     @category = Category.find_by(id: params[:id])
     category_listup(@category)
@@ -60,6 +55,11 @@ class Users::GunplasController < ApplicationController
     return render :edit unless @gunpla.update(ganpla_params)
 
     redirect_to @gunpla, notice: "ガンプラを更新しました"
+  end
+
+  def autocomplete
+    names = Gunpla.by_name_like(autocomplete_params[:name]).pluck(:name).reject(&:blank?)
+    render json: names
   end
 
   def get_category_children

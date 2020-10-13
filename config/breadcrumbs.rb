@@ -90,6 +90,11 @@ crumb :gunpla_search do
   parent :gunpla_list
 end
 
+crumb :category_search do
+  link "カテゴリー検索", select_category_index_gunpla_path
+  parent :gunpla_list
+end
+
 crumb :gunpla do |gunpla|
   link gunpla.name, gunpla_path(gunpla)
   parent :gunpla_list, gunpla

@@ -24,5 +24,5 @@ import "../stylesheets/application";
 import "../javascripts/category";
 import "../javascripts/category_search";
 import "../javascripts/avatar";
-import "../javascripts/suggest";
+import "../javascripts/autocomplete";
 // import "../javascripts/recently_viewed_gunplas";
