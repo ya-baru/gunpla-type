@@ -2,15 +2,11 @@ module CategorySearch
   extend ActiveSupport::Concern
   included do
     def category_listup(category)
-      if category.ancestry?
-        indirect_category_ids = category.indirect_ids
-        find_gunpla(indirect_category_ids)
-      elsif category.ancestry.include?("/")
-        @gunplas = Gunpla.where(category_id: params[:id])
-      else
-        child_category_ids = category.child_ids
-        find_gunpla(child_category_ids)
-      end
+      return find_gunpla(category.indirect_ids) unless category.ancestry?
+
+      return @gunplas = Gunpla.where(category_id: params[:id]) if category.ancestry.include?("/")
+
+      find_gunpla(category.child_ids)
     end
 
     protected
