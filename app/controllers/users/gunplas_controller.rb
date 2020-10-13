@@ -10,17 +10,15 @@ class Users::GunplasController < ApplicationController
   def index
     @search = Gunpla.ransack
     @gunplas = @search.result.page(params[:page]).per(9)
-    @gunplas_count = @search.result.count
-    @sub_title = "ガンプラリスト"
-    @breadcumb = :gunpla_list
+
+    set_gunplas_page_data(@search.result.count, "ガンプラリスト", :gunpla_list)
   end
 
   def search_index
     @search = Gunpla.search(search_params)
     @gunplas = @search.result.page(params[:page]).per(9)
-    @gunplas_count = @search.result.count
-    @sub_title = "検索結果"
-    @breadcumb = :gunpla_search
+
+    set_gunplas_page_data(@search.result.count, "検索結果", :gunpla_search)
     render :index
   end
 
@@ -32,6 +30,12 @@ class Users::GunplasController < ApplicationController
   def select_category_index
     @category = Category.find_by(id: params[:id])
     category_listup(@category)
+
+    @search = Gunpla.ransack
+    @gunplas = Kaminari.paginate_array(@gunplas).page(params[:page]).per(9)
+
+    set_gunplas_page_data(@gunplas.count, "カテゴリー検索", :category_search)
+    render :index
   end
 
   def show
@@ -95,5 +99,11 @@ class Users::GunplasController < ApplicationController
     @category_grandchild = @gunpla.category
     @category_child = @category_grandchild.parent
     @category_parent = @category_child.parent
+  end
+
+  def set_gunplas_page_data(gunplas_count, sub_title, breadcumb)
+    @gunplas_count = gunplas_count
+    @sub_title = sub_title
+    @breadcumb = breadcumb
   end
 end

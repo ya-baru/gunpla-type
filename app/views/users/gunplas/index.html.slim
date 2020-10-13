@@ -38,9 +38,12 @@
           span
             | に一致するガンプラはありませんでした。
         - else
-          ol.row.p-0.justify-content-around
-            == render partial: "gunpla", collection: @gunplas
-          .mt-5
-            = paginate @gunplas
+          - unless @gunplas.present?
+            | このカテゴリーに分類されるガンプラはありませんでした。
+          - else
+            ol.row.p-0.justify-content-around
+              == render partial: "gunpla", collection: @gunplas
+            .mt-5
+              = paginate @gunplas
 
   == render "sidebar", histories: @histories
