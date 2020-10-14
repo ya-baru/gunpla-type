@@ -7,3 +7,11 @@
 .w-100px {
   width: 100px !important;
 }
+
+.heading {
+  &::before {
+    content: "";
+    border-left: 5px solid #135b8e;
+    margin-right: 10px;
+  }
+}

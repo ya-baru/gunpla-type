@@ -32,18 +32,24 @@
         h2
           = "#{@sub_title}（#{@gunplas_count}）"
       .card-body
-        - if @gunplas.count.zero? && current_page?(search_gunplas_path)
+        - if @gunplas.blank? && current_page?(search_gunplas_path)
           strong
             = "『#{params[:q][:name_cont]}』"
           span
             | に一致するガンプラはありませんでした。
         - else
-          - unless @gunplas.present?
-            | このカテゴリーに分類されるガンプラはありませんでした。
-          - else
+          - if @gunplas.present?
             ol.row.p-0.justify-content-around
               == render partial: "gunpla", collection: @gunplas
             .mt-5
               = paginate @gunplas
+          - else
+            - if @category.root?
+              = "『#{@category.name}』に分類されるガンプラはありませんでした。"
+            - elsif @category.childless?
+              = "『#{@category.root.name} / #{@category.parent.name} / #{@category.name}』に分類されるガンプラはありませんでした。"
+            - else
+              = "『#{@category.parent.name} / #{@category.name}』に分類されるガンプラはありませんでした。"
+
 
   == render "sidebar", histories: @histories
