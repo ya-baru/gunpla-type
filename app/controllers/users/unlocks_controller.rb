@@ -3,9 +3,9 @@
 class Users::UnlocksController < Devise::UnlocksController
   include AccountConfirm
 
-  # def new
-  #   super
-  # end
+  def new
+    self.resource = resource_class.new.decorate
+  end
 
   def create
     user = User.find_by(email: resource_params[:email])
@@ -14,7 +14,7 @@ class Users::UnlocksController < Devise::UnlocksController
       return account_unconfirm unless user.confirmed_at?
     end
 
-    self.resource = resource_class.send_unlock_instructions(resource_params)
+    self.resource = resource_class.send_unlock_instructions(resource_params).decorate
     yield resource if block_given?
     return render :new unless successfully_sent?(resource)
 
@@ -22,7 +22,7 @@ class Users::UnlocksController < Devise::UnlocksController
   end
 
   def show
-    self.resource = resource_class.unlock_access_by_token(params[:unlock_token])
+    self.resource = resource_class.unlock_access_by_token(params[:unlock_token]).decorate
     yield resource if block_given?
     return render :new unless resource.errors.empty?
 

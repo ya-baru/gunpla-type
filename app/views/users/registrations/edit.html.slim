@@ -12,23 +12,19 @@
           .form-group
             = f.label :username, class: "form-require"
             = f.text_field :username, autofocus: true, autocomplete: "username", class: "form-control"
-            == render "users/shared/error_messages", errors: resource.errors, error_msg: :username
+            = resource.form_error_message(:username)
           .form-group
             = f.label :profile
-            = f.text_area :profile, size: "10x5", class: "form-control"
-            == render "users/shared/error_messages", errors: resource.errors, error_msg: :profile
+            = f.text_area :profile, size: "10x5", class: "form-control", placeholder: "255文字以内..."
+            = resource.form_error_message(:profile)
           .form-group
             = f.label :avatar, class: "image_label"
               | ユーザー画像
               .prev-contents.d-lg-flex.mt-2
-                - if current_user.avatar.present?
-                  .prev-content
-                    = image_tag current_user.avatar, alt: "preview", class: "prev-image shadow", size: "150x150"
-                - else
-                  img.photo-icon.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
+                = current_user.use_avatar
                 .align-self-center.mt-3.mt-lg-0
                   = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
           .text-center.border-top.pt-4
             = f.submit "更新する", class: "btn btn-primary w-250px"
 
-  == render "account_management"
+  = render "account_management"

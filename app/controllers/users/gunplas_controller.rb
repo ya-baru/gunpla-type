@@ -6,47 +6,48 @@ class Users::GunplasController < ApplicationController
   before_action :set_gunpla, only: %i(show edit update)
   before_action :set_parent_categories, only: %i(new create edit update index search_index select_category_index)
   before_action :set_category_data, only: %i(edit update)
+  before_action :set_category, only: %i(index search_index)
 
   def index
     @search = Gunpla.ransack
-    @gunplas = @search.result.page(params[:page]).per(9)
+    @gunplas = @search.result.page(params[:page]).per(9).decorate
 
     set_gunplas_page_data(@search.result.count, "ガンプラリスト", :gunpla_list)
   end
 
   def search_index
     @search = Gunpla.search(search_params)
-    @gunplas = @search.result.page(params[:page]).per(9)
+    @gunplas = @search.result.page(params[:page]).per(9).decorate
 
     set_gunplas_page_data(@search.result.count, "検索結果", :gunpla_search)
     render :index
   end
 
   def select_category_index
-    @category = Category.find_by(id: params[:id])
+    @category = Category.find_by(id: params[:id]).decorate
     category_listup(@category)
 
     @search = Gunpla.ransack
-    @gunplas = Kaminari.paginate_array(@gunplas).page(params[:page]).per(9)
+    @gunplas = Kaminari.paginate_array(@gunpla_list).page(params[:page]).per(9)
 
     set_gunplas_page_data(@gunplas.count, "カテゴリー検索", :category_search)
     render :index
   end
 
   def show
-    @gunpla = Gunpla.find(params[:id])
+    @gunpla = Gunpla.find(params[:id]).decorate
     gunpla_history_save(@gunpla) if user_signed_in?
   end
 
   def new
-    @gunpla = Gunpla.new
+    @gunpla = Gunpla.new.decorate
   end
 
   def create
-    @gunpla = Gunpla.new(ganpla_params)
+    @gunpla = Gunpla.new(ganpla_params).decorate
     return render :new unless @gunpla.save
 
-    redirect_to @gunpla, notice: "ガンプラの登録に成功しました"
+    redirect_to gunpla_url(@gunpla), notice: "ガンプラの登録に成功しました"
   end
 
   def edit; end
@@ -54,7 +55,7 @@ class Users::GunplasController < ApplicationController
   def update
     return render :edit unless @gunpla.update(ganpla_params)
 
-    redirect_to @gunpla, notice: "ガンプラを更新しました"
+    redirect_to gunpla_url(@gunpla), notice: "ガンプラを更新しました"
   end
 
   def autocomplete
@@ -85,7 +86,7 @@ class Users::GunplasController < ApplicationController
   end
 
   def set_gunpla
-    @gunpla = Gunpla.find(params[:id])
+    @gunpla = Gunpla.find(params[:id]).decorate
   end
 
   def set_parent_categories
@@ -99,6 +100,10 @@ class Users::GunplasController < ApplicationController
     @category_grandchild = @gunpla.category
     @category_child = @category_grandchild.parent
     @category_parent = @category_child.parent
+  end
+
+  def set_category
+    @category = Category.new.decorate
   end
 
   def set_gunplas_page_data(gunplas_count, sub_title, breadcumb)

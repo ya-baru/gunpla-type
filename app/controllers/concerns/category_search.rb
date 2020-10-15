@@ -3,8 +3,7 @@ module CategorySearch
   included do
     def category_listup(category)
       return find_gunpla(category.indirect_ids) unless category.ancestry?
-
-      return @gunplas = Gunpla.where(category_id: params[:id]) if category.ancestry.include?("/")
+      return @gunpla_list = Gunpla.where(category_id: params[:id]).decorate if category.ancestry.include?("/")
 
       find_gunpla(category.child_ids)
     end
@@ -12,11 +11,11 @@ module CategorySearch
     protected
 
     def find_gunpla(category_ids)
-      @gunplas = []
+      @gunpla_list = []
       category_ids.each do |id|
-        gunpla_arry = Gunpla.where(category_id: id).reject(&:blank?)
+        gunpla_arry = Gunpla.where(category_id: id).decorate.reject(&:blank?)
         gunpla_arry.each do |gunpla|
-          @gunplas.push(gunpla) if gunpla.present?
+          @gunpla_list.push(gunpla) if gunpla.present?
         end
       end
     end

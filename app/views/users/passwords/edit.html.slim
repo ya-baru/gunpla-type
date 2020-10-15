@@ -10,10 +10,10 @@
       .form-group
         = f.label :password, class: "form-require"
         = f.password_field :password, autofocus: true, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
-        == render "users/shared/error_messages", errors: resource.errors, error_msg: :password
+        = resource.form_error_message(:password)
       .form-group
         = f.label :password_confirmation, class: "form-require"
         = f.password_field :password_confirmation, class: "form-control"
-        == render "users/shared/error_messages", errors: resource.errors, error_msg: :password_confirmation
+        = resource.form_error_message(:password_confirmation)
       .text-center
         = f.submit "変更する", class: "btn btn-primary w-250px mt-4"

@@ -12,11 +12,11 @@
           .form-group
             = f.label :email, class: "form-require"
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
-            = render "users/shared/error_messages", errors: resource.errors, error_msg: :email
+            = resource.form_error_message(:email)
           .form-group
             = f.label :email_confirmation, class: "form-require"
             = f.email_field :email_confirmation, class: "form-control"
-            = render "users/shared/error_messages", errors: resource.errors, error_msg: :email_confirmation
+            = resource.form_error_message(:email_confirmation)
           .text-center.border-top.pt-4.mt-4
             = f.submit "更新する", class: "btn btn-primary w-250px"
 

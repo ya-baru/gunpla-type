@@ -8,7 +8,7 @@
         h2
           | ガンプラを探す
       .card-body
-        == render "search_form", search: @search
+        = render "search_form", search: @search
 
         .dropdown.d-none.d-lg-block
           a.dropdown-toggle.category_box data-toggle="dropdown" type="button" data-reference="parent" data-flip="false"
@@ -20,7 +20,7 @@
               .parent_list.col
                 h6.border-bottom.text-center
                   | 作品
-                == render partial: "category", collection: @parent_categories, as: :parent_category
+                = render partial: "category", collection: @parent_categories, as: :parent_category
         .border-top.py-4.mt-4
           em
             | ガンプラが見つからない場合は、こちらから追加登録をお願いします。
@@ -30,26 +30,17 @@
     .card.shadow-sm
       .card-header
         h2
-          = "#{@sub_title}（#{@gunplas_count}）"
+          = header_title(@sub_title, @gunplas_count)
       .card-body
-        - if @gunplas.blank? && current_page?(search_gunplas_path)
-          strong
-            = "『#{params[:q][:name_cont]}』"
-          span
-            | に一致するガンプラはありませんでした。
-        - else
-          - if @gunplas.present?
-            ol.row.p-0.justify-content-around
-              == render partial: "gunpla", collection: @gunplas
-            .mt-5
-              = paginate @gunplas
-          - else
-            - if @category.root?
-              = "『#{@category.name}』に分類されるガンプラはありませんでした。"
-            - elsif @category.childless?
-              = "『#{@category.root.name} / #{@category.parent.name} / #{@category.name}』に分類されるガンプラはありませんでした。"
-            - else
-              = "『#{@category.parent.name} / #{@category.name}』に分類されるガンプラはありませんでした。"
+        - if @gunplas.present?
+          = @category.result
+          = search_keyword
+          ol.row.p-0.justify-content-around
+            = render partial: "gunpla", collection: @gunplas
+          .mt-5
+            = paginate @gunplas
+        = @category.none_result(@gunplas)
+        - if current_page?(search_gunplas_path) && @gunplas.blank?
+          = none_search_result
 
-
-  == render "sidebar", histories: @histories
+  = render "users/shared/sidebar"

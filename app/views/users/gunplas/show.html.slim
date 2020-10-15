@@ -34,17 +34,17 @@
                 th.col-3.table-active
                   | 作品
                 td.col-8
-                  = @gunpla.category.root.name
+                  = @gunpla.root_category_name
               tr.row
                 th.col-3.table-active
                   | グレード
                 td.col-8
-                  = @gunpla.category.parent.name
+                  = @gunpla.parent_category_name
               tr.row
                 th.col-3.table-active
                   | スケール
                 td.col-8
-                  = @gunpla.category.name
+                  = @gunpla.category_name
               tr.row.border-bottom
                 th.col-3.table-active
                   | 販売方法
@@ -60,4 +60,4 @@
       .card-body
         ol.row.p-0.justify-content-around
 
-  == render "sidebar"
+  = render "users/shared/sidebar"

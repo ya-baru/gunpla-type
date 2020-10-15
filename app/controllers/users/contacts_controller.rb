@@ -1,17 +1,17 @@
 class Users::ContactsController < ApplicationController
   def new
-    @contact = Contact.new
+    @contact = Contact.new.decorate
   end
 
   def confirm
     return redirect_to new_user_contact_url if params[:contact].blank?
 
-    @contact = Contact.new(contact_params)
+    @contact = Contact.new(contact_params).decorate
     render :new unless @contact.valid?
   end
 
   def create
-    @contact = Contact.new(contact_params)
+    @contact = Contact.new(contact_params).decorate
     return render :new unless @contact.save
     return render :new if params[:back].present?
 

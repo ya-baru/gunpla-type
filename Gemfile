@@ -115,3 +115,5 @@ gem 'ransack'
 gem 'cells-rails'
 gem 'cells-slim'
 gem 'rspec-cells'
+
+gem 'draper'
