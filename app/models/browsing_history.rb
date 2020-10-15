@@ -2,5 +2,6 @@ class BrowsingHistory < ApplicationRecord
   belongs_to :user
   belongs_to :gunpla
 
-  validates :user_id, uniqueness: { scope: [:gunpla_id] }
+  validates :user_id, presence: true
+  validates :gunpla_id, presence: true
 end

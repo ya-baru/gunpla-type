@@ -1,4 +1,6 @@
 class Users::ContactsController < ApplicationController
+  include SlackNotice
+
   def new
     @contact = Contact.new.decorate
   end
@@ -16,7 +18,7 @@ class Users::ContactsController < ApplicationController
     return render :new if params[:back].present?
 
     Users::ContactMailer.contact_mail(@contact).deliver_now
-    slack_info
+    contacts_slack
     redirect_to root_path, notice: "お問い合わせを受け付けました"
   end
 
@@ -24,10 +26,5 @@ class Users::ContactsController < ApplicationController
 
   def contact_params
     params.require(:contact).permit(:name, :email, :message)
-  end
-
-  def slack_info
-    message = "新しい問い合わせがあります。#{Rails.application.credentials.gmail[:link]}"
-    notice_slack(message)
   end
 end

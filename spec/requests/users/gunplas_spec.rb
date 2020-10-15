@@ -27,6 +27,39 @@ RSpec.describe "Users::Gunplas", type: :request do
     end
   end
 
+  describe "#search_index" do
+    let(:url) { get search_gunplas_path, params: { q: { name_cont: "ガンダム" } } }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 200 }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status 200 }
+    end
+  end
+
+  describe "#select_category_index" do
+    let!(:category) { create(:child_category) }
+    let(:url) { get select_category_index_gunpla_path(category.id) }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 200 }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status 200 }
+    end
+  end
+
   describe "#show" do
     let(:url) { get gunpla_path(gunpla) }
 
@@ -116,6 +149,22 @@ RSpec.describe "Users::Gunplas", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
+    end
+  end
+
+  describe "#autocomplete" do
+    let(:url) { get autocomplete_gunplas_path, params: { name: "ガンダム" } }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 200 }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status 200 }
     end
   end
 

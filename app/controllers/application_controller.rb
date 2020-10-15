@@ -1,8 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  include SlackNotice
-
   before_action :configure_permitted_params, if: :devise_controller?
 
   unless Rails.env.development?

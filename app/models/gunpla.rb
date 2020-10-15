@@ -3,7 +3,6 @@ class Gunpla < ApplicationRecord
 
   extend ActiveHash::Associations::ActiveRecordExtensions
   belongs_to_active_hash :sales
-
   belongs_to :category
 
   has_many :browsing_histories, dependent: :destroy

@@ -16,7 +16,7 @@ class Users::GunplasController < ApplicationController
   end
 
   def search_index
-    @search = Gunpla.search(search_params)
+    @search = Gunpla.ransack(search_params)
     @gunplas = @search.result.page(params[:page]).per(9).decorate
 
     set_gunplas_page_data(@search.result.count, "検索結果", :gunpla_search)
