@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  include SlackNotice
+
   before_action :configure_permitted_params, if: :devise_controller?
 
   unless Rails.env.development?
@@ -21,16 +23,15 @@ class ApplicationController < ActionController::Base
     render body: nil, status: :internal_server_error
   end
 
-  def notice_slack(message)
-    notifier = Slack::Notifier.new(Rails.application.credentials.slack[:secret_url])
-    notifier.ping(message)
-  end
-
   protected
 
   def configure_permitted_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
     devise_parameter_sanitizer.permit(:account_update, keys: [:username, :profile, :email_confirmation, :avatar])
+  end
+
+  def current_user
+    super&.decorate
   end
 
   private

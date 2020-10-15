@@ -49,7 +49,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
 
     it "編集ページでガンプラを更新する" do
       visit gunpla_path(gunpla)
-      click_on "編集する"
+      click_on "編集"
 
       aggregate_failures do
         expect(page).to have_title("ガンプラ編集 - GUNPLA-Type")

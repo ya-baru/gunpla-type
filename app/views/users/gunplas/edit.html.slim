@@ -2,7 +2,7 @@
 - breadcrumb :gunpla, @gunpla
 
 .row.mx-auto
-  == render "form",
+  = render "form",
     sub_title: sub_title,
     url: update_gunpla_path(@gunpla),
     gunpla: @gunpla,
@@ -14,4 +14,4 @@
     category_grandchild: @category_grandchild.id,
     btn: "更新"
 
-  == render "sidebar"
+  = render "users/shared/sidebar"

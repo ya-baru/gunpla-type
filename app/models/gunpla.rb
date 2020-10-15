@@ -13,6 +13,6 @@ class Gunpla < ApplicationRecord
   validates :category_id, presence: true
 
   scope :by_name_like, -> (name) {
-    where("name LIKE :value", { value: "%#{sanitize_sql_like(name)}%" }).limit(SUGGEST_COUNT)
+    where("name LIKE :value", { value: "%#{sanitize_sql_like(name)}%" }).limit(AUTOCOMPETE_COUNT)
   }
 end

@@ -1,5 +1,5 @@
 $(document).on("turbolinks:load", function () {
-  $("#user_avatar").bind("change", function () {
+  $("#user_avatar").on("change", function () {
     var size_in_megabytes = this.files[0].size / 1024 / 1024;
     var ImgSrc = "https://placehold.jp/150x150.png?text=Non-Image";
     if (size_in_megabytes > 3) {
@@ -13,11 +13,12 @@ $(document).on("turbolinks:load", function () {
 
   $(function () {
     function buildHTML(image) {
-      var html = `
-            <div class="prev-content">
-              <img src="${image}", alt="preview" class="prev-image" width=150 height=150>
-            </div>
-            `;
+      var html =
+        `
+          <div class="prev-content">
+            <img src="${image}", alt="preview" class="prev-image" width=150 height=150>
+          </div>
+        `;
       return html;
     }
 

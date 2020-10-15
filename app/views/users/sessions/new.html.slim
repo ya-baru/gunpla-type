@@ -22,6 +22,6 @@
           .text-center.border-top.pt-4
             = f.submit "ログインする", class: "btn btn-primary w-250px"
         br
-        == render "users/shared/links"
+        = render "links"
 
-  == render "users/shared/sns_account", msg: msg
+  = render "users/shared/sns_account", msg: msg

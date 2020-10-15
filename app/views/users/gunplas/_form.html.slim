@@ -9,13 +9,13 @@
           tr.form-group
             th
               = f.label :name, class: "form-require"
-              == render "users/shared/error_messages", errors: gunpla.errors, error_msg: :name
+              = gunpla.form_error_message(:name)
             td
               = f.text_field :name, autofoucus: true, class: "form-control", placeholder: "例: HGUC 191 RX-78-2ガンダム"
           tr.append_category
             th
               .form-require カテゴリー
-              == render "users/shared/error_messages", errors: gunpla.errors, error_msg: :category_id
+              = gunpla.form_error_message(:category_id)
             td
               .form-group.pb-1
                 = f.label "作品", for: "gunpla_parent_category"
@@ -32,7 +32,7 @@
           tr.form-group
             th
               = f.label :sales_id, class: "form-require"
-              == render "users/shared/error_messages", errors: gunpla.errors, error_msg: :sales_id
+              = gunpla.form_error_message(:sales_id)
             td
               div
                 =< f.collection_select(:sales_id, Sales.all, :id, :name, { include_blank: "選択して下さい" }, class: "form-control" )

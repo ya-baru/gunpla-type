@@ -43,7 +43,6 @@ $(document).on("turbolinks:load", function () {
         </ul>
       `;
     return grandchildSelectHtml;
-    $(".grandchildren_list").append(grandchildSelectHtml);
   }
 
   $(".category_box").on("click", function(){

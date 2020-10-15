@@ -14,6 +14,7 @@ $(document).on("turbolinks:load", function () {
       }
     });
   }
+
   $("#q_name_cont").autocomplete({
     source: dataList,
     autoFocus: true,
