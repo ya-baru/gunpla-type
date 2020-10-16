@@ -153,12 +153,16 @@ RSpec.describe "Users::Gunplas", type: :request do
   end
 
   describe "#autocomplete" do
-    let(:url) { get autocomplete_gunplas_path, params: { name: "ガンダム" } }
+    let(:url) { get autocomplete_gunplas_path, params: { name: "GUNPLA" } }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status 200 }
+      it "正常にJSON形式でレスポンスされること" do
+        expect(response.content_type).to eq "application/json; charset=utf-8"
+        expect(JSON.parse(response.body).join).to eq gunpla.name
+      end
     end
 
     context "未ログインユーザー" do

@@ -42,7 +42,7 @@ ActiveRecord::Schema.define(version: 2020_10_12_073613) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["gunpla_id"], name: "index_browsing_histories_on_gunpla_id"
-    t.index ["user_id", "gunpla_id"], name: "index_browsing_histories_on_user_id_and_gunpla_id"
+    t.index ["user_id", "gunpla_id"], name: "index_browsing_histories_on_user_id_and_gunpla_id", unique: true
     t.index ["user_id"], name: "index_browsing_histories_on_user_id"
   end
 

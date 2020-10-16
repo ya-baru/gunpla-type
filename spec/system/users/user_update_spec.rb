@@ -8,13 +8,17 @@ RSpec.describe "UserUpdate", type: :system do
     visit edit_user_registration_path
   end
 
+  def expect_page_information(text)
+    expect(page).to have_title("#{text} - GUNPLA-Type")
+    expect(page).to have_selector("li", text: "ホーム")
+    expect(page).to have_selector("li", text: "マイページ")
+    expect(page).to have_selector("li", text: text)
+  end
+
   describe "プロフィール編集テスト" do
     it "必要な情報を入力して更新させる" do
       aggregate_failures do
-        expect(page).to have_title("プロフィール編集 - GUNPLA-Type")
-        expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "マイページ")
-        expect(page).to have_selector("li", text: "プロフィール編集")
+        expect_page_information("プロフィール編集")
       end
 
       # 失敗
@@ -40,6 +44,9 @@ RSpec.describe "UserUpdate", type: :system do
         expect(user.reload.username).to eq "new-user"
         expect(user.reload.profile).to eq "あいうえお"
       end
+
+      visit edit_user_registration_path
+      expect(page).to have_selector("img[src$='sample.jpg']")
     end
   end
 
@@ -47,10 +54,7 @@ RSpec.describe "UserUpdate", type: :system do
     it "必要な情報を入力して更新させる" do
       click_on "メールアドレス編集"
       aggregate_failures do
-        expect(page).to have_title("メールアドレス編集 - GUNPLA-Type")
-        expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "マイページ")
-        expect(page).to have_selector("li", text: "メールアドレス編集")
+        expect_page_information("メールアドレス編集")
       end
 
       # 失敗
@@ -80,10 +84,7 @@ RSpec.describe "UserUpdate", type: :system do
     it "必要な情報を入力して更新させる" do
       click_on "パスワード編集"
       aggregate_failures do
-        expect(page).to have_title("パスワード編集 - GUNPLA-Type")
-        expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "マイページ")
-        expect(page).to have_selector("li", text: "パスワード編集")
+        expect_page_information("パスワード編集")
       end
 
       # 失敗
@@ -117,11 +118,7 @@ RSpec.describe "UserUpdate", type: :system do
       click_on "退会の手続き"
 
       aggregate_failures do
-        expect(page).to have_title("退会の手続き - GUNPLA-Type")
-        expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "マイページ")
-        expect(page).to have_selector("li", text: "退会の手続き")
-
+        expect_page_information("退会の手続き")
         expect { click_on "退会する" }.to change(User, :count).by(-1)
         expect(current_path).to eq root_path
         expect(page).to have_selector(".alert-success", text: "アカウントを削除しました。またのご利用をお待ちしております。")

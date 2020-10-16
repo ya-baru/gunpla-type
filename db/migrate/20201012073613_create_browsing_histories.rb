@@ -6,6 +6,6 @@ class CreateBrowsingHistories < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :browsing_histories, [:user_id, :gunpla_id]
+    add_index :browsing_histories, [:user_id, :gunpla_id], unique: true
   end
 end

@@ -4,13 +4,17 @@ RSpec.describe "Contact", type: :system do
   describe "問い合わせフォームの機能テスト" do
     let(:contact) { create(:contact) }
 
+    def expect_page_information(text)
+      expect(page).to have_title("#{text} - GUNPLA-Type")
+      expect(page).to have_selector("li", text: "ホーム")
+      expect(page).to have_selector("li", text: text)
+    end
+
     it "正常な情報を認識してメール送信する" do
       visit root_path
       click_on "お問い合わせ"
       aggregate_failures do
-        expect(page).to have_title("お問い合わせ - GUNPLA-Type")
-        expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "お問い合わせ")
+        expect_page_information("お問い合わせ")
       end
 
       # 失敗
@@ -27,9 +31,7 @@ RSpec.describe "Contact", type: :system do
       fill_in "ご用件", with: contact.message
       aggregate_failures do
         expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
-        expect(page).to have_title "送信確認 - GUNPLA-Type"
-        expect(page).to have_selector("li", text: "ホーム")
-        expect(page).to have_selector("li", text: "お問い合わせ")
+        expect_page_information("送信確認")
         expect(page).to have_selector("li", text: "送信確認")
         expect(current_path).to eq contact_confirm_path
         expect(all('tbody tr')[0]).to have_content contact.name
