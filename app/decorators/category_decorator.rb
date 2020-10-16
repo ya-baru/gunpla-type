@@ -4,11 +4,11 @@ class CategoryDecorator < ApplicationDecorator
   def result
     if object.present?
       if root?
-        name
+        h.content_tag(:div, name, class: "search_result")
       elsif childless?
-        "#{root.name} / #{parent.name} / #{name}"
+        h.content_tag(:div, "#{root.name} / #{parent.name} / #{name}", class: "search_result")
       else
-        "#{parent.name} / #{name}"
+        h.content_tag(:div, "#{parent.name} / #{name}", class: "search_result")
       end
     end
   end
@@ -16,11 +16,11 @@ class CategoryDecorator < ApplicationDecorator
   def none_result(gunplas)
     if gunplas.blank? && object.id?
       if root?
-        "『#{name}』に分類されるガンプラはありませんでした。"
+        h.content_tag(:div, "『#{name}』に分類されるガンプラはありませんでした。", class: "search_result")
       elsif childless?
-        "『#{root.name} / #{parent.name} / #{name}』に分類されるガンプラはありませんでした。"
+        h.content_tag(:div, "『#{root.name} / #{parent.name} / #{name}』に分類されるガンプラはありませんでした。", class: "search_result")
       else
-        "『#{parent.name} / #{name}』に分類されるガンプラはありませんでした。"
+        h.content_tag(:div, "『#{parent.name} / #{name}』に分類されるガンプラはありませんでした。", class: "search_result")
       end
     end
   end

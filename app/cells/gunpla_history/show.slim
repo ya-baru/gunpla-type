@@ -1,5 +1,5 @@
 - if user_signed_in?
-  .card.shadow-sm.mb-2
+  .history_box.card.shadow-sm.mb-2
     .card-header
       h5.m-0
         | 閲覧履歴
@@ -7,7 +7,7 @@
       - if @histories.present?
         ul.list-group.list-group-flush
           - @histories.each do |history|
-            li.list-group-item.list-group-item-action.p-3
+            li class="history-#{history.id} list-group-item list-group-item-action p-3"
               = link_to history.gunpla.name, gunpla_path(history.gunpla.id)
       - else
         .p-3.text-center

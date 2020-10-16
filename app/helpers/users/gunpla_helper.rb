@@ -3,14 +3,16 @@ module Users::GunplaHelper
     "#{title}（#{count}）"
   end
 
-  def search_keyword
+  def search_result
     if current_page?(search_gunplas_path) && params[:q][:name_cont].present?
-      "『#{params[:q][:name_cont]}』"
+      content_tag(:div, "『#{params[:q][:name_cont]}』", class: "search_result")
     end
   end
 
   def none_search_result
-    concat content_tag(:strong, "『#{params[:q][:name_cont]}』")
-    content_tag(:span, "に一致するガンプラはありませんでした。")
+    content_tag(:div, class: "search_result") do
+      concat content_tag(:strong, "『#{params[:q][:name_cont]}』")
+      concat content_tag(:span, "に一致するガンプラはありませんでした。")
+    end
   end
 end

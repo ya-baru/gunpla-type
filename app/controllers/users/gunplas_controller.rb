@@ -1,6 +1,7 @@
 class Users::GunplasController < ApplicationController
   include CategorySearch
   include GunplaHistory
+  include GunplaSearch
 
   before_action :authenticate_user!, only: %i(new create edit update)
   before_action :set_gunpla, only: %i(show edit update)
@@ -9,15 +10,13 @@ class Users::GunplasController < ApplicationController
   before_action :set_category, only: %i(index search_index)
 
   def index
-    @search = Gunpla.ransack
-    @gunplas = @search.result.page(params[:page]).per(9).decorate
+    gunpla_search(nil)
 
     set_gunplas_page_data(@search.result.count, "ガンプラリスト", :gunpla_list)
   end
 
   def search_index
-    @search = Gunpla.ransack(search_params)
-    @gunplas = @search.result.page(params[:page]).per(9).decorate
+    gunpla_search(search_params)
 
     set_gunplas_page_data(@search.result.count, "検索結果", :gunpla_search)
     render :index
@@ -26,9 +25,7 @@ class Users::GunplasController < ApplicationController
   def select_category_index
     @category = Category.find_by(id: params[:id]).decorate
     category_listup(@category)
-
-    @search = Gunpla.ransack
-    @gunplas = Kaminari.paginate_array(@gunpla_list).page(params[:page]).per(9)
+    gunpla_search(nil)
 
     set_gunplas_page_data(@gunplas.count, "カテゴリー検索", :category_search)
     render :index

@@ -21,10 +21,10 @@
                 h6.border-bottom.text-center
                   | 作品
                 = render partial: "category", collection: @parent_categories, as: :parent_category
-        .border-top.py-4.mt-4
+        .border-top.text-center.py-4.mt-4
           em
             | ガンプラが見つからない場合は、こちらから追加登録をお願いします。
-          .text-center
+          div
             = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px"
 
     .card.shadow-sm
@@ -34,7 +34,7 @@
       .card-body
         - if @gunplas.present?
           = @category.result
-          = search_keyword
+          = search_result
           ol.row.p-0.justify-content-around
             = render partial: "gunpla", collection: @gunplas
           .mt-5
