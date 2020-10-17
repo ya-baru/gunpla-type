@@ -78,10 +78,10 @@ Rails.application.configure do
     Bullet.rails_logger = true
   end
 
-  config.web_console.whitelisted_ips = '172.19.0.1'
-
   # better-errors setting
   if Rails.env.development?
     BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
   end
+
+  config.web_console.whitelisted_ips = "172.18.0.1"
 end

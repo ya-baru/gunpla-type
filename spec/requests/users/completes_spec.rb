@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Notices", type: :request do
+RSpec.describe "Users::Completes", type: :request do
   subject { response }
 
   let(:user) { create(:user) }

@@ -1,19 +1,19 @@
-- provide(:title, "パスワード再設定")
+- provide(:title, sub_title="パスワード再設定")
 
 .card.col-md-8.mt-4.mx-auto.px-0
   .card-header
     h2
-      | パスワード再設定
+      = sub_title
   .card-body
     = form_with model: resource, as: resource_name, url: password_path(resource_name), html: { method: :put }, local: true do |f|
       = f.hidden_field :reset_password_token
       .form-group
-        = f.label :password, "新規パスワード"
+        = f.label :password, class: "form-require"
         = f.password_field :password, autofocus: true, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
-        = render "users/shared/error_messages", error_msg: :password
+        = resource.form_error_message(:password)
       .form-group
-        = f.label :password_confirmation
+        = f.label :password_confirmation, class: "form-require"
         = f.password_field :password_confirmation, class: "form-control"
-        = render "users/shared/error_messages", error_msg: :password_confirmation
+        = resource.form_error_message(:password_confirmation)
       .text-center
         = f.submit "変更する", class: "btn btn-primary w-250px mt-4"

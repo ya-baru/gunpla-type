@@ -1,0 +1,63 @@
+- provide(:title, sub_title="ガンプラリスト")
+- breadcrumb :gunpla, @gunpla
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm.mb-2
+      .card-body.m-4
+        .row.mb-4
+          .col-lg-6.offset-lg-3
+            .text-center
+              h2
+                = @gunpla.name
+          - if user_signed_in?
+            .col-lg-3.text-right
+              = link_to edit_gunpla_path(@gunpla), class: "btn btn-info btn-sm" do
+                i.fas.fa-edit.mr-1
+                | 編集
+        .row
+          .col-md-5.mb-3.mb-md-0
+            .text-center.mb-2
+              img src="https://placehold.jp/400x400.png?text=Non-Image"
+            ul.d-flex.justify-content-between.p-0
+              li
+                img src="https://placehold.jp/60x60.png?text=Non-Image"
+              li
+                img src="https://placehold.jp/60x60.png?text=Non-Image"
+              li
+                img src="https://placehold.jp/60x60.png?text=Non-Image"
+          .col-md-7
+            h5.row.heading
+              | 商品情報
+            table.table
+              tr.row
+                th.col-3.table-active
+                  | 作品
+                td.col-8
+                  = @gunpla.root_category_name
+              tr.row
+                th.col-3.table-active
+                  | グレード
+                td.col-8
+                  = @gunpla.parent_category_name
+              tr.row
+                th.col-3.table-active
+                  | スケール
+                td.col-8
+                  = @gunpla.category_name
+              tr.row.border-bottom
+                th.col-3.table-active
+                  | 販売方法
+                td.col-8
+                  = @gunpla.sales.name
+            a.btn.btn-primary.btn-block href="#"
+              | お気に入り登録
+
+    .card.shadow-sm
+      .card-header
+        h2
+          | レビューリスト
+      .card-body
+        ol.row.p-0.justify-content-around
+
+  = render "users/shared/sidebar"

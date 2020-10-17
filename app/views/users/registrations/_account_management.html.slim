@@ -1,12 +1,12 @@
 .col-lg-4.order-lg-1
-  .card.px-0.shadow-sm.align-self-start
+  .card.shadow-sm
     .card-header
       h2
         | アカウント管理
     .card-body.p-0
       ul.list-group.list-group-flush
         li.list-group-item.list-group-item-action.p-0
-          = link_to mypage_path(current_user.id), class: "d-block p-3" do
+          = link_to mypage_path(current_user), class: "d-block p-3" do
             i.fas.fa-user.mr-2
             | マイページ
         li.list-group-item.list-group-item-action.p-0

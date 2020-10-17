@@ -1,0 +1,46 @@
+- provide(:title, @sub_title)
+- breadcrumb @breadcumb
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm.mb-2
+      .card-header
+        h2
+          | ガンプラを探す
+      .card-body
+        = render "search_form", search: @search
+
+        .dropdown.d-none.d-lg-block
+          a.dropdown-toggle.category_box data-toggle="dropdown" type="button" data-reference="parent" data-flip="false"
+            i.fas.fa-list-ul
+            span
+              | カテゴリーから探す
+          ul.dropdown-menu
+            .row
+              .parent_list.col
+                h6.border-bottom.text-center
+                  | 作品
+                = render partial: "category", collection: @parent_categories, as: :parent_category
+        .border-top.text-center.py-4.mt-4
+          em
+            | ガンプラが見つからない場合は、こちらから追加登録をお願いします。
+          div
+            = link_to "ガンプラを追加", new_gunpla_path, class: "btn btn-success w-250px"
+
+    .card.shadow-sm
+      .card-header
+        h2
+          = header_title(@sub_title, @gunplas_count)
+      .card-body
+        - if @gunplas.present?
+          = @category.result
+          = search_result
+          ol.row.p-0.justify-content-around
+            = render partial: "gunpla", collection: @gunplas
+          .mt-5
+            = paginate @gunplas
+        = @category.none_result(@gunplas)
+        - if current_page?(search_gunplas_path) && @gunplas.blank?
+          = none_search_result
+
+  = render "users/shared/sidebar"

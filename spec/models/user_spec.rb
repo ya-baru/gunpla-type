@@ -15,7 +15,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_length_of(:password).is_at_most(20) }
 
   it "ファクトリーが有効であること" do
-    expect(build(:user)).to be_valid
+    expect(user).to be_valid
   end
 
   describe "メールアドレスの一意性のチェック" do

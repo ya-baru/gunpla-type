@@ -1,0 +1,14 @@
+- if user_signed_in?
+  .history_box.card.shadow-sm.mb-2
+    .card-header
+      h5.m-0
+        | 閲覧履歴
+    .card-body.p-0
+      - if @histories.present?
+        ul.list-group.list-group-flush
+          - @histories.each do |history|
+            li class="history-#{history.id} list-group-item list-group-item-action p-3"
+              = link_to history.gunpla.name, gunpla_path(history.gunpla.id)
+      - else
+        .p-3.text-center
+          | 閲覧履歴はありません

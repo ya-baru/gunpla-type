@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Contact, type: :model do
-  let(:contact) { create(:contact) }
+  let(:contact) { build(:contact) }
 
   it { is_expected.to validate_presence_of :name }
   it { is_expected.to validate_length_of(:name).is_at_most(20) }
@@ -11,7 +11,7 @@ RSpec.describe Contact, type: :model do
   it { is_expected.to validate_length_of(:message).is_at_most(1000) }
 
   it "ファクトリーが有効であること" do
-    expect(build(:contact)).to be_valid
+    expect(contact).to be_valid
   end
 
   describe "メールアドレスのフォーマットチェック" do

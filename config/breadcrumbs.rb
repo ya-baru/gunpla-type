@@ -76,6 +76,30 @@ crumb :account_confirmation do
   link "確認メール再送信", new_account_confirmation_path
 end
 
+crumb :gunpla_up do
+  link "ガンプラ登録", new_gunpla_path
+  parent :gunpla_list
+end
+
+crumb :gunpla_list do
+  link "ガンプラリスト", gunplas_path
+end
+
+crumb :gunpla_search do
+  link "検索結果", search_gunplas_path
+  parent :gunpla_list
+end
+
+crumb :category_search do
+  link "カテゴリー検索", select_category_index_gunpla_path
+  parent :gunpla_list
+end
+
+crumb :gunpla do |gunpla|
+  link gunpla.name, gunpla_path(gunpla)
+  parent :gunpla_list, gunpla
+end
+
 # crumb :project do |project|
 #   link project.name, project_path(project)
 #   parent :projects

@@ -82,6 +82,8 @@ gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-google-oauth2'
+
+# Admin
 gem 'cancancan'
 gem 'rails_admin'
 
@@ -96,3 +98,22 @@ gem 'redcarpet'
 
 # SEO
 gem 'gretel'
+
+# Select
+gem 'active_hash'
+
+# Category
+gem 'ancestry'
+
+# Pagination
+gem 'kaminari'
+
+# Search
+gem 'ransack'
+
+# Cell
+gem 'cells-rails'
+gem 'cells-slim'
+gem 'rspec-cells'
+
+gem 'draper'

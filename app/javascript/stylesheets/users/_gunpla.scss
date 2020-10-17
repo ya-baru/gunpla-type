@@ -1,0 +1,14 @@
+// サジェスト
+.ui-widget.ui-widget-content {
+  border: 1px solid $light-gray;
+}
+
+.ui-menu-item {
+  color: $text !important;
+  background-color: $white !important;
+}
+
+// カテゴリーリスト
+.drop-hover:hover > .dropdown-menu {
+  display: block !important;
+}

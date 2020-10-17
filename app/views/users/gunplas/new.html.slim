@@ -1,0 +1,17 @@
+- provide(:title, sub_title="ガンプラ登録")
+- breadcrumb :gunpla_up
+
+.row.mx-auto
+  = render "form",
+    sub_title: sub_title,
+    url: create_gunplas_path,
+    gunpla: @gunpla,
+    parent_categories: @parent_categories,
+    category_children: [],
+    category_grandchildren: [],
+    category_parent: nil,
+    category_child: nil,
+    category_grandchild: nil,
+    btn: "登録"
+
+  = render "users/shared/sidebar"

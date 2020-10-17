@@ -13,7 +13,7 @@ ja:
         profile: プロフィール
         avatar: アバター
         email: メールアドレス
-        email_confirmation: 新しいメールアドレス（確認用）
+        email_confirmation: 確認用メールアドレス
         encrypted_password: 暗号化パスワード
         failed_attempts: 失敗したログイン試行回数
         last_sign_in_at: 最終ログイン時刻

@@ -1,10 +1,10 @@
-- provide(:title, "送信確認")
+- provide(:title, sub_title="送信確認")
 - breadcrumb :contact_confirm
 
 .card.col-lg-8.mx-auto.shadow-sm
   .card-body
-    h2
-      | 送信確認
+    h2.mb-2
+      = sub_title
     table.table
       tbody
         tr.row
@@ -23,15 +23,9 @@
           td.col-9
             = simple_format(h(@contact.message), {}, sanitize: false)
 
-    .d-flex
-      = form_with model: @contact, url: user_contact_path, local: true do |f|
-        = f.hidden_field :name
-        = f.hidden_field :email
-        = f.hidden_field :message
-        = f.submit "確定", class: "btn btn-primary w-100px mr-3"
-
-      = form_with model: @contact, url: contact_confirm_back_path, local: true do |f|
-        = f.hidden_field :name
-        = f.hidden_field :email
-        = f.hidden_field :message
-        = f.submit "戻る", class: "btn btn-secondary w-100px"
+    = form_with model: @contact, url: user_contact_path, local: true do |f|
+      = f.hidden_field :name
+      = f.hidden_field :email
+      = f.hidden_field :message
+      = f.submit "確定", class: "btn btn-primary w-100px mr-3"
+      = f.submit "戻る", name: "back", class: "btn btn-secondary w-100px"

@@ -10,7 +10,7 @@ section
         - else
           img.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
     .user.d-flex.align-items-center
-      .user-box.mr-4
+      .user-box.mr-3
         = link_to mypage_path(@user) do
           h2
             = @user.username
@@ -20,11 +20,12 @@ section
           | お気に入り 10件
       .user-btn
         - if current_user?(@user)
-          = link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-info rounded-pill"
+          = link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-info rounded-pill mb-2"
         - else
           span id="follow-#{@user.id}"
             a.btn.btn-info.rounded-pill href="#"
               | フォローする
+        = link_to "レビューする", gunplas_path, class: "btn btn-success rounded-pill d-block"
 
 section.user_profile.mb-5.col-sm-7
   p.font-weight-bold.mb-0
@@ -53,16 +54,6 @@ section
   h1
     | レビューリスト（10）
 
-
-
-
-/ .card
-/   img.card-img-top src="https://placehold.jp/600x600.png?text=Non-Image"
-/   .card-body
-/     h5.card-title
-/       | タイトル
-/     p.card-text
-/       | テキスト
 ol.user_grid
   li.card.shadow-sm
     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"

@@ -1,43 +1,30 @@
 class Users::ContactsController < ApplicationController
+  include SlackNotice
+
   def new
-    @contact = Contact.new(session[:contact] || {})
-    session[:contact] = nil
+    @contact = Contact.new.decorate
   end
 
   def confirm
-    @contact = Contact.new(contact_params)
+    return redirect_to new_user_contact_url if params[:contact].blank?
 
-    unless @contact.valid?
-      session[:contact] = contact_params
-      redirect_to new_user_contact_url, flash: { danger: @contact.errors.full_messages.join(",") }
-    end
-  end
-
-  def confirm_back
-    session[:contact] = contact_params
-    redirect_to new_user_contact_url
+    @contact = Contact.new(contact_params).decorate
+    render :new unless @contact.valid?
   end
 
   def create
-    @contact = Contact.new(contact_params)
-
+    @contact = Contact.new(contact_params).decorate
     return render :new unless @contact.save
+    return render :new if params[:back].present?
 
     Users::ContactMailer.contact_mail(@contact).deliver_now
-    slack_info
-
-    flash[:notice] = "お問い合わせを受け付けました"
-    redirect_to root_path
+    contacts_slack
+    redirect_to root_path, notice: "お問い合わせを受け付けました"
   end
 
   private
 
   def contact_params
     params.require(:contact).permit(:name, :email, :message)
-  end
-
-  def slack_info
-    message = "新しい問い合わせがあります。#{Rails.application.credentials.gmail[:link]}"
-    notice_slack(message)
   end
 end

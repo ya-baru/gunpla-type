@@ -22,6 +22,7 @@ module GunplaType
 
     # タイムゾーン
     config.time_zone = "Asia/Tokyo"
+
     # DB内のデフォルト時間
     config.active_record.default_timezone = :local
 
@@ -34,6 +35,7 @@ module GunplaType
     # 不要ファイル作成除外
     config.generators do |g|
       g.assets false
+      g.helper false
       g.test_framework :rspec,
         controller_specs: false,
         view_specs: false,

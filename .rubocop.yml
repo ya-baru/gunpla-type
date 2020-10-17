@@ -20,6 +20,7 @@ AllCops:
     - "path/ruby"
     - "node_modules/node-sass/src/libsass/contrib/libsass.spec"
     - "node_modules/node-sass/src/libsass/extconf.rb"
+    - "app/decorators/*"
 
 # 日本語コメントを許可
 Style/AsciiComments:

@@ -1,29 +1,33 @@
-- provide(:title, "新規登録")
+- provide(:title, sub_title="新規登録")
 - msg = "登録"
 - breadcrumb :signup
 
 .row.mx-auto
-  .col-lg-8.order-lg-2
-    .card.px-0.shadow-sm
+  .col-lg-8.order-lg-2.mb-4
+    .card.shadow-sm
       .card-header
         h2
-          | 新規登録
+          = sub_title
       .card-body
-        = form_with model: resource, url: signup_confirm_path, html: { method: :post }, local: true do |f|
+        = form_with model: resource, url: signup_confirm_path, method: :post, local: true do |f|
           .form-group
-            = f.label :username
+            = f.label :username, class: "form-require"
             = f.text_field :username, autofoucus: true, autocomplete: "username", class: "form-control", placeholder: "例: Amuro Ray"
+            = resource.form_error_message(:username)
           .form-group
-            = f.label :email
+            = f.label :email, class: "form-require"
             = f.email_field :email, autocomplete: "email", class: "form-control", placeholder: "例: gunpla@type.com"
+            = resource.form_error_message(:email)
           .form-group
-            = f.label :password
+            = f.label :password, class: "form-require"
             = f.password_field :password, class: "form-control", placeholder: "#{@minimum_password_length}文字以上の英数字"
+            = resource.form_error_message(:password)
           .form-group
-            = f.label :password_confirmation
+            = f.label :password_confirmation, class: "form-require"
             = f.password_field :password_confirmation, class: "form-control lead"
-          .text-center
-            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
+            = resource.form_error_message(:password_confirmation)
+          .text-center.border-top.mt-4.pt-4
+            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px"
           br
           = link_to "利用規約", term_path
           | と

@@ -3,21 +3,6 @@ Rails.application.routes.draw do
 
   root 'users/home#index'
 
-  scope module: :users do
-    get 'company', to: 'about#company'
-    get 'privacy', to: 'about#privacy'
-    get 'term', to: 'about#term'
-    get 'questions', to: 'about#questions'
-  end
-
-  scope module: :users do
-    get 'contact', to: 'contacts#new', as: :new_user_contact
-    match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
-    post 'contact', to: 'contacts#create', as: :user_contact
-    post 'contact', to: 'contacts#new', action: :contact_confirm_back
-    post 'contact_confirm_back', to: 'contacts#confirm_back'
-  end
-
   devise_for :users,
              skip: %i(registrations sessions confirmations unlocks passwords),
              controllers: {
@@ -33,7 +18,6 @@ Rails.application.routes.draw do
     get 'signout_confirm', to: 'users/registrations#delete_confirm'
     post 'signup', to: 'users/registrations#create', as: :user_registration
     post 'signup', to: 'users/registrations#new', action: :signup_confirm_back
-    post 'signup_confirm_back', to: 'users/registrations#confirm_back'
     patch 'user/edit', to: 'users/registrations#update', as: :update_user_registration
     patch 'user/edit_email', to: 'users/registrations#update_email', as: :update_email_user_registation
     patch 'user/edit_password', to: 'users/registrations#update_password', as: :update_password_user_registration
@@ -60,13 +44,40 @@ Rails.application.routes.draw do
   end
 
   scope module: :users do
+    # about
+    get 'company', to: 'about#company'
+    get 'privacy', to: 'about#privacy'
+    get 'term', to: 'about#term'
+    get 'questions', to: 'about#questions'
+
+    # contact
+    get 'contact', to: 'contacts#new', as: :new_user_contact
+    match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
+    post 'contact', to: 'contacts#create', as: :user_contact
+    post 'contact', to: 'contacts#new', action: :contact_confirm_back
+
+    # complete
+    get 'account_confirmation_mail_sent', to: 'completes#account_confirm'
+    get 'password_reset_mail_sent', to: 'completes#password_reset'
+    get 'unlock_mail_sent', to: 'completes#unlock'
+
+    # mypage
     resources :mypage, only: %i(show)
-    get 'account_confirmation_mail_sent', to: 'notices#account_confirm'
-    get 'password_reset_mail_sent', to: 'notices#password_reset'
-    get 'unlock_mail_sent', to: 'notices#unlock'
+
+    # gunpla
+    resources :gunplas, except: %i(create update destroy) do
+      collection do
+        get 'search', to: 'gunplas#search_index'
+        get 'autocomplete', to: 'gunplas#autocomplete'
+        get 'get_category_children', defaults: { format: 'json' }
+        get 'get_category_grandchildren', defaults: { format: 'json' }
+        post 'new', to: 'gunplas#create', as: :create
+      end
+
+      member do
+        get 'select_category_index', to: 'gunplas#select_category_index'
+        match 'edit', to: 'gunplas#update', via: %i(patch put), as: :update
+      end
+    end
   end
-
-  # resources :users, only: [:show]
-
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
