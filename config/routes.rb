@@ -79,5 +79,7 @@ Rails.application.routes.draw do
         match 'edit', to: 'gunplas#update', via: %i(patch put), as: :update
       end
     end
+
+    resources :reviews, except: %i(index)
   end
 end

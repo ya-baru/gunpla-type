@@ -36,7 +36,9 @@ module GunplaType
     config.generators do |g|
       g.assets false
       g.helper false
+      g.decorator false
       g.test_framework :rspec,
+        decorator_specs: false,
         controller_specs: false,
         view_specs: false,
         helper_specs: false,
