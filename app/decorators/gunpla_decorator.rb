@@ -1,8 +1,9 @@
 class GunplaDecorator < ApplicationDecorator
   decorates :gunpla
-  delegate_all
   decorates_association :category
-  decorates_association :gunplas
+  delegate_all
+
+  decorates_association :reviews
 
   def category_name
     category.name

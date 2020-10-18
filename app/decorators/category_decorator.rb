@@ -1,5 +1,6 @@
 class CategoryDecorator < ApplicationDecorator
   delegate_all
+  decorates_association :gunplas
 
   def result
     if object.present?

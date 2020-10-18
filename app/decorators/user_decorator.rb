@@ -1,5 +1,8 @@
 class UserDecorator < ApplicationDecorator
   delegate_all
+
+  decorates_association :reviews
+
   def use_avatar
     if object.avatar.present?
       h.content_tag(:div, class: "prev-content") do

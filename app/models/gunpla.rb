@@ -6,6 +6,7 @@ class Gunpla < ApplicationRecord
   belongs_to :category
 
   has_many :browsing_histories, dependent: :destroy
+  has_many :reviews, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :sales_id, presence: true
