@@ -10,4 +10,8 @@ class Review < ApplicationRecord
   validates :user_id, presence: true, uniqueness: { scope: :gunpla_id }
   validates :gunpla_id, presence: true
   validate :images_type, :images_size, :images_length
+  validates :rate, presence: true, numericality: {
+    less_than_or_equal_to: 5,
+    greater_than_or_equal_to: 1
+  }
 end

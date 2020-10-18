@@ -1,2 +1,14 @@
 = @gunpla.name
 = @review.title
+div id="star-rate-#{@review.id}"
+
+javascript:
+  $('#star-rate-#{@review.id}').raty({
+    size: 36,
+    starOff: "#{asset_path('star-off.png')}",
+    starOn: "#{asset_path('star-on.png')}",
+    starHalf: "#{asset_path('star-half.png')}",
+    half: true,
+    readOnly: true,
+    score: "#{@review.rate}",
+  });

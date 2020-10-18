@@ -7,13 +7,13 @@
       = form_with model: gunpla, url: url, local: true do |f|
         table.table.table-bordered.text-nowrap
           tr.form-group
-            th
+            th.table-active
               = f.label :name, class: "form-require"
               = gunpla.form_error_message(:name)
             td
               = f.text_field :name, autofoucus: true, class: "form-control", placeholder: "例: HGUC 191 RX-78-2ガンダム"
           tr.append_category
-            th
+            th.table-active
               .form-require カテゴリー
               = gunpla.form_error_message(:category_id)
             td
@@ -30,7 +30,7 @@
                 #category_grandchild
                   = f.collection_select :category_id, category_grandchildren, :id, :name, { selected: category_grandchild }, id: "gunpla_grandchild_category", class: "form-control"
           tr.form-group
-            th
+            th.table-active
               = f.label :sales_id, class: "form-require"
               = gunpla.form_error_message(:sales_id)
             td
