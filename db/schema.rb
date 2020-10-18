@@ -72,7 +72,7 @@ ActiveRecord::Schema.define(version: 2020_10_17_024143) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string "title", null: false
+    t.string "title", limit: 50, null: false
     t.text "content", null: false
     t.bigint "user_id", null: false
     t.bigint "gunpla_id", null: false
