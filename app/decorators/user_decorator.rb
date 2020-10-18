@@ -1,7 +1,6 @@
 class UserDecorator < ApplicationDecorator
   delegate_all
-
-  decorates_association :reviews
+  decorates_association :review
 
   def use_avatar
     if object.avatar.present?

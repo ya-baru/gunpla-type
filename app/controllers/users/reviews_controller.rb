@@ -14,7 +14,6 @@ class Users::ReviewsController < ApplicationController
   def create
     @gunpla = Gunpla.find(params[:gunpla_id])
     @review = current_user.reviews.build(review_params).decorate
-    @review.images.attach(params[:review][:images])
 
     if @review.save
       flash[:notice] = "投稿が完了しました。"
@@ -36,6 +35,6 @@ class Users::ReviewsController < ApplicationController
   private
 
   def review_params
-    params.require(:review).permit(:title, :content, :gunpla_id)
+    params.require(:review).permit(:title, :content, :gunpla_id, images: [])
   end
 end

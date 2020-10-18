@@ -52,8 +52,14 @@
                   = @gunpla.sales.name
             a.btn.btn-primary.btn-block href="#"
               | お気に入り登録
-            = link_to "レビューする", new_gunpla_review_path(@gunpla), class: "btn btn-info"
-
+            .d-flex.justify-content-between
+              a.btn.btn-info href="#"
+                | twitter
+              a.btn.btn-info href="#"
+                | facebook
+              a.btn.btn-info href="#"
+                | line
+          = link_to "『#{@gunpla.name}』 をレビューする", new_gunpla_review_path(@gunpla), class: "btn btn-info btn-block"
     .card.shadow-sm
       .card-header
         h2

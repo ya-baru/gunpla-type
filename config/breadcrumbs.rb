@@ -100,6 +100,10 @@ crumb :gunpla do |gunpla|
   parent :gunpla_list, gunpla
 end
 
+crumb :review_up do |gunpla|
+  link "レビュー投稿", new_gunpla_review_path(gunpla)
+  parent :gunpla, gunpla
+end
 # crumb :project do |project|
 #   link project.name, project_path(project)
 #   parent :projects
