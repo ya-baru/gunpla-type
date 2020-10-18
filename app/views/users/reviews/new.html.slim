@@ -1,2 +1,15 @@
-h1 Users::Reviews#new
-p Find me in app/views/users/reviews/new.html.slim
+= form_with model: [@gunpla, @review], url: review_gunplas_path, method: :post, local: true do |f|
+  .form-group
+    = f.label :title, class: "form-require"
+    = f.text_field :title, autofoucus: true, autocomplete: "title", class: "form-control", placeholder: "例: Amuro Ray"
+    = @review.form_error_message(:title)
+  .form-group
+    = f.label :content, class: "form-require"
+    = f.text_area :content, class: "form-control", placeholder: "例: gunpla@type.com"
+    = @review.form_error_message(:content)
+  .form-group
+    = f.file_field :images, multiple: true
+    = @review.form_error_message(:images)
+  = f.hidden_field :gunpla_id, value: @gunpla.id
+  .text-center.border-top.mt-4.pt-4
+    = f.submit "アカウントを作成する", class: "btn btn-primary w-250px"

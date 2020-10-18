@@ -27,12 +27,13 @@ class Users::GunplasController < ApplicationController
     category_listup(@category)
     gunpla_search(nil)
 
-    set_gunplas_page_data(@gunplas.count, "カテゴリー検索", :category_search)
+    set_gunplas_page_data(@gunpla_list.count, "カテゴリー検索", :category_search)
     render :index
   end
 
   def show
     @gunpla = Gunpla.find(params[:id]).decorate
+    @reviews = @gunpla.reviews
     gunpla_history_save(@gunpla) if user_signed_in?
   end
 

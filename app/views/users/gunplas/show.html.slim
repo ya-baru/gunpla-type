@@ -52,6 +52,7 @@
                   = @gunpla.sales.name
             a.btn.btn-primary.btn-block href="#"
               | お気に入り登録
+            = link_to "レビューする", new_gunpla_review_path(@gunpla), class: "btn btn-info"
 
     .card.shadow-sm
       .card-header
@@ -59,5 +60,6 @@
           | レビューリスト
       .card-body
         ol.row.p-0.justify-content-around
+          = render partial: "review", collection: @reviews
 
   = render "users/shared/sidebar"
