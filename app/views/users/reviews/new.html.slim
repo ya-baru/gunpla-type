@@ -8,6 +8,8 @@
         h2
           = sub_title
       .card-body.my-3
+        .text-center
+          h3= "#{@gunpla.name}"
         / = form_with model: [@gunpla, @review], url: review_gunplas_path, method: :post, local: true do |f|
         /   table.table.table-bordered
         /     tr.form-group.m-0
@@ -55,7 +57,7 @@
               th.col-3.table-active
                 = f.label :rate, id: "e", class: "form-require"
                 = f.hidden_field :rate, id: :review_star
-                / = @review.form_error_message(:content)
+                = @review.form_error_message(:rate)
               td.col-9#star
 
 
