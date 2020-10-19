@@ -82,6 +82,10 @@ Rails.application.routes.draw do
 
       resources :reviews, only: %i(new)
     end
-    resources :reviews, except: %i(index new create)
+    resources :reviews, except: %i(index new create) do
+      collection do
+        post 'upload_image', defaults: { format: 'json' }
+      end
+    end
   end
 end

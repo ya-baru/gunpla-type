@@ -66,21 +66,216 @@
                 = f.label :images, class: "form-require"
                 = @review.form_error_message(:images)
               td.col-9
-                = f.file_field :images, multiple: true
-                = f.file_field :images, multiple: true
-                = f.file_field :images, multiple: true
+                .images_field.clearfix
+                  = f.file_field :images, multiple: true, class: "file-input"
+                  - if @review.images.attached?
+                    - @review.images.each do |image|
+                      .image-box
+                        = image_tag image.variant(resize: "150x150")
+                        p= image.filename
+                        = f.hidden_field :images, name: "review[images][]", value: "#{image.blob.id}", style: "display: none;", class: "review-images-input"
+                        = link_to "編集", "", class: "btn-edit"
+                        = file_field "編集画像", "", class: "edit-image-file-input file-input", style: "display: none;"
+                        = link_to "削除", "", class: "btn-delete"
+
             = f.hidden_field :gunpla_id, value: @gunpla.id
+
+          / .review_block_form
+          /   .review_block_form_upload
+          /     h3.review_block_form_upload_head.form-require
+          /       | 画像
+          /     p 最大5枚までアップロードできます
+          /     .post__drop__box__container
+          /       .prev-content
+          /       .label-content
+          /         label.abel-box#label-box--0 for="review_images_attributes_0_image"
+          /           pre.label-box__text-visible
+          /             | クリックしてファイルをアップロード
+          /       .hidden-content
+          /         / = f.file_field :images, multiple: true, class: "hidden-field" do
+
+          /         = f.fields_for :images do |i|
+          /           = i.file_field :image, class: "hidden-field"
+          /           input.hidden-field#review_images_attributes_1_image type="file" name="review[images_attributes][1][image]"
+          /           input.hidden-field#review_images_attributes_2_image type="file" name="review[images_attributes][2][image]"
+          /           input.hidden-field#review_images_attributes_3_image type="file" name="review[images_attributes][3][image]"
+          /           input.hidden-field#review_images_attributes_4_image type="file" name="review[images_attributes][4][image]"
+
           .text-center
             = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
 
   = render "users/shared/sidebar"
 
 javascript:
-  $('#star').raty({
+  $("#star").raty({
     size: 36,
-    starOff: "#{asset_path('star-off.png')}",
-    starOn: "#{asset_path('star-on.png')}",
-    starHalf: "#{asset_path('star-half.png')}",
-    scoreName: 'review[rate]',
+    starOff: "#{asset_path("star-off.png")}",
+    starOn: "#{asset_path("star-on.png")}",
+    starHalf: "#{asset_path("star-half.png")}",
+    scoreName: "review[rate]",
     half: true,
   });
+
+/ $(function(){
+/   $("#review_images").on('change',function(e){
+/     var files = e.target.files;
+/     var d = (new $.Deferred()).resolve();
+/     $.each(files,function(i,file){
+/       d = d.then(function(){return previewImage(file)});
+/     });
+/   });
+
+/   var previewImage = function(imageFile){
+/     var reader = new FileReader();
+/     var img = new Image();
+/     var def = $.Deferred();
+/     reader.onload = function(e){
+/       $('.images_field').append(img);
+/       img.src = e.target.result;
+/       def.resolve(img);
+/     };
+/     reader.readAsDataURL(imageFile);
+/     return def.promise();
+/   }
+/ });
+
+  / $(function(){
+  /   $("#review_images").on('change',function(e){
+  /     var files = e.target.files;
+  /     var d = (new $.Deferred()).resolve();
+  /     $.each(files,function(i,file){
+  /       d = d.then(function(){
+  /         return Uploader.upload(file)})
+  /         .then(function(data){
+  /           return previewImage(file, data.image_id);
+  /         });
+  /       });
+  /       $("#review_images").val("")
+  /     });
+
+  /   var previewImage = function(imageFile, image_id){
+  /     var reader = new FileReader();
+  /     var img = new Image();
+  /     var def = $.Deferred();
+  /     reader.onload = function (e) {
+  /       var image_box = $('<div>', { class: "image-box" });
+  /       image_box.append(img);
+  /       image_box.append($('<p>').html(imageFile.name));
+  /       image_box.append($('<input>').attr({
+  /         name: "review[images][]",
+  /         value: image_id,
+  /         style: "display: none;",
+  /         type: "hidden",
+  /         class: "review-images-input"
+  /       }));
+  /       image_box.append('<a href="" class="btn-edit">編集</a>');
+  /       image_box.append($('<input>').attr({
+  /         name: "edit-image[]",
+  /         style: "display: none;",
+  /         type: "file",
+  /         class: "edit-image-file-input file-input"
+  /       }));
+  /       image_box.append('<a href="" class="btn-delete">削除</a>');
+  /       $('.images-field').append(image_box);
+  /       img.src = e.target.result;
+  /       def.resolve();
+  /     };
+  /     reader.readAsDataURL(imageFile);
+  /     return def.promise();
+  /   }
+
+  /   var Uploader = {
+  /     upload: function (imageFile) {
+  /       var def = $.Deferred();
+  /       var formData = new FormData();
+  /       $.ajax({
+  /         type: "POST",
+  /         url: "/reviews/upload_image",
+  /         data: formData,
+  /         dataType: "json",
+  /         processData: false,
+  /         contentType: false,
+  /         success: def.resolve
+  /       })
+  /       return def.promise();
+  /     }
+  /   }
+  / });
+
+/ $(function() {
+/   $(function() {
+/     function buildHTML(count) {
+/       var html =
+/         `<div id="preview-box-${count}" class="preview-box">
+/           <div class="upper-box">
+/             <img src="" alt="preview"
+/           </div>
+/           <div class="lower-box">
+/             <div class="update-box">
+/               <label class="edit-btn">編集</label>
+/             </div>
+/             <div id="delete-btn-${count} class="delete-box">
+/               <span>削除</spna>
+/             </div>
+/           </div>
+/         </div>`
+/       return html;
+/     }
+
+/     function setLabel() {
+/       var prevContent = $(".label-content").prev();
+/       labelWidth = (620 - $(prevContent).css("width").replace(/[^0-9]/g, ""));
+/       $(".label-content").css("width", labelWidth);
+/     }
+
+/     $(".hidden-field").on("change", function() {
+/       setLabel();
+/       var id = $(this).attr("id").replace(/[^0-9]/g, "");
+
+/       $(".label-box").attr({id: `label-box-${id}`, for: `review_images_attributees_${id}_image`});
+/       var file = this.files[0];
+/       var render = new FileReader();
+/       render.readAsDataURL(file);
+/       reader.onload = function() {
+/         var image = this.result;
+/         if ($(`#preview-box-${id}`).length == 0) {
+/           var count = $(".preview-box").length;
+/           var html = buildHTML(id);
+/           var prevContent = $(".label-content").prev();
+/           $(prevContent).append(html);
+/         }
+
+/         $(`#preview-box-${id} img`).attr("src", `${image}`);
+/         var count = $(".preview-box").length;
+/         if(count == 3) {
+/           $(".label-content").hide();
+/         }
+
+/         setLabel();
+/         if (count < 3) {
+/           $(".label-box").attr({id: `label-box-${count}`, for: `review_images_attributes_${count}_image`
+/         })
+/         }
+/       }
+/     });
+
+/     $(".delete-box").on("click", function(){
+/       var count = $(".preview-box").length;
+/       setLabel(count);
+/       var id = $(this).attr("id").replace(/[^0-9]/g, "");
+/       $(`#preview-box-${id}`).remove();
+/       console.log("new")
+/       $(`#review_images_attributes_${id}_image`).val("");
+
+/       var count = $(".preview-box").length;
+/       if (count == 2) {
+/         $(".label-content").show();
+/       }
+/       setLabel(count);
+
+/       if(id < 3) {
+/         $(".label-box").attr({id: `label-box-${id}`, for: `review_images_attributes_${id}_i,age`});
+/       }
+/     });
+/   });
+/ });

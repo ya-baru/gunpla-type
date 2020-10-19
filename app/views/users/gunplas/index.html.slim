@@ -35,7 +35,7 @@
         - if @gunplas.present?
           = @category.result
           = search_result
-          ol.row.p-0.justify-content-around
+          ol.gunpla_index.row.p-0.justify-content-around
             = render partial: "gunpla", collection: @gunplas
           .mt-5
             = paginate @gunplas

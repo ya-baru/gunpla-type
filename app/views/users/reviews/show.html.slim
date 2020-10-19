@@ -1,6 +1,13 @@
 = @gunpla.name
 = @review.title
 div id="star-rate-#{@review.id}"
+.clearfix
+  - if @review.images.attached?
+    - @review.images.each do |image|
+      .image-box
+        = image_tag image.variant(resize: "150x150")
+        p= image.filename
+= link_to "編集", edit_review_path(@review)
 
 javascript:
   $('#star-rate-#{@review.id}').raty({

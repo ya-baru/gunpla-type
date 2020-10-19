@@ -65,7 +65,21 @@
         h2
           | レビューリスト
       .card-body
+        .card-text
+          = "#{@gunpla.reviews.count} 件の評価"
+        div id="star-rate-#{@gunpla.id}"
         ol.row.p-0.justify-content-around
           = render partial: "review", collection: @reviews
 
   = render "users/shared/sidebar"
+
+javascript:
+  $("#star-rate-#{@gunpla.id}").raty({
+    size: 36,
+    starOff: "#{asset_path("star-off.png")}",
+    starOn: "#{asset_path("star-on.png")}",
+    starHalf: "#{asset_path("star-half.png")}",
+    half: true,
+    readOnly: true,
+    score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
+  });

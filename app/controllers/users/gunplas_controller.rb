@@ -45,7 +45,7 @@ class Users::GunplasController < ApplicationController
     @gunpla = Gunpla.new(ganpla_params).decorate
     return render :new unless @gunpla.save
 
-    redirect_to gunpla_url(@gunpla), notice: "ガンプラの登録に成功しました"
+    redirect_to gunpla_url(@gunpla), notice: "ガンプラを登録しました"
   end
 
   def edit; end

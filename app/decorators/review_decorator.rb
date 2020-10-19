@@ -3,4 +3,8 @@ class ReviewDecorator < ApplicationDecorator
 
   decorates_association :user
   decorates_association :gunpla
+
+  def gunpla_name
+    object.gunpla.name
+  end
 end

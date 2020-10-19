@@ -23,13 +23,19 @@ RSpec.describe Review, type: :model do
 
   describe "画像テスト" do
     before do
-      @review = user.reviews.build(title: "おすすめ！", content: "組み立てやすい！", gunpla_id: gunpla.id)
+      @review = user.reviews.build(
+        title: "おすすめ！",
+        content: "組み立てやすい！",
+        gunpla_id: gunpla.id,
+        rate: 5
+      )
       image_attach
     end
 
     def image_attach
       @review.images.attach(
-        io: File.open(Rails.root.join('spec', 'files', image_file)), filename: image_file
+        io: File.open(Rails.root.join('spec', 'files', image_file)),
+        filename: image_file
       )
     end
 

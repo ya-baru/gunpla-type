@@ -43,7 +43,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
 
       aggregate_failures do
         expect { click_on "ガンプラを登録する" }.to change(Gunpla, :count).by(1)
-        expect(page).to have_selector(".alert-success", text: "ガンプラの登録に成功しました")
+        expect(page).to have_selector(".alert-success", text: "ガンプラを登録しました")
         expect(current_path).to eq gunpla_path(Gunpla.first)
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
             expect(current_path).to eq search_gunplas_path
             expect_page_information("検索結果", "検索結果")
             expect(all(".card-header")[1]).to have_selector("h2", text: "検索結果（#{Gunpla.count}）")
-            expect(all("ol li").count).to eq 3
+            expect(all("ol.gunpla_index li.card").count).to eq 3
           end
         end
       end
@@ -104,7 +104,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
           aggregate_failures do
             expect(all(".card-header")[1]).to have_selector("h2", text: "検索結果（1）")
             expect(page).to have_selector(".search_result", text: Gunpla.first.name)
-            expect(all("ol li").count).to eq 1
+            expect(all("ol.gunpla_index li.card").count).to eq 1
           end
         end
       end
@@ -119,7 +119,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
             expect(all(".card-header")[1]).to have_selector("h2", text: "検索結果（0）")
             expect(page).to have_selector(".search_result", text: "ガンダム")
             expect(page).to have_selector("strong", text: "ガンダム")
-            expect(all("ol li").count).to eq 0
+            expect(all("ol.gunpla_index li.card").count).to eq 0
           end
         end
       end
@@ -162,7 +162,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
         aggregate_failures do
           expect(all(".card-header")[1]).to have_selector("h2", text: "カテゴリー検索（#{Gunpla.count}）")
           expect(page).to have_selector(".search_result", text: text)
-          expect(all("ol li").count).to eq 1
+          expect(all("ol.gunpla_index li.card").count).to eq 1
         end
       end
 
@@ -195,7 +195,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
         aggregate_failures do
           expect(all(".card-header")[1]).to have_selector("h2", text: "カテゴリー検索（#{Gunpla.count}）")
           expect(page).to have_selector(".search_result", text: text)
-          expect(all("ol li").count).to eq 0
+          expect(all("ol.gunpla_index li.card").count).to eq 0
         end
       end
 
@@ -274,7 +274,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
 
       expect(page).to have_css ".pagination"
       Gunpla.paginates_per(page: 1).each do |gunpla|
-        expect(all("ol li").count).to eq 9
+        expect(all("ol.gunpla_index li.card").count).to eq 9
       end
     end
   end
