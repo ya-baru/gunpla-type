@@ -1,56 +1,19 @@
+- provide(:title, sub_title="レビュー編集")
+- breadcrumb :review_update, @review
+
 .row.mx-auto
   .col-lg-8
     .card.shadow-sm
       .card-header
         h2
-          / = sub_title
+          = sub_title
       .card-body.my-3
         .text-center
           h3= "#{@review.gunpla_name}"
         = form_with model: @review, local: true do |f|
-          table.table.border
-            tr.row.form-group.m-0
-              th.col-3.table-active
-                = f.label :title, class: "form-require"
-                = @review.form_error_message(:title)
-              td.col-9
-                = f.text_field :title, autofoucus: true, autocomplete: "title", class: "form-control", placeholder: "50文字以内..."
-            tr.row.form-group.m-0
-              th.col-3.table-active
-                = f.label :content, class: "form-require"
-                = @review.form_error_message(:content)
-              td.col-9
-                = f.text_area :content, class: "form-control", placeholder: "1000文字以内...", size: "10x10"
-
-            tr.row.form-group.m-0.field
-              th.col-3.table-active
-                = f.label :rate, id: "e", class: "form-require"
-                = f.hidden_field :rate, id: :review_star
-                = @review.form_error_message(:rate)
-              td.col-9 id="rate-#{@review.id}"
-                = render "users/shared/rate",
-                  id: "#rate-#{@review.id}",
-                  readonly: nil,
-                  score: "#{@review.rate}",
-                  scorename: "review[rate]"
-
-            tr.row.form-group.m-0
-              th.col-3.table-active
-                = f.label :images, class: "form-require"
-                = @review.form_error_message(:images)
-              td.col-9
-                .images_field.clearfix
-                  = f.file_field :images, multiple: true, class: "file-input"
-                  - if @review.images.attached?
-                    - @review.images.each do |image|
-                      .image-box
-                        = image_tag image.variant(resize: "150x150")
-                        p= image.filename
-                        = f.hidden_field :images, name: "review[images][]", value: "#{image.blob.id}", style: "display: none;", class: "review-images-input"
-                        = link_to "編集", "", class: "btn-edit"
-                        = file_field "編集画像", "", class: "edit-image-file-input file-input", style: "display: none;"
-                        = link_to "削除", "", class: "btn-delete"
-          .text-center
-            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
+          = render "form",
+            review: @review,
+            f: f,
+            btn: "編集"
         = button_to "削除", review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger"
   = render "users/shared/sidebar"

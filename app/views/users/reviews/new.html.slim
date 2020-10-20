@@ -10,104 +10,12 @@
       .card-body.my-3
         .text-center
           h3= "#{@gunpla.name}"
-        / = form_with model: [@gunpla, @review], url: review_gunplas_path, method: :post, local: true do |f|
-        /   table.table.table-bordered
-        /     tr.form-group.m-0
-        /       th.table-active
-        /         = f.label :title, class: "form-require"
-        /         = @review.form_error_message(:title)
-        /       td
-        /         = f.text_field :title, autofoucus: true, autocomplete: "title", class: "form-control", placeholder: "50文字以内..."
-        /     tr.form-group.m-0
-        /       th.table-active
-        /         = f.label :content, class: "form-require"
-        /         = @review.form_error_message(:content)
-        /       td
-        /         = f.text_area :content, class: "form-control", placeholder: "1000文字以内...", size: "10x10"
-        /     tr.form-group.m-0.border-bottom
-        /       th.table-active
-        /         = f.label :images, class: "form-require"
-        /         = @review.form_error_message(:images)
-        /       td
-        /         = f.file_field :images, multiple: true
-        /         br
-        /         = f.file_field :images, multiple: true
-        /         br
-        /         = f.file_field :images, multiple: true
-        /     = f.hidden_field :gunpla_id, value: @gunpla.id
-        /   .text-center
-        /     = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
-
         = form_with model: [@gunpla, @review], url: review_gunplas_path, method: :post, local: true do |f|
-          table.table.border
-            tr.row.form-group.m-0
-              th.col-3.table-active
-                = f.label :title, class: "form-require"
-                = @review.form_error_message(:title)
-              td.col-9
-                = f.text_field :title, autofoucus: true, autocomplete: "title", class: "form-control", placeholder: "50文字以内..."
-            tr.row.form-group.m-0
-              th.col-3.table-active
-                = f.label :content, class: "form-require"
-                = @review.form_error_message(:content)
-              td.col-9
-                = f.text_area :content, class: "form-control", placeholder: "1000文字以内...", size: "10x10"
-
-            tr.row.form-group.m-0.field
-              th.col-3.table-active
-                = f.label :rate, id: "e", class: "form-require"
-                = f.hidden_field :rate, id: :review_star
-                = @review.form_error_message(:rate)
-              td.col-9#rate
-                = render "users/shared/rate",
-                  id: "#rate",
-                  readonly: nil,
-                  score: "#{@review.rate}",
-                  scorename: "review[rate]"
-
-            tr.row.form-group.m-0
-              th.col-3.table-active
-                = f.label :images, class: "form-require"
-                = @review.form_error_message(:images)
-              td.col-9
-                .images_field.clearfix
-                  = f.file_field :images, multiple: true, class: "file-input"
-                  - if @review.images.attached?
-                    - @review.images.each do |image|
-                      .image-box
-                        = image_tag image.variant(resize: "150x150")
-                        p= image.filename
-                        = f.hidden_field :images, name: "review[images][]", value: "#{image.blob.id}", style: "display: none;", class: "review-images-input"
-                        = link_to "編集", "", class: "btn-edit"
-                        = file_field "編集画像", "", class: "edit-image-file-input file-input", style: "display: none;"
-                        = link_to "削除", "", class: "btn-delete"
-
-            = f.hidden_field :gunpla_id, value: @gunpla.id
-
-          / .review_block_form
-          /   .review_block_form_upload
-          /     h3.review_block_form_upload_head.form-require
-          /       | 画像
-          /     p 最大5枚までアップロードできます
-          /     .post__drop__box__container
-          /       .prev-content
-          /       .label-content
-          /         label.abel-box#label-box--0 for="review_images_attributes_0_image"
-          /           pre.label-box__text-visible
-          /             | クリックしてファイルをアップロード
-          /       .hidden-content
-          /         / = f.file_field :images, multiple: true, class: "hidden-field" do
-
-          /         = f.fields_for :images do |i|
-          /           = i.file_field :image, class: "hidden-field"
-          /           input.hidden-field#review_images_attributes_1_image type="file" name="review[images_attributes][1][image]"
-          /           input.hidden-field#review_images_attributes_2_image type="file" name="review[images_attributes][2][image]"
-          /           input.hidden-field#review_images_attributes_3_image type="file" name="review[images_attributes][3][image]"
-          /           input.hidden-field#review_images_attributes_4_image type="file" name="review[images_attributes][4][image]"
-
-          .text-center
-            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
-
+          = render "form",
+            review: @review,
+            gunpla: @gunpla,
+            f: f,
+            btn: "投稿"
   = render "users/shared/sidebar"
 
 

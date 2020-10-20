@@ -48,9 +48,11 @@ $(document).on('turbolinks:load', function() {
     var img = new Image();
     var def =$.Deferred();
     reader.onload = function(e){
-      var image_box = $('<div>',{class: 'image-box'});
+      var image_box = $('<div>', { class: "image-box col-4" });
       image_box.append(img);
-      image_box.append($('<p>').html(imageFile.name));
+      image_box.append($('<p>').html(imageFile.name).attr({
+        class: "mb-1"
+      }));
       image_box.append($('<input>').attr({
         name: "review[images][]",
         value: image_id,
@@ -58,15 +60,15 @@ $(document).on('turbolinks:load', function() {
         type: "hidden",
         class: "review-images-input"
       }));
-      image_box.append('<a href="" class="btn-edit">編集</a>');
+      image_box.append('<a href="" class="btn-edit btn btn-success btn-sm mr-2">編集</a>');
       image_box.append($('<input>').attr({
         name: "edit-image[]",
         style: "display: none;",
         type: "file",
         class: "edit-image-file-input file-input"
       }));
-      image_box.append('<a href="" class="btn-delete">削除</a>');
-      $('.images_field').append(image_box);
+      image_box.append('<a href="" class="btn-delete btn btn-danger btn-sm">削除</a>');
+      $('.images_field .row').append(image_box);
       img.src = e.target.result;
       def.resolve();
     };

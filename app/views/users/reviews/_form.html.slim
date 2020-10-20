@@ -1,0 +1,45 @@
+table.table.border
+  tr.row.form-group.m-0
+    th.col-3.table-active
+      = f.label :title, class: "form-require"
+      = review.form_error_message(:title)
+    td.col-9
+      = f.text_field :title, autofoucus: true, autocomplete: "title", class: "form-control", placeholder: "50文字以内..."
+  tr.row.form-group.m-0
+    th.col-3.table-active
+      = f.label :content, class: "form-require"
+      = review.form_error_message(:content)
+    td.col-9
+      = f.text_area :content, class: "form-control", placeholder: "1000文字以内...", size: "10x10"
+  tr.row.form-group.m-0
+    th.col-3.table-active
+      = f.label :rate, id: "e", class: "form-require"
+      = f.hidden_field :rate, id: :review_star
+      = review.form_error_message(:rate)
+    td.col-9#rate
+      = render "users/shared/rate",
+        id: "#rate",
+        readonly: nil,
+        score: "#{review.rate}",
+        scorename: "review[rate]"
+  tr.row.form-group.m-0
+    th.col-3.table-active
+      = f.label :images, class: "form-require"
+      = review.form_error_message(:images)
+    td.col-9
+      .images_field.clearfix
+        = f.file_field :images, multiple: true, class: "file-input"
+        .row
+          - if review.images.attached?
+            - review.images.each do |image|
+              .image-box.col-4
+                = image_tag image.variant(resize: "150x150")
+                p.mb-1
+                  = image.filename
+                = f.hidden_field :images, name: "review[images][]", value: "#{image.blob.id}", style: "display: none;", class: "review-images-input"
+                = link_to "編集", "", class: "btn-edit btn btn-success btn-sm"
+                = file_field "編集画像", "", class: "edit-image-file-input file-input mr-2", style: "display: none;"
+                = link_to "削除", "", class: "btn-delete btn btn-danger btn-sm"
+  = f.hidden_field :gunpla_id, value: gunpla.id if review.id.nil?
+.text-center
+  = f.submit "レビューを#{btn}する", class: "btn btn-primary w-250px mt-4"
