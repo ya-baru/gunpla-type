@@ -84,6 +84,10 @@ Rails.application.routes.draw do
     end
 
     resources :reviews, except: %i(index new create) do
+      member do
+        match 'edit', to: 'reviews#update', via: %i(patch put), as: :update
+      end
+
       collection do
         post 'upload_image', defaults: { format: 'json' }
       end

@@ -7,13 +7,21 @@
       .card-header
         h2
           = sub_title
-      .card-body.my-3
-        .text-center
-          h3= "#{@review.gunpla_name}"
-        = form_with model: @review, local: true do |f|
+      .card-body.m-4
+        .row.mb-4
+          .col-lg-6.offset-lg-3
+
+            .text-center
+              h2
+                = "#{@review.gunpla_name}"
+          .col-lg-3.text-right
+            = button_to  review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger" do
+              i.fas.fa-trash-alt.mr-1
+              | 削除
+        = form_with model: @review, url: update_review_path(@review), local: true do |f|
           = render "form",
             review: @review,
+            gunpla: @review.gunpla,
             f: f,
             btn: "編集"
-        = button_to "削除", review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger"
   = render "users/shared/sidebar"

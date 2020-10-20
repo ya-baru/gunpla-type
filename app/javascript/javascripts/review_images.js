@@ -1,4 +1,9 @@
-$(document).on('turbolinks:load', function() {
+$(document).on('turbolinks:load', function () {
+  var count = $(".image-box").length;
+  if(count == 3) {
+    $("#review_images").hide();
+  }
+
   $("#review_images").on('change',function(e){
     var files = e.target.files;
     var d = (new $.Deferred()).resolve();
@@ -28,6 +33,11 @@ $(document).on('turbolinks:load', function() {
   $(".images_field").on("click",".btn-delete", function(e){
     e.preventDefault();
     $(this).parent().remove();
+
+    var count = $(".image-box").length;
+    if(count < 3) {
+      $("#review_images").show();
+    }
   });
 
   var replaceImage = function(imageFile, image_id, element) {
@@ -70,6 +80,11 @@ $(document).on('turbolinks:load', function() {
       image_box.append('<a href="" class="btn-delete btn btn-danger btn-sm">削除</a>');
       $('.images_field .row').append(image_box);
       img.src = e.target.result;
+
+      var count = $(".image-box").length;
+      if(count == 3) {
+        $("#review_images").hide();
+      }
       def.resolve();
     };
     reader.readAsDataURL(imageFile);

@@ -1,6 +1,6 @@
 class Users::ReviewsController < ApplicationController
   prepend_before_action :authenticate_user!, only: %i(new create edit update destroy)
-  prepend_before_action :correct_user?, only: %i(edit update destroy)
+  before_action :correct_user?, only: %i(edit update destroy)
   before_action :reviewed_user?, only: %i(new create)
   before_action :set_review, only: %i(show edit update destroy)
 

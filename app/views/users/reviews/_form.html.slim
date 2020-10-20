@@ -33,13 +33,14 @@ table.table.border
           - if review.images.attached?
             - review.images.each do |image|
               .image-box.col-4
-                = image_tag image.variant(resize: "150x150")
+                = image_tag image.variant(resize: "150x150"), class: "shadow-sm"
                 p.mb-1
                   = image.filename
                 = f.hidden_field :images, name: "review[images][]", value: "#{image.blob.id}", style: "display: none;", class: "review-images-input"
-                = link_to "編集", "", class: "btn-edit btn btn-success btn-sm"
-                = file_field "編集画像", "", class: "edit-image-file-input file-input mr-2", style: "display: none;"
+                = link_to "編集", "", class: "btn-edit btn btn-success btn-sm mr-2"
+                = file_field "edit-image", "", class: "edit-image-file-input file-input", style: "display: none;"
                 = link_to "削除", "", class: "btn-delete btn btn-danger btn-sm"
   = f.hidden_field :gunpla_id, value: gunpla.id if review.id.nil?
-.text-center
-  = f.submit "レビューを#{btn}する", class: "btn btn-primary w-250px mt-4"
+.text-center.mt-4
+  = f.submit "レビューを#{btn}する", class: "btn btn-primary w-250px mr-md-3 mb-3 mb-md-0"
+  = link_to "戻る", gunpla_path(gunpla), class: "btn btn-secondary w-250px"
