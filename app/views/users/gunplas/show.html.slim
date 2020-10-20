@@ -12,7 +12,7 @@
                 = @gunpla.name
           - if user_signed_in?
             .col-lg-3.text-right
-              = link_to edit_gunpla_path(@gunpla), class: "btn btn-info btn-sm" do
+              = link_to edit_gunpla_path(@gunpla), class: "btn btn-success btn-sm" do
                 i.fas.fa-edit.mr-1
                 | 編集
         .row
@@ -59,7 +59,9 @@
                 | facebook
               a.btn.btn-info href="#"
                 | line
-          = link_to "『#{@gunpla.name}』 をレビューする", new_gunpla_review_path(@gunpla), class: "btn btn-info btn-block"
+          - if user_signed_in?
+            = current_user.review_registered?(@gunpla)
+
     .card.shadow-sm
       .card-header
         h2
@@ -67,19 +69,14 @@
       .card-body
         .card-text
           = "#{@gunpla.reviews.count} 件の評価"
-        div id="star-rate-#{@gunpla.id}"
+        div id="rate-#{@gunpla.id}"
+          = render "users/shared/rate",
+            id: "#rate-#{@gunpla.id}",
+            readonly: true,
+            score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
+            scorename: nil
+
         ol.row.p-0.justify-content-around
           = render partial: "review", collection: @reviews
 
   = render "users/shared/sidebar"
-
-javascript:
-  $("#star-rate-#{@gunpla.id}").raty({
-    size: 36,
-    starOff: "#{asset_path("star-off.png")}",
-    starOn: "#{asset_path("star-on.png")}",
-    starHalf: "#{asset_path("star-half.png")}",
-    half: true,
-    readOnly: true,
-    score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
-  });

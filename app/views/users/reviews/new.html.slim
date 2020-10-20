@@ -58,8 +58,12 @@
                 = f.label :rate, id: "e", class: "form-require"
                 = f.hidden_field :rate, id: :review_star
                 = @review.form_error_message(:rate)
-              td.col-9#star
-
+              td.col-9#rate
+                = render "users/shared/rate",
+                  id: "#rate",
+                  readonly: nil,
+                  score: "#{@review.rate}",
+                  scorename: "review[rate]"
 
             tr.row.form-group.m-0
               th.col-3.table-active
@@ -106,15 +110,7 @@
 
   = render "users/shared/sidebar"
 
-javascript:
-  $("#star").raty({
-    size: 36,
-    starOff: "#{asset_path("star-off.png")}",
-    starOn: "#{asset_path("star-on.png")}",
-    starHalf: "#{asset_path("star-half.png")}",
-    scoreName: "review[rate]",
-    half: true,
-  });
+
 
 / $(function(){
 /   $("#review_images").on('change',function(e){

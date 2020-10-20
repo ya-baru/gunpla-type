@@ -27,8 +27,12 @@
                 = f.label :rate, id: "e", class: "form-require"
                 = f.hidden_field :rate, id: :review_star
                 = @review.form_error_message(:rate)
-              td.col-9 id="star-rate-#{@review.id}"
-
+              td.col-9 id="rate-#{@review.id}"
+                = render "users/shared/rate",
+                  id: "#rate-#{@review.id}",
+                  readonly: nil,
+                  score: "#{@review.rate}",
+                  scorename: "review[rate]"
 
             tr.row.form-group.m-0
               th.col-3.table-active
@@ -50,14 +54,3 @@
             = f.submit "アカウントを作成する", class: "btn btn-primary w-250px mt-4"
         = button_to "削除", review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger"
   = render "users/shared/sidebar"
-
-javascript:
-  $('#star-rate-#{@review.id}').raty({
-    size: 36,
-    starOff: "#{asset_path("star-off.png")}",
-    starOn: "#{asset_path("star-on.png")}",
-    starHalf: "#{asset_path("star-half.png")}",
-    score: "#{@review.rate}",
-    scoreName: "review[rate]",
-    half: true,
-  });

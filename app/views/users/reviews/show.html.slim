@@ -1,6 +1,12 @@
 = @gunpla.name
 = @review.title
-div id="star-rate-#{@review.id}"
+div id="rate-#{@review.id}"
+  = render "users/shared/rate",
+    id: "#rate-#{@review.id}",
+    readonly: true,
+    score: "#{@review.rate}",
+    scorename: nil
+
 .clearfix
   - if @review.images.attached?
     - @review.images.each do |image|
@@ -8,14 +14,3 @@ div id="star-rate-#{@review.id}"
         = image_tag image.variant(resize: "150x150")
         p= image.filename
 = link_to "編集", edit_review_path(@review)
-
-javascript:
-  $('#star-rate-#{@review.id}').raty({
-    size: 36,
-    starOff: "#{asset_path('star-off.png')}",
-    starOn: "#{asset_path('star-on.png')}",
-    starHalf: "#{asset_path('star-half.png')}",
-    half: true,
-    readOnly: true,
-    score: "#{@review.rate}",
-  });

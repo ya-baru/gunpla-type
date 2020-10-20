@@ -25,7 +25,7 @@ class Users::ReviewsController < ApplicationController
     @review.images.detach
     return render :edit unless @review.update(review_params)
 
-    redirect_to review_url(@review), notice: "『#{@review.gunpla_name}』のレビューを編集しました"
+    redirect_to review_url(@review), notice: "『#{@review.gunpla_name}』のレビュー内容を編集しました"
   end
 
   def upload_image
@@ -61,7 +61,7 @@ class Users::ReviewsController < ApplicationController
   def reviewed_user?
     @gunpla = Gunpla.find(params[:gunpla_id])
     if Review.exists?(user_id: current_user.id, gunpla_id: @gunpla.id)
-      redirect_to gunpla_path(@gunpla), alert: "『#{@gunpla.name}』はレビュー済みです"
+      redirect_to gunpla_url(@gunpla), alert: "『#{@gunpla.name}』はレビュー済みです"
       return
     end
   end
