@@ -32,7 +32,7 @@ table.table.border
           bottun.btn.btn-success
             i.fas.fa-file-image.mr-1
             | 画像登録
-          = f.file_field :images, multiple: true, class: "d-none"
+          = f.file_field :images, multiple: true, accept: "image/jpeg,image/png", class: "d-none"
           em.ml-2 三枚まで登録可能
         .row
           - if review.images.attached?
@@ -44,8 +44,8 @@ table.table.border
                   = image.filename
                 = f.hidden_field :images, name: "review[images][]", value: "#{image.blob.id}", style: "display: none;", class: "review-images-input"
                 = link_to "", class: "btn-edit mr-2" do
-                  i.fas.fa-file-image
-                = file_field "edit-image", "", class: "edit-image-file-input file-input", style: "display: none;"
+                  i.far.fa-file-image
+                = file_field "edit-image", "", class: "edit-image-file-input file-input", accept: "image/jpeg,image/png", style: "display: none;"
                 = link_to "", class: "btn-delete" do
                   i.far.fa-trash-alt
   = f.hidden_field :gunpla_id, value: gunpla.id if review.id.nil?

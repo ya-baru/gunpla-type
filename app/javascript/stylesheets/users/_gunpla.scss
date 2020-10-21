@@ -12,3 +12,8 @@
 .drop-hover:hover > .dropdown-menu {
   display: block !important;
 }
+
+// サムネリスト
+.mainImage li:not(:nth-child(1)) {
+  display: none;
+}

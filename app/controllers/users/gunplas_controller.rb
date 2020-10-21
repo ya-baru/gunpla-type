@@ -36,7 +36,7 @@ class Users::GunplasController < ApplicationController
     @reviews = @gunpla.reviews.
       page(params[:page]).
       per(REVIEWS_PAGINATE_COUNT).
-      decorate.includes([:images_attachments]).
+      decorate.includes([images_attachments: :blob]).
       order(id: :desc)
     gunpla_history_save(@gunpla) if user_signed_in?
   end

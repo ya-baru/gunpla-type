@@ -17,15 +17,19 @@
                 | 編集
         .row
           .col-md-5.mb-3.mb-md-0
-            .text-center.mb-2
-              img src="https://placehold.jp/400x400.png?text=Non-Image"
-            ul.d-flex.justify-content-between.p-0
-              li
-                img src="https://placehold.jp/60x60.png?text=Non-Image"
-              li
-                img src="https://placehold.jp/60x60.png?text=Non-Image"
-              li
-                img src="https://placehold.jp/60x60.png?text=Non-Image"
+            - if @reviews.present?
+              ul.mainImage.text-center.p-0.mb-2
+                - @reviews.limit(3).each_with_index do |review, i|
+                  li class="mainImg-list#{1+i}"
+                    = link_to review.images.first, 'data-lightbox': review.images.first do
+                      = image_tag review.images.first.variant(resize_to_limit: [250, 250]).processed, class: "shadow-sm"
+              ul.subImage.d-flex.justify-content-between.p-0
+                - @reviews.limit(3).each_with_index do |review, i|
+                  li class="subImg-list#{1+i}"
+                    = image_tag review.images.first.variant(resize_to_limit: [60, 60]).processed, class: "shadow-sm"
+            - else
+              .text-center.mb-2
+                img src="https://placehold.jp/250x250.png?text=Non-Image"
           .col-md-7
             h5.row.heading
               | 商品情報
@@ -81,3 +85,13 @@
         = paginate @reviews
 
   = render "users/shared/sidebar"
+
+/ javascript:
+  $(function(){
+    $(".subImage li").click(function(){
+      var class_name = $(this).attr("class")
+      var num = class_name.slice(12)
+      $(".mainImage li").hide();
+      $(".mainImg-list" + num).fadeIn();
+    });
+  });
