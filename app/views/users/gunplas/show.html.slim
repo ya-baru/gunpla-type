@@ -69,14 +69,15 @@
       .card-body
         .card-text
           = "#{@gunpla.reviews.count} 件の評価"
-        div id="rate-#{@gunpla.id}"
+        div id="average-rate-#{@gunpla.id}"
           = render "users/shared/rate",
-            id: "#rate-#{@gunpla.id}",
+            id: "#average-rate-#{@gunpla.id}",
             readonly: true,
             score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
             scorename: nil
 
-        ol.row.p-0.justify-content-around
+        ol.list-unstyled.mt-3
           = render partial: "review", collection: @reviews
+        = paginate @reviews
 
   = render "users/shared/sidebar"

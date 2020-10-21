@@ -11,6 +11,6 @@ div id="rate-#{@review.id}"
   - if @review.images.attached?
     - @review.images.each do |image|
       .image-box
-        = image_tag image.variant(resize: "150x150")
+        = image_tag image.variant(resize: "100x100")
         p= image.filename
 = link_to "編集", edit_review_path(@review)

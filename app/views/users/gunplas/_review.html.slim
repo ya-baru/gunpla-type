@@ -1,2 +1,20 @@
-li
-  = link_to review.title, review_path(review)
+- gunpla = review.gunpla
+- category = gunpla.category
+= link_to review_path(review)
+  li.media.border.rounded.mb-2
+    .shadow-sm.mr-3 style="width: 150px"
+      = images_attached?(review, 150)
+    .media-body.my-auto
+      p
+        = review.title
+      ul.text-left.p-0
+        li
+          = simple_format(h(review.content).truncate(24, omission: "..."), {}, sanitize: false)
+        li id="rate-#{gunpla.id}"
+          = render "users/shared/rate",
+            id: "#rate-#{gunpla.id}",
+            readonly: true,
+            score: "#{review.rate}",
+            scorename: nil
+        li
+          = "#{review.created_at.to_s(:datetime_jp)} 投稿"

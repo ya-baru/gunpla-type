@@ -1,33 +1,18 @@
-- reviews = gunpla.reviews.first
+- review = gunpla.reviews.first
 - category = gunpla.category
 li.card.shadow-sm.col-md-4.col-6.p-0.my-2
   = link_to gunpla_path(gunpla)
-    - if reviews.present? && reviews.images.attached?
-      = image_tag reviews.display_images.first, class: "card-img-top shadow"
-    - else
-      img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .shadow-sm
+      = images_attached?(review, 180)
     .card-body
-      h5.card-title.bg-color-gray
+      p
         = gunpla.name
       ul.text-left.p-0
         li
           = "#{category.parent.name} #{category.name}"
-        li
-          = gunpla.sales.name
-        li id="star-rate-#{gunpla.id}"
-      / h6.card-subtitle.text-muted.mb-2
-      /   = "#{category.parent.name} #{category.name}"
-      / p.card-text
-      /   = gunpla.sales.name
-      / div id="star-rate-#{gunpla.id}"
-
-javascript:
-  $('#star-rate-#{gunpla.id}').raty({
-    size: 36,
-    starOff: "#{asset_path('star-off.png')}",
-    starOn: "#{asset_path('star-on.png')}",
-    starHalf: "#{asset_path('star-half.png')}",
-    half: true,
-    readOnly: true,
-    score: "#{gunpla.reviews.average(:rate).to_f.round(1)}",
-  });
+        li id="rate-#{gunpla.id}"
+          = render "users/shared/rate",
+            id: "#rate-#{gunpla.id}",
+            readonly: true,
+            score: "#{gunpla.reviews.average(:rate).to_f.round(1)}",
+            scorename: nil

@@ -33,6 +33,7 @@ table.table.border
             i.fas.fa-file-image.mr-1
             | 画像登録
           = f.file_field :images, multiple: true, class: "d-none"
+          em.ml-2 三枚まで登録可能
         .row
           - if review.images.attached?
             - review.images.each do |image|
