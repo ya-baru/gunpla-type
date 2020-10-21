@@ -1,7 +1,7 @@
 $(document).on('turbolinks:load', function () {
   var count = $(".image-box").length;
   if(count == 3) {
-    $("#review_images").hide();
+    $(".input_btn").hide();
   }
 
   $("#review_images").on('change',function(e){
@@ -36,7 +36,7 @@ $(document).on('turbolinks:load', function () {
 
     var count = $(".image-box").length;
     if(count < 3) {
-      $("#review_images").show();
+      $(".input_btn").show();
     }
   });
 
@@ -59,7 +59,9 @@ $(document).on('turbolinks:load', function () {
     var def =$.Deferred();
     reader.onload = function(e){
       var image_box = $('<div>', { class: "image-box col-4" });
-      image_box.append(img);
+      var shadow = $('<div>', { class: "shadow-sm" });
+      shadow.append(img);
+      image_box.append(shadow);
       image_box.append($('<p>').html(imageFile.name).attr({
         class: "mb-1"
       }));
@@ -70,20 +72,20 @@ $(document).on('turbolinks:load', function () {
         type: "hidden",
         class: "review-images-input"
       }));
-      image_box.append('<a href="" class="btn-edit btn btn-success btn-sm mr-2">編集</a>');
+      image_box.append('<a href="" class="btn-edit mr-2"><i class="far fa-file-image"></i></a>');
       image_box.append($('<input>').attr({
         name: "edit-image[]",
         style: "display: none;",
         type: "file",
         class: "edit-image-file-input file-input"
       }));
-      image_box.append('<a href="" class="btn-delete btn btn-danger btn-sm">削除</a>');
-      $('.images_field .row').append(image_box);
+      image_box.append('<a href="" class="btn-delete"><i class="far fa-trash-alt"></i></a>');
+      $(".images_field .row").append(image_box);
       img.src = e.target.result;
 
       var count = $(".image-box").length;
       if(count == 3) {
-        $("#review_images").hide();
+        $(".input_btn").hide();
       }
       def.resolve();
     };
@@ -95,12 +97,12 @@ $(document).on('turbolinks:load', function () {
     upload: function(imageFile){
       var def =$.Deferred();
       var formData = new FormData();
-      formData.append('image', imageFile);
+      formData.append("image", imageFile);
       $.ajax({
         type: "POST",
         url: "/reviews/upload_image",
         data: formData,
-        dataType: 'json',
+        dataType: "json",
         processData: false,
         contentType: false,
         success: def.resolve
