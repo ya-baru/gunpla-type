@@ -14,6 +14,6 @@
 }
 
 // サムネリスト
-.mainImage li:not(:nth-child(1)) {
+#mainImage li:not(:nth-child(1)) {
   display: none;
 }

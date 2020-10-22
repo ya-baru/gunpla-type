@@ -1,4 +1,4 @@
-- provide(:title, sub_title="ガンプラリスト")
+- provide(:title, @gunpla.name)
 - breadcrumb :gunpla, @gunpla
 
 .row.mx-auto
@@ -12,13 +12,16 @@
                 = @gunpla.name
           - if user_signed_in?
             .col-lg-3.text-right
-              = link_to edit_gunpla_path(@gunpla), class: "btn btn-success btn-sm" do
+              = link_to edit_gunpla_path(@gunpla), class: "btn btn-primary btn-sm align-bottom" do
                 i.fas.fa-edit.mr-1
                 | 編集
         .row
           .col-md-5.mb-3.mb-md-0
             = render "thumbnail", reviews: @reviews
-          .col-md-7
+            a.btn.btn-info.btn-block.mt-4.mb-md-3 href="#"
+              i.fas.fa-star.mr-1
+              | お気に入り登録
+          .col-md-7.mb-2
             h5.row.heading
               | 商品情報
             table.table
@@ -42,44 +45,36 @@
                   | 販売方法
                 td.col-8
                   = @gunpla.sales.name
-            a.btn.btn-info.btn-block href="#"
-              | お気に入り登録
-            .d-flex.justify-content-between
-              a.btn.btn-info href="#"
-                | twitter
-              a.btn.btn-info href="#"
-                | facebook
-              a.btn.btn-info href="#"
-                | line
-          - if user_signed_in?
-            = current_user.review_registered?(@gunpla)
+        - if user_signed_in?
+          = current_user.review_registered?(@gunpla)
+
+        .d-flex.justify-content-between.mt-5
+          a.btn.btn-fb.w-150px href="#"
+            i.fab.fa-facebook-square.mr-1
+            | Facebook
+          a.btn.btn-tw.w-150px href="#"
+            i.fab.fa-twitter-square.mr-1
+            | Twitter
+          a.btn.btn-ln.w-150px href="#"
+            i.fab.fa-line.mr-1
+            | Line
 
     .card.shadow-sm
       .card-header
         h2
-          | レビューリスト
+          = "レビューリスト（#{@gunpla.reviews.count}）"
       .card-body
-        .card-text
-          = "#{@gunpla.reviews.count} 件の評価"
-        div id="average-rate-#{@gunpla.id}"
-          = render "users/shared/rate",
-            id: "#average-rate-#{@gunpla.id}",
-            readonly: true,
-            score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
-            scorename: nil
+        .card-text.border-bottom.mb-4.pb-3
+          | 評価:
+          div id="average-rate-#{@gunpla.id}"
+            = render "users/shared/rate",
+              id: "#average-rate-#{@gunpla.id}",
+              readonly: true,
+              score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
+              scorename: nil
 
         ol.list-unstyled.mt-3
           = render partial: "review", collection: @reviews
         = paginate @reviews
 
   = render "users/shared/sidebar"
-
-/ javascript:
-  $(function(){
-    $(".subImage li").click(function(){
-      var class_name = $(this).attr("class")
-      var num = class_name.slice(12)
-      $(".mainImage li").hide();
-      $(".mainImg-list" + num).fadeIn();
-    });
-  });

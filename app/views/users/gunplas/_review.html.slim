@@ -1,10 +1,9 @@
-- gunpla = review.gunpla
-- category = gunpla.category
+- category = review.gunpla.category
 
 = link_to review_path(review)
   li.media.border.rounded.mb-2
-    .shadow-sm.mr-3 style="width: 150px"
-      = gunpla.images_attached?(150)
+    .shadow-sm.mr-3
+      = image_tag review.display_images.first, height: 150, width: 150
     .media-body.my-auto
       p
         = review.title

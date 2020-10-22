@@ -67,7 +67,7 @@ class Users::ReviewsController < ApplicationController
   end
 
   def correct_user?
-    if current_user.reviews.find_by(id: params[:id]).nil?
+    if current_user.reviews.find_by(id: params[:id]).blank?
       redirect_to gunplas_url, alert: "レビューしたガンプラではありません"
     end
   end

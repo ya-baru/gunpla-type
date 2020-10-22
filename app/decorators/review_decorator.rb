@@ -7,4 +7,12 @@ class ReviewDecorator < ApplicationDecorator
   def gunpla_name
     object.gunpla.name
   end
+
+  def user_name
+    object.user.username
+  end
+
+  def user_profile
+    object.user.profile
+  end
 end
