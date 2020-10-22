@@ -1,9 +1,8 @@
-- review = gunpla.reviews.first
 - category = gunpla.category
 li.card.shadow-sm.col-md-4.col-6.p-0.my-2
   = link_to gunpla_path(gunpla)
     .shadow-sm
-      = images_attached?(review, 180)
+      = gunpla.images_attached?(180)
     .card-body
       p
         = gunpla.name

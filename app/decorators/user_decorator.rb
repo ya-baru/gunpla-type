@@ -14,7 +14,7 @@ class UserDecorator < ApplicationDecorator
 
   def review_registered?(gunpla)
     if object.reviews.find_by(gunpla_id: gunpla.id)
-      h.link_to "『#{gunpla.name}』 のレビューを編集する", h.edit_review_path(Review.find_by(user_id: h.current_user.id, gunpla_id: gunpla.id)), class: "btn btn-info btn-block"
+      h.link_to "『#{gunpla.name}』 のレビューを編集する", h.edit_review_path(Review.find_by(user_id: h.current_user.id, gunpla_id: gunpla.id)), class: "btn btn-primary btn-block"
     else
       h.link_to "『#{gunpla.name}』 をレビューする", h.new_gunpla_review_path(gunpla), class: "btn btn-info btn-block"
     end

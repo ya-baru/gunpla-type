@@ -17,19 +17,7 @@
                 | 編集
         .row
           .col-md-5.mb-3.mb-md-0
-            - if @reviews.present?
-              ul.mainImage.text-center.p-0.mb-2
-                - @reviews.limit(3).each_with_index do |review, i|
-                  li class="mainImg-list#{1+i}"
-                    = link_to review.images.first, 'data-lightbox': review.images.first do
-                      = image_tag review.images.first.variant(resize_to_limit: [250, 250]).processed, class: "shadow-sm"
-              ul.subImage.d-flex.justify-content-between.p-0
-                - @reviews.limit(3).each_with_index do |review, i|
-                  li class="subImg-list#{1+i}"
-                    = image_tag review.images.first.variant(resize_to_limit: [60, 60]).processed, class: "shadow-sm"
-            - else
-              .text-center.mb-2
-                img src="https://placehold.jp/250x250.png?text=Non-Image"
+            = render "thumbnail", reviews: @reviews
           .col-md-7
             h5.row.heading
               | 商品情報
@@ -54,7 +42,7 @@
                   | 販売方法
                 td.col-8
                   = @gunpla.sales.name
-            a.btn.btn-primary.btn-block href="#"
+            a.btn.btn-info.btn-block href="#"
               | お気に入り登録
             .d-flex.justify-content-between
               a.btn.btn-info href="#"
