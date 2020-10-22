@@ -4,7 +4,7 @@ table.table.border
       = f.label :title, class: "form-require"
       = review.form_error_message(:title)
     td.col-9
-      = f.text_field :title, autofoucus: true, autocomplete: "title", class: "form-control", placeholder: "50文字以内..."
+      = f.text_field :title, autofoucus: true, class: "form-control", placeholder: "50文字以内..."
   tr.row.form-group.m-0
     th.col-3.table-active
       = f.label :content, class: "form-require"

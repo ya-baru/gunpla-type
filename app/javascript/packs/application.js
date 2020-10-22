@@ -28,4 +28,5 @@ import "../javascripts/avatar";
 import "../javascripts/autocomplete";
 import "../javascripts/review_images";
 import "../javascripts/review_thumb";
+import "../javascripts/page_top_scroll";
 // import "../javascripts/recently_viewed_gunplas";

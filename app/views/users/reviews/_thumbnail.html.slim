@@ -1,0 +1,9 @@
+ul#mainImage.mr-3.p-0
+  - review.images.each_with_index do |image, i|
+    li id="mainImg-list#{1+i}"
+      = link_to image, "data-lightbox": image do
+        = image_tag image.variant(resize_to_limit: [400, 400]).processed, class: "shadow-sm"
+ul#subImage.p-0
+  - review.images.each_with_index do |image, i|
+    li.mb-2 id="subImg-list#{1+i}"
+      = image_tag image.variant(resize_to_limit: [100, 100]).processed, class: "shadow-sm"

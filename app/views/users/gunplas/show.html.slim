@@ -15,40 +15,45 @@
               = link_to edit_gunpla_path(@gunpla), class: "btn btn-primary btn-sm align-bottom" do
                 i.fas.fa-edit.mr-1
                 | 編集
-        .row
-          .col-md-5.mb-3.mb-md-0
-            = render "thumbnail", reviews: @reviews
-            a.btn.btn-info.btn-block.mt-4.mb-md-3 href="#"
-              i.fas.fa-star.mr-1
-              | お気に入り登録
-          .col-md-7.mb-2
-            h5.row.heading
-              | 商品情報
-            table.table
-              tr.row
-                th.col-3.table-active
-                  | 作品
-                td.col-8
-                  = @gunpla.root_category_name
-              tr.row
-                th.col-3.table-active
-                  | グレード
-                td.col-8
-                  = @gunpla.parent_category_name
-              tr.row
-                th.col-3.table-active
-                  | スケール
-                td.col-8
-                  = @gunpla.category_name
-              tr.row.border-bottom
-                th.col-3.table-active
-                  | 販売方法
-                td.col-8
-                  = @gunpla.sales.name
-        - if user_signed_in?
-          = current_user.review_registered?(@gunpla)
 
-        .d-flex.justify-content-between.mt-5
+        .gunpla.mb-5
+          .row
+            .col-md-5.mb-3.mb-md-0
+              = render "thumbnail", reviews: @reviews
+              a.btn.btn-info.btn-block.mt-4.mb-md-3 href="#"
+                i.fas.fa-star.mr-1
+                | お気に入り登録
+            .col-md-7.mb-2
+              h5.row.heading
+                | 商品情報
+              table.table
+                tr.row
+                  th.col-3.table-active
+                    | 作品
+                  td.col-8
+                    = @gunpla.root_category_name
+                tr.row
+                  th.col-3.table-active
+                    | グレード
+                  td.col-8
+                    = @gunpla.parent_category_name
+                tr.row
+                  th.col-3.table-active
+                    | スケール
+                  td.col-8
+                    = @gunpla.category_name
+                tr.row.border-bottom
+                  th.col-3.table-active
+                    | 販売方法
+                  td.col-8
+                    = @gunpla.sales.name
+          - if user_signed_in?
+            = current_user.review_registered?(@gunpla)
+
+        .sns
+          h5.heading.mb-3
+            | SNSでシェア
+        .d-flex.justify-content-between
           a.btn.btn-fb.w-150px href="#"
             i.fab.fa-facebook-square.mr-1
             | Facebook

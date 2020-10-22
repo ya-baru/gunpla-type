@@ -18,15 +18,7 @@
 
         .review.mb-3
           .review_thumb.d-flex
-            ul#mainImage.mr-3.p-0
-              - @review.images.each_with_index do |image, i|
-                li id="mainImg-list#{1+i}"
-                  = link_to image, "data-lightbox": image do
-                    = image_tag image.variant(resize_to_limit: [400, 400]).processed, class: "shadow-sm"
-            ul#subImage.p-0
-              - @review.images.each_with_index do |image, i|
-                li.mb-2 id="subImg-list#{1+i}"
-                  = image_tag image.variant(resize_to_limit: [100, 100]).processed, class: "shadow-sm"
+            = render "thumbnail", review: @review
           .review_content
             h5.heading.mb-3
               | レビュー情報
@@ -75,14 +67,10 @@
                     img.shadow.rounded-circle src="https://placehold.jp/80x80.png?text=Non-Image"
               .reviewer_profile
                 = link_to @review.user_name, mypage_path(@review.user)
-
                 p= @review.user_profile
             .follow
               a.btn.btn-info href="#"
                 i.fas.fa-heart.mr-1
                 | フォローする
-
-
-
 
   = render "users/shared/sidebar"
