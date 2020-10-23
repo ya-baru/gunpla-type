@@ -14,7 +14,7 @@
               h2
                 = "#{@review.gunpla_name}"
           .col-lg-3.text-right
-            = button_to  review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger" do
+            = button_to  review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger btn-sm" do
               i.fas.fa-trash-alt.mr-1
               | 削除
         = form_with model: @review, url: update_review_path(@review), local: true do |f|

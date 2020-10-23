@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Abouts", type: :system do
+RSpec.describe "About", type: :system do
   subject { page }
 
   describe "About各ページのタイトルチェック" do

@@ -60,11 +60,7 @@
           .card-body
             .reviewer.d-flex
               .reviewer_avatar.mr-3.mb-4
-                = link_to mypage_path(@review.user) do
-                  - if @review.user.avatar.attached?
-                    = image_tag @review.user.display_avatar(80), class: "shadow rounded-circle"
-                  - else
-                    img.shadow.rounded-circle src="https://placehold.jp/80x80.png?text=Non-Image"
+                = @review.use_avatar
               .reviewer_profile
                 = link_to @review.user_name, mypage_path(@review.user)
                 p= @review.user_profile

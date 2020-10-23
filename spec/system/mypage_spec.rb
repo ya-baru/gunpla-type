@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Mypage", type: :system do
+RSpec.describe "Mypage", type: :system do
   describe "マイページへのアクセスチェック" do
     let(:user) { create(:user) }
 

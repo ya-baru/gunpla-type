@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe "Users::Gunplas", :js, type: :system do
+RSpec.describe "Gunpla", :js, type: :system do
   let(:user) { create(:user) }
 
   before { sign_in user }

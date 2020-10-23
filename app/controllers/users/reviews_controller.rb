@@ -1,5 +1,5 @@
 class Users::ReviewsController < ApplicationController
-  prepend_before_action :authenticate_user!, only: %i(new create edit update destroy)
+  prepend_before_action :authenticate_user!, only: %i(new create edit update destroy upload_image)
   before_action :correct_user?, only: %i(edit update destroy)
   before_action :reviewed_user?, only: %i(new create)
   before_action :set_review, only: %i(show edit update destroy)
@@ -28,16 +28,16 @@ class Users::ReviewsController < ApplicationController
     redirect_to review_url(@review), notice: "『#{@review.gunpla_name}』のレビュー内容を編集しました"
   end
 
+  def destroy
+    @review.destroy
+    redirect_to gunpla_url(@review.gunpla), notice: "『#{@review.gunpla_name}』のレビューを削除しました"
+  end
+
   def upload_image
     @image_blob = create_blob(params[:image])
     respond_to do |format|
       format.json { @image_blob.id }
     end
-  end
-
-  def destroy
-    @review.destroy
-    redirect_to gunpla_url(@review.gunpla), notice: "『#{@review.gunpla_name}』のレビューを削除しました"
   end
 
   private
