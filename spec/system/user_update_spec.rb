@@ -9,17 +9,17 @@ RSpec.describe "UserUpdate", type: :system do
   end
 
   def expect_page_information(text)
-    expect(page).to have_title("#{text} - GUNPLA-Type")
-    expect(page).to have_selector("li", text: "ホーム")
-    expect(page).to have_selector("li", text: "マイページ")
-    expect(page).to have_selector("li", text: text)
+    aggregate_failures do
+      expect(page).to have_title("#{text} - GUNPLA-Type")
+      expect(page).to have_selector("li.breadcrumb-item", text: "ホーム")
+      expect(page).to have_selector("li.breadcrumb-item", text: "マイページ")
+      expect(page).to have_selector("li.breadcrumb-item", text: text)
+    end
   end
 
   describe "プロフィール編集テスト" do
     it "必要な情報を入力して更新させる" do
-      aggregate_failures do
-        expect_page_information("プロフィール編集")
-      end
+      expect_page_information("プロフィール編集")
 
       # 失敗
       fill_in "ユーザー名", with: ""
@@ -53,9 +53,7 @@ RSpec.describe "UserUpdate", type: :system do
   describe "メールアドレス編集テスト" do
     it "必要な情報を入力して更新させる" do
       click_on "メールアドレス編集"
-      aggregate_failures do
-        expect_page_information("メールアドレス編集")
-      end
+      expect_page_information("メールアドレス編集")
 
       # 失敗
       fill_in "user[email]", with: ""
@@ -83,9 +81,7 @@ RSpec.describe "UserUpdate", type: :system do
   describe "パスワード編集テスト" do
     it "必要な情報を入力して更新させる" do
       click_on "パスワード編集"
-      aggregate_failures do
-        expect_page_information("パスワード編集")
-      end
+      expect_page_information("パスワード編集")
 
       # 失敗
       fill_in "user[password]", with: ""
@@ -116,9 +112,9 @@ RSpec.describe "UserUpdate", type: :system do
   describe "退会の手続きテスト" do
     it "確認画面を経てアカウントを削除する" do
       click_on "退会の手続き"
+      expect_page_information("退会の手続き")
 
       aggregate_failures do
-        expect_page_information("退会の手続き")
         expect { click_on "退会する" }.to change(User, :count).by(-1)
         expect(current_path).to eq root_path
         expect(page).to have_selector(".alert-success", text: "アカウントを削除しました。またのご利用をお待ちしております。")

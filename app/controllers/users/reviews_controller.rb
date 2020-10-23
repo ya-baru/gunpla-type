@@ -16,7 +16,7 @@ class Users::ReviewsController < ApplicationController
     @review = current_user.reviews.build(review_params).decorate
     return render :new unless @review.save
 
-    redirect_to gunpla_url(@gunpla), notice: "『#{@gunpla.name}』のレビューが完了しました"
+    redirect_to review_url(@review), notice: "『#{@gunpla.name}』のレビューが完了しました"
   end
 
   def edit; end

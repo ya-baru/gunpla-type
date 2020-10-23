@@ -8,10 +8,11 @@ li.card.shadow-sm.col-md-4.col-6.p-0.my-2
         = gunpla.name
       ul.text-left.p-0
         li
-          = "#{category.parent.name} #{category.name}"
+          = category.grade_and_scale
         li id="rate-#{gunpla.id}"
           = render "users/shared/rate",
             id: "#rate-#{gunpla.id}",
+            half: true,
             readonly: true,
             score: "#{gunpla.reviews.average(:rate).to_f.round(1)}",
             scorename: nil

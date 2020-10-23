@@ -19,6 +19,7 @@ table.table.border
     td.col-9#rate
       = render "users/shared/rate",
         id: "#rate",
+        half: nil,
         readonly: nil,
         score: "#{review.rate}",
         scorename: "review[rate]"

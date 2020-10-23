@@ -30,7 +30,7 @@
     .card.shadow-sm
       .card-header
         h2
-          = header_title(@sub_title, @gunplas_count)
+          = header_title(title: @sub_title, count: @gunplas_count)
       .card-body
         - if @gunplas.present?
           = @category.result

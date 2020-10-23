@@ -13,8 +13,9 @@
         li id="rate-#{review.id}"
           = render "users/shared/rate",
             id: "#rate-#{review.id}",
+            half: true,
             readonly: true,
             score: "#{review.rate}",
             scorename: nil
         li
-          = "#{review.created_at.to_s(:datetime_jp)} 投稿"
+          p= "#{review.created_at.to_s(:datetime_jp)} 投稿"

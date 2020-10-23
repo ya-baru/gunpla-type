@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :review do
     sequence(:title) { |n| "おすすめ-#{n}" }
     content { "組み立てやすい！" }
-    rate { 5 }
+    rate { 4 }
     association :gunpla
     association :user
     trait :with_image do

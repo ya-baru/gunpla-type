@@ -12,13 +12,13 @@ class Users::GunplasController < ApplicationController
   def index
     gunpla_search(nil)
 
-    set_gunplas_page_data(@search.result.count, "ガンプラリスト", :gunpla_list)
+    set_gunplas_page_data(gunplas_count: @search.result.count, sub_title: "ガンプラリスト", breadcumb: :gunpla_list)
   end
 
   def search_index
     gunpla_search(search_params)
 
-    set_gunplas_page_data(@search.result.count, "検索結果", :gunpla_search)
+    set_gunplas_page_data(gunplas_count: @search.result.count, sub_title: "検索結果", breadcumb: :gunpla_search)
     render :index
   end
 
@@ -27,7 +27,7 @@ class Users::GunplasController < ApplicationController
     category_listup(@category)
     gunpla_search(nil)
 
-    set_gunplas_page_data(@gunpla_list.count, "カテゴリー検索", :category_search)
+    set_gunplas_page_data(gunplas_count: @gunpla_list.count, sub_title: "カテゴリー検索", breadcumb: :category_search)
     render :index
   end
 
@@ -109,7 +109,7 @@ class Users::GunplasController < ApplicationController
     @category = Category.new.decorate
   end
 
-  def set_gunplas_page_data(gunplas_count, sub_title, breadcumb)
+  def set_gunplas_page_data(gunplas_count: nil, sub_title: nil, breadcumb: nil)
     @gunplas_count = gunplas_count
     @sub_title = sub_title
     @breadcumb = breadcumb

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Reviews", :focus, type: :request do
+RSpec.describe "Users::Reviews", type: :request do
   subject { response }
 
   let!(:review) { create(:review, :with_image) }
@@ -43,6 +43,9 @@ RSpec.describe "Users::Reviews", :focus, type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunpla_path(gunpla) }
+      it "フラッシュが表示されること" do
+        expect(flash[:alert]).to eq "『#{gunpla.name}』はレビュー済みです"
+      end
     end
 
     context "未ログインユーザー" do
@@ -68,6 +71,9 @@ RSpec.describe "Users::Reviews", :focus, type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunpla_path(gunpla) }
+      it "フラッシュが表示されること" do
+        expect(flash[:alert]).to eq "『#{gunpla.name}』はレビュー済みです"
+      end
     end
 
     context "未ログインユーザー" do
@@ -93,6 +99,9 @@ RSpec.describe "Users::Reviews", :focus, type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunplas_path }
+      it "フラッシュが表示されること" do
+        expect(flash[:alert]).to eq "レビューしたガンプラではありません"
+      end
     end
 
     context "未ログインユーザー" do
@@ -118,6 +127,9 @@ RSpec.describe "Users::Reviews", :focus, type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunplas_path }
+      it "フラッシュが表示されること" do
+        expect(flash[:alert]).to eq "レビューしたガンプラではありません"
+      end
     end
 
     context "未ログインユーザー" do
@@ -161,6 +173,9 @@ RSpec.describe "Users::Reviews", :focus, type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunplas_path }
+      it "フラッシュが表示されること" do
+        expect(flash[:alert]).to eq "レビューしたガンプラではありません"
+      end
     end
 
     context "未ログインユーザー" do

@@ -48,7 +48,8 @@
                   td.col-8
                     = @gunpla.sales.name
           - if user_signed_in?
-            = current_user.review_registered?(@gunpla)
+            .review.mb-5
+              = current_user.review_registered?(@gunpla)
 
         .sns
           h5.heading.mb-3
@@ -74,6 +75,7 @@
           div id="average-rate-#{@gunpla.id}"
             = render "users/shared/rate",
               id: "#average-rate-#{@gunpla.id}",
+              half: true,
               readonly: true,
               score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
               scorename: nil
