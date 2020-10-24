@@ -1,0 +1,13 @@
+- if signed_in?
+  span#favorite_form.text-center
+    - if current_user.favorite?(gunpla)
+      = form_with(model: current_user.favorites.find_by(gunpla_id: gunpla.id), method: :delete, remote: true) do |f|
+        = button_tag(class: "btn btn-outline-secondary rounded-pill") do
+          i.far.fa-star.mr-1
+          | 登録済み
+    - else
+      = form_with(model: current_user.favorites.build, remote: true) do |f|
+        = hidden_field_tag :gunpla_id, gunpla.id
+        = button_tag(class: "btn btn-info rounded-pill") do
+          i.fas.fa-star.mr-1
+          | お気に入り

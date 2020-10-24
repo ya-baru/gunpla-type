@@ -1,4 +1,4 @@
-module Iine
+module LikeReview
   extend ActiveSupport::Concern
   included do
     def iine(review)
