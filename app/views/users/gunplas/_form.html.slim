@@ -1,19 +1,19 @@
 .col-lg-8
   .card.shadow-sm
     .card-header
-      h2
+      h2.headingLv
         = sub_title
     .card-body.my-3
       = form_with model: gunpla, url: url, local: true do |f|
         table.table.table-bordered.text-nowrap
           tr.form-group
-            th
+            th.table-active
               = f.label :name, class: "form-require"
               = gunpla.form_error_message(:name)
             td
               = f.text_field :name, autofoucus: true, class: "form-control", placeholder: "例: HGUC 191 RX-78-2ガンダム"
           tr.append_category
-            th
+            th.table-active
               .form-require カテゴリー
               = gunpla.form_error_message(:category_id)
             td
@@ -30,11 +30,14 @@
                 #category_grandchild
                   = f.collection_select :category_id, category_grandchildren, :id, :name, { selected: category_grandchild }, id: "gunpla_grandchild_category", class: "form-control"
           tr.form-group
-            th
+            th.table-active
               = f.label :sales_id, class: "form-require"
               = gunpla.form_error_message(:sales_id)
             td
               div
                 =< f.collection_select(:sales_id, Sales.all, :id, :name, { include_blank: "選択して下さい" }, class: "form-control" )
-        .text-center
-          = f.submit "ガンプラを#{btn}する", class: "btn btn-primary w-250px mt-4"
+        .row.mt-4
+          .col-md-5.offset-md-1.px-3
+            = f.submit "ガンプラを#{btn}する", class: "btn btn-primary btn-block"
+          .col-md-5.mt-3.mt-md-0.px-3
+            = link_to "戻る", gunplas_path, class: "btn btn-secondary btn-block"

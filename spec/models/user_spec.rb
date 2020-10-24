@@ -13,6 +13,8 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of :password }
   it { is_expected.to validate_length_of(:password).is_at_least(6) }
   it { is_expected.to validate_length_of(:password).is_at_most(20) }
+  it { is_expected.to have_many(:browsing_histories).dependent(:destroy) }
+  it { is_expected.to have_many(:reviews).dependent(:destroy) }
 
   it "ファクトリーが有効であること" do
     expect(user).to be_valid
@@ -111,7 +113,7 @@ RSpec.describe User, type: :model do
         it { is_expected.to be_falsey }
         it "メッセージチェック" do
           user.valid?
-          expect(user.errors.full_messages).to match_array("アバターのファイルサイズは3MBまでです。")
+          expect(user.errors.full_messages).to match_array("アバターのファイルは3MB以内にしてください")
         end
       end
     end
@@ -138,13 +140,17 @@ RSpec.describe User, type: :model do
       end
 
       context "無効な拡張子" do
+        def expect_error_message
+          expect(user.errors.full_messages).to match_array("アバターは『jpeg, jpg, png』形式でアップロードしてください")
+        end
+
         context "gif" do
           let(:image_file) { "sample.gif" }
 
           it { is_expected.to be_falsey }
           it "メッセージチェック" do
             user.valid?
-            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+            expect_error_message
           end
         end
 
@@ -154,7 +160,7 @@ RSpec.describe User, type: :model do
           it { is_expected.to be_falsey }
           it "メッセージチェック" do
             user.valid?
-            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+            expect_error_message
           end
         end
 
@@ -164,7 +170,7 @@ RSpec.describe User, type: :model do
           it { is_expected.to be_falsey }
           it "メッセージチェック" do
             user.valid?
-            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+            expect_error_message
           end
         end
 
@@ -174,7 +180,7 @@ RSpec.describe User, type: :model do
           it { is_expected.to be_falsey }
           it "メッセージチェック" do
             user.valid?
-            expect(user.errors.full_messages).to match_array("アバターのファイル形式が有効ではありません。")
+            expect_error_message
           end
         end
       end

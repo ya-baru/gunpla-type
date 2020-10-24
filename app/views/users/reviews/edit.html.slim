@@ -1,0 +1,28 @@
+- provide(:title, sub_title="レビュー編集")
+- breadcrumb :review_update, @review
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          = sub_title
+      .card-body.m-4
+        .row.mb-4
+          .col-lg-6.offset-lg-3
+            .text-center
+              h2.headingLv
+                = "#{@review.gunpla_name}"
+          .col-lg-3.text-right
+            = button_to review_path, method: :delete, data: { confirm: "レビューを削除してよろしいですか?" }, class: "btn btn-danger btn-sm" do
+              i.fas.fa-trash-alt.mr-1
+              | 削除
+        = form_with model: @review, url: update_review_path(@review), local: true do |f|
+          = render "form",
+            review: @review,
+            gunpla: @review.gunpla,
+            f: f,
+            back_url: review_path(@review),
+            btn: "更新"
+
+  = render "users/shared/sidebar"

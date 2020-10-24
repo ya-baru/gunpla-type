@@ -9,6 +9,7 @@ require("@rails/activestorage").start();
 require("channels");
 require("jquery");
 require("jquery-ui/ui/widgets/autocomplete");
+require("jquery.raty");
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -21,8 +22,11 @@ import "bootstrap";
 import "@fortawesome/fontawesome-free/js/all";
 import "../stylesheets/application";
 
-import "../javascripts/category";
+import "../javascripts/category_select";
 import "../javascripts/category_search";
-import "../javascripts/avatar";
 import "../javascripts/autocomplete";
+import "../javascripts/upload_avatar";
+import "../javascripts/upload_images";
+import "../javascripts/review_thumb";
+import "../javascripts/page_scrolltop";
 // import "../javascripts/recently_viewed_gunplas";

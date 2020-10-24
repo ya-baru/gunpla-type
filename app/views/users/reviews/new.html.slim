@@ -1,0 +1,22 @@
+- provide(:title, sub_title="レビュー投稿")
+- breadcrumb :review_up, @gunpla
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          = sub_title
+      .card-body.my-3
+        .text-center
+          h3
+            = "#{@gunpla.name}"
+        = form_with model: [@gunpla, @review], url: review_gunplas_path, method: :post, local: true do |f|
+          = render "form",
+            review: @review,
+            gunpla: @gunpla,
+            f: f,
+            back_url: gunpla_path(@gunpla),
+            btn: "投稿"
+
+  = render "users/shared/sidebar"

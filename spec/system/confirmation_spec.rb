@@ -13,8 +13,8 @@ RSpec.describe "Confirmation", type: :system do
         # 失敗
         aggregate_failures do
           expect(page).to have_title("確認メール再送信 - GUNPLA-Type")
-          expect(page).to have_selector("li", text: "ホーム")
-          expect(page).to have_selector("li", text: "確認メール再送信")
+          expect(page).to have_selector("li.breadcrumb-item", text: "ホーム")
+          expect(page).to have_selector("li.breadcrumb-item", text: "確認メール再送信")
 
           expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
           expect(page).to have_content("メールアドレスを入力してください")

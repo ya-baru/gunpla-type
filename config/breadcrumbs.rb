@@ -81,6 +81,11 @@ crumb :gunpla_up do
   parent :gunpla_list
 end
 
+crumb :gunpla_update do |gunpla|
+  link "ガンプラ編集", edit_gunpla_path(gunpla)
+  parent :gunpla, gunpla
+end
+
 crumb :gunpla_list do
   link "ガンプラリスト", gunplas_path
 end
@@ -100,6 +105,20 @@ crumb :gunpla do |gunpla|
   parent :gunpla_list, gunpla
 end
 
+crumb :review do |review|
+  link "レビュー詳細", review_path(review)
+  parent :gunpla, review.gunpla
+end
+
+crumb :review_up do |gunpla|
+  link "レビュー投稿", new_gunpla_review_path(gunpla)
+  parent :gunpla, gunpla
+end
+
+crumb :review_update do |review|
+  link "レビュー編集", edit_review_path(review)
+  parent :review, review
+end
 # crumb :project do |project|
 #   link project.name, project_path(project)
 #   parent :projects

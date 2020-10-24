@@ -1,0 +1,73 @@
+- provide(:title, "レビュー詳細")
+- breadcrumb :review, @review
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm.mb-2
+      .card-body.m-4
+        .row.mb-4
+          .col-lg-6.offset-lg-3
+            .text-center
+              h2.headingLv
+                = @gunpla.name
+          - if user_signed_in? && @review.user_id == current_user.id
+            .col-lg-3.text-right
+              = link_to edit_review_path(@review), class: "btn btn-primary btn-sm align-bottom" do
+                i.fas.fa-edit.mr-1
+                | 編集
+
+        .review.mb-3
+          .review_thumb.d-flex
+            = render "thumbnail", review: @review
+          .review_content
+            h5.heading.mb-3
+              | レビュー情報
+            .d-flex style="height: 24px;"
+              div id="rate"
+                = render "users/shared/rate",
+                  id: "#rate",
+                  half: true,
+                  readonly: true,
+                  score: "#{@review.rate}",
+                  scorename: nil
+              p.ml-3
+                = @review.title
+            em
+              = "#{@review.created_at.to_s(:datetime_jp)} 投稿"
+            p
+              = simple_format(h(@review.content), {}, sanitize: false)
+            a.btn.btn-info.mb-4 href="#"
+              i.fas.fa-thumbs-up.mr-1
+              | いいね！
+
+        .sns.mb-4
+          h5.heading.mb-3
+            | SNSでシェア
+          .d-flex.justify-content-between
+            a.btn.btn-fb.w-150px href="#"
+              i.fab.fa-facebook-square.mr-1
+              | Facebook
+            a.btn.btn-tw.w-150px href="#"
+              i.fab.fa-twitter-square.mr-1
+              | Twitter
+            a.btn.btn-ln.w-150px href="#"
+              i.fab.fa-line.mr-1
+              | Line
+
+        .card
+          .card-header
+            h5.mb-0
+              | レビュアー
+          .card-body
+            .reviewer.d-flex
+              .reviewer_avatar.mr-3.mb-4
+                = @review.use_avatar
+              .reviewer_profile
+                = link_to @review.user_name, mypage_path(@review.user)
+                p= @review.user_profile
+            .follow
+              a.btn.btn-info href="#"
+                i.fas.fa-heart.mr-1
+                | フォローする
+
+  = render "users/shared/sidebar"

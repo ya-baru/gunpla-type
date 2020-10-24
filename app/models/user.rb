@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include AvatarResize
+  include Avatar
   include Omniauth
 
   devise :database_authenticatable,
@@ -16,6 +16,7 @@ class User < ApplicationRecord
   has_one_attached :avatar, dependent: :destroy
   has_many :browsing_histories, dependent: :destroy
   has_many :gunpla_histories, through: :browsing_histories, source: :gunpla
+  has_many :reviews, dependent: :destroy
 
   validates :username, presence: true, length: { maximum: 20 }
   validates :profile, length: { maximum: 255 }
@@ -23,12 +24,5 @@ class User < ApplicationRecord
   validates :email, confirmation: true, on: :change_email
   validates :email_confirmation, presence: true, on: :change_email
   validates :password, format: { with: VALID_PASSWORD_REGEX }
-  validates :avatar,
-            content_type: {
-              in: %w(image/jpg image/jpeg image/png),
-              message: "のファイル形式が有効ではありません。",
-            },
-            size: {
-              less_than: 3.megabytes, message: "のファイルサイズは3MBまでです。",
-            }
+  validate :avatar_type, :avatar_size
 end

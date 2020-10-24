@@ -1,4 +1,4 @@
-- provide(:title, sub_title="ガンプラリスト")
+- provide(:title, @gunpla.name)
 - breadcrumb :gunpla, @gunpla
 
 .row.mx-auto
@@ -8,56 +8,80 @@
         .row.mb-4
           .col-lg-6.offset-lg-3
             .text-center
-              h2
+              h2.headingLv
                 = @gunpla.name
           - if user_signed_in?
             .col-lg-3.text-right
-              = link_to edit_gunpla_path(@gunpla), class: "btn btn-info btn-sm" do
+              = link_to edit_gunpla_path(@gunpla), class: "btn btn-primary btn-sm align-bottom" do
                 i.fas.fa-edit.mr-1
                 | 編集
-        .row
-          .col-md-5.mb-3.mb-md-0
-            .text-center.mb-2
-              img src="https://placehold.jp/400x400.png?text=Non-Image"
-            ul.d-flex.justify-content-between.p-0
-              li
-                img src="https://placehold.jp/60x60.png?text=Non-Image"
-              li
-                img src="https://placehold.jp/60x60.png?text=Non-Image"
-              li
-                img src="https://placehold.jp/60x60.png?text=Non-Image"
-          .col-md-7
-            h5.row.heading
-              | 商品情報
-            table.table
-              tr.row
-                th.col-3.table-active
-                  | 作品
-                td.col-8
-                  = @gunpla.root_category_name
-              tr.row
-                th.col-3.table-active
-                  | グレード
-                td.col-8
-                  = @gunpla.parent_category_name
-              tr.row
-                th.col-3.table-active
-                  | スケール
-                td.col-8
-                  = @gunpla.category_name
-              tr.row.border-bottom
-                th.col-3.table-active
-                  | 販売方法
-                td.col-8
-                  = @gunpla.sales.name
-            a.btn.btn-primary.btn-block href="#"
-              | お気に入り登録
+
+        .gunpla.mb-4
+          .row
+            .col-md-5.mb-3.mb-md-0
+              = render "thumbnail", reviews: @reviews
+              a.btn.btn-info.btn-block.mt-4.mb-md-3 href="#"
+                i.fas.fa-star.mr-1
+                | お気に入り登録
+            .col-md-7.mb-2
+              h5.row.heading
+                | 商品情報
+              table.table
+                tr.row
+                  th.col-3.table-active
+                    | 作品
+                  td.col-8
+                    = @gunpla.root_category_name
+                tr.row
+                  th.col-3.table-active
+                    | グレード
+                  td.col-8
+                    = @gunpla.parent_category_name
+                tr.row
+                  th.col-3.table-active
+                    | スケール
+                  td.col-8
+                    = @gunpla.category_name
+                tr.row.border-bottom
+                  th.col-3.table-active
+                    | 販売方法
+                  td.col-8
+                    = @gunpla.sales.name
+          - if user_signed_in?
+            .review.mb-5
+              = current_user.review_registered?(@gunpla)
+
+        .sns
+          h5.heading.mb-3
+            | SNSでシェア
+          .d-flex.justify-content-between
+            a.btn.btn-fb.w-150px href="#"
+              i.fab.fa-facebook-square.mr-1
+              | Facebook
+            a.btn.btn-tw.w-150px href="#"
+              i.fab.fa-twitter-square.mr-1
+              | Twitter
+            a.btn.btn-ln.w-150px href="#"
+              i.fab.fa-line.mr-1
+              | Line
 
     .card.shadow-sm
       .card-header
-        h2
-          | レビューリスト
+        h2.headingLv
+          = "レビューリスト（#{@gunpla.reviews.count}）"
       .card-body
-        ol.row.p-0.justify-content-around
+        .card-text.border-bottom.mb-4.pb-3
+          | 評価:
+          div id="average-rate-#{@gunpla.id}"
+            = render "users/shared/rate",
+              id: "#average-rate-#{@gunpla.id}",
+              half: true,
+              readonly: true,
+              score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
+              scorename: nil
+
+        ol.list-unstyled.mt-3
+          = render partial: "review", collection: @reviews
+        = paginate @reviews
 
   = render "users/shared/sidebar"

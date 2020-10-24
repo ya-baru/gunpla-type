@@ -1,15 +1,17 @@
 require "rails_helper"
 
-RSpec.describe "Users::Gunplas", :js, type: :system do
+RSpec.describe "Gunpla", :js, type: :system do
   let(:user) { create(:user) }
 
   before { sign_in user }
 
-  def expect_page_information(sub_title, breadcrumb)
-    expect(page).to have_title("#{sub_title} - GUNPLA-Type")
-    expect(page).to have_selector("li", text: "ホーム")
-    expect(page).to have_selector("li", text: "ガンプラリスト")
-    expect(page).to have_selector("li", text: breadcrumb)
+  def expect_page_information(sub_title: nil, breadcrumb: nil)
+    aggregate_failures do
+      expect(page).to have_title("#{sub_title} - GUNPLA-Type")
+      expect(page).to have_selector("li.breadcrumb-item", text: "ホーム")
+      expect(page).to have_selector("li.breadcrumb-item", text: "ガンプラリスト")
+      expect(page).to have_selector("li.breadcrumb-item", text: breadcrumb)
+    end
   end
 
   describe "ガンプラ登録テスト" do
@@ -18,9 +20,9 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
     it "登録ページでガンプラを登録する" do
       visit gunplas_path
       click_on "ガンプラを追加"
+      expect_page_information(sub_title: "ガンプラ登録", breadcrumb: "ガンプラ登録")
 
       aggregate_failures do
-        expect_page_information("ガンプラ登録", "ガンプラ登録")
         expect(find("#gunpla_parent_category")).to have_content "選択して下さい"
         expect(find("#gunpla_child_category")).not_to have_content "HGUC"
         expect(find("#gunpla_grandchild_category")).not_to have_content "1/144"
@@ -43,7 +45,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
 
       aggregate_failures do
         expect { click_on "ガンプラを登録する" }.to change(Gunpla, :count).by(1)
-        expect(page).to have_selector(".alert-success", text: "ガンプラの登録に成功しました")
+        expect(page).to have_selector(".alert-success", text: "ガンプラを登録しました")
         expect(current_path).to eq gunpla_path(Gunpla.first)
       end
     end
@@ -55,9 +57,9 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
     it "編集ページでガンプラを更新する" do
       visit gunpla_path(gunpla)
       click_on "編集"
+      expect_page_information(sub_title: "ガンプラ編集", breadcrumb: gunpla.name)
 
       aggregate_failures do
-        expect_page_information("ガンプラ編集", gunpla.name)
         expect(page).to have_select("作品", selected: "機動戦士ガンダム")
         expect(find("#gunpla_child_category")).to have_content "HGUC"
         expect(find("#gunpla_grandchild_category")).to have_content "1/144"
@@ -85,11 +87,12 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
       context "未入力" do
         it "検索結果が正常に表示されること" do
           click_on "検索"
+          expect_page_information(sub_title: "検索結果", breadcrumb: "検索結果")
+
           aggregate_failures do
             expect(current_path).to eq search_gunplas_path
-            expect_page_information("検索結果", "検索結果")
             expect(all(".card-header")[1]).to have_selector("h2", text: "検索結果（#{Gunpla.count}）")
-            expect(all("ol li").count).to eq 3
+            expect(all("ol.gunpla_index li.card").count).to eq 3
           end
         end
       end
@@ -104,7 +107,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
           aggregate_failures do
             expect(all(".card-header")[1]).to have_selector("h2", text: "検索結果（1）")
             expect(page).to have_selector(".search_result", text: Gunpla.first.name)
-            expect(all("ol li").count).to eq 1
+            expect(all("ol.gunpla_index li.card").count).to eq 1
           end
         end
       end
@@ -119,7 +122,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
             expect(all(".card-header")[1]).to have_selector("h2", text: "検索結果（0）")
             expect(page).to have_selector(".search_result", text: "ガンダム")
             expect(page).to have_selector("strong", text: "ガンダム")
-            expect(all("ol li").count).to eq 0
+            expect(all("ol.gunpla_index li.card").count).to eq 0
           end
         end
       end
@@ -162,16 +165,17 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
         aggregate_failures do
           expect(all(".card-header")[1]).to have_selector("h2", text: "カテゴリー検索（#{Gunpla.count}）")
           expect(page).to have_selector(".search_result", text: text)
-          expect(all("ol li").count).to eq 1
+          expect(all("ol.gunpla_index li.card").count).to eq 1
         end
       end
 
       it "定義したロジック通りに結果が表示されていることを検証する" do
         # 親カテゴリー
         select_parent_category
+        expect_page_information(sub_title: "カテゴリー検索", breadcrumb: "カテゴリー検索")
+
         aggregate_failures do
           expect(current_path).to eq select_category_index_gunpla_path(category.root_id)
-          expect_page_information("カテゴリー検索", "カテゴリー検索")
           expect_result(category.root.name)
         end
 
@@ -195,7 +199,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
         aggregate_failures do
           expect(all(".card-header")[1]).to have_selector("h2", text: "カテゴリー検索（#{Gunpla.count}）")
           expect(page).to have_selector(".search_result", text: text)
-          expect(all("ol li").count).to eq 0
+          expect(all("ol.gunpla_index li.card").count).to eq 0
         end
       end
 
@@ -218,7 +222,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
   describe "閲覧履歴" do
     let(:gunplas) { create_list(:gunpla, 5) }
 
-    def expect_browsing_histories(count, num)
+    def expect_browsing_histories(count: nil, num: nil)
       aggregate_failures do
         expect(BrowsingHistory.count).to eq count
         expect(BrowsingHistory.last.gunpla_id).to eq gunplas[num].id
@@ -235,27 +239,27 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
 
       # 新規
       visit gunpla_path(Gunpla.find(gunplas[1].id))
-      expect_browsing_histories(2, 1)
+      expect_browsing_histories(count: 2, num: 1)
 
       # 同一ページ
       visit gunpla_path(Gunpla.find(gunplas[1].id))
-      expect_browsing_histories(2, 1)
+      expect_browsing_histories(count: 2, num: 1)
 
       # 新規
       visit gunpla_path(Gunpla.find(gunplas[2].id))
-      expect_browsing_histories(3, 2)
+      expect_browsing_histories(count: 3, num: 2)
 
       # 二つ前のページ
       visit gunpla_path(Gunpla.find(gunplas[1].id))
-      expect_browsing_histories(3, 1)
+      expect_browsing_histories(count: 3, num: 1)
 
       # 新規
       visit gunpla_path(Gunpla.find(gunplas[3].id))
-      expect_browsing_histories(4, 3)
+      expect_browsing_histories(count: 4, num: 3)
 
       # 4件まで降順で保存
       visit gunpla_path(Gunpla.find(gunplas[4].id))
-      expect_browsing_histories(4, 4)
+      expect_browsing_histories(count: 4, num: 4)
       expect(BrowsingHistory.last.gunpla_id).not_to eq gunplas[0].id
       expect(all(".history_box li")[0]).to have_content(gunplas[4].name)
 
@@ -274,7 +278,7 @@ RSpec.describe "Users::Gunplas", :js, type: :system do
 
       expect(page).to have_css ".pagination"
       Gunpla.paginates_per(page: 1).each do |gunpla|
-        expect(all("ol li").count).to eq 9
+        expect(all("ol.gunpla_index li.card").count).to eq 9
       end
     end
   end

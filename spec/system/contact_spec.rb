@@ -5,17 +5,17 @@ RSpec.describe "Contact", type: :system do
     let(:contact) { create(:contact) }
 
     def expect_page_information(text)
-      expect(page).to have_title("#{text} - GUNPLA-Type")
-      expect(page).to have_selector("li", text: "ホーム")
-      expect(page).to have_selector("li", text: text)
+      aggregate_failures do
+        expect(page).to have_title("#{text} - GUNPLA-Type")
+        expect(page).to have_selector("li.breadcrumb-item", text: "ホーム")
+        expect(page).to have_selector("li.breadcrumb-item", text: text)
+      end
     end
 
     it "正常な情報を認識してメール送信する" do
       visit root_path
       click_on "お問い合わせ"
-      aggregate_failures do
-        expect_page_information("お問い合わせ")
-      end
+      expect_page_information("お問い合わせ")
 
       # 失敗
       click_on "送信する"
@@ -29,10 +29,11 @@ RSpec.describe "Contact", type: :system do
       fill_in "お名前", with: contact.name
       fill_in "メールアドレス", with: contact.email
       fill_in "ご用件", with: contact.message
+      expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
+      expect_page_information("送信確認")
+
       aggregate_failures do
-        expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
-        expect_page_information("送信確認")
-        expect(page).to have_selector("li", text: "送信確認")
+        expect(page).to have_selector("li.breadcrumb-item", text: "送信確認")
         expect(current_path).to eq contact_confirm_path
         expect(all('tbody tr')[0]).to have_content contact.name
         expect(all('tbody tr')[1]).to have_content contact.email

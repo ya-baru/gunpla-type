@@ -1,10 +1,18 @@
+- category = gunpla.category
 li.card.shadow-sm.col-md-4.col-6.p-0.my-2
   = link_to gunpla_path(gunpla)
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
+    .shadow-sm
+      = gunpla.images_attached?(180)
     .card-body
-      h5.card-title
+      p
         = gunpla.name
-      h6.card-subtitle.text-muted.mb-2
-        = gunpla.sales.name
-      p.card-text
-        | 2020年08月19日投稿
+      ul.text-left.p-0
+        li
+          = category.grade_and_scale
+        li id="rate-#{gunpla.id}"
+          = render "users/shared/rate",
+            id: "#rate-#{gunpla.id}",
+            half: true,
+            readonly: true,
+            score: "#{gunpla.reviews.average(:rate).to_f.round(1)}",
+            scorename: nil

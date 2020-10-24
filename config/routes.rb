@@ -72,11 +72,24 @@ Rails.application.routes.draw do
         get 'get_category_children', defaults: { format: 'json' }
         get 'get_category_grandchildren', defaults: { format: 'json' }
         post 'new', to: 'gunplas#create', as: :create
+        post '/:gunpla_id/reviews/new', to: "reviews#create", as: :review
       end
 
       member do
         get 'select_category_index', to: 'gunplas#select_category_index'
         match 'edit', to: 'gunplas#update', via: %i(patch put), as: :update
+      end
+
+      resources :reviews, only: %i(new)
+    end
+
+    resources :reviews, except: %i(index new create) do
+      member do
+        match 'edit', to: 'reviews#update', via: %i(patch put), as: :update
+      end
+
+      collection do
+        post 'upload_image', defaults: { format: 'json' }
       end
     end
   end

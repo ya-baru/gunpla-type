@@ -1,7 +1,7 @@
 - breadcrumbs.tap do |links|
   - if links.any?
     .container.d-none.d-md-block.mb-4
-      ul.breadcrumb.bg-transparent.mb-0
+      ul.breadcrumb.bg-transparent
         - links.each do |link|
           - if link.current?
             li.breadcrumb-item.active

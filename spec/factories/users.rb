@@ -25,5 +25,13 @@ FactoryBot.define do
       provider { "facebook" }
       uid { "12345678" }
     end
+
+    trait :with_avatar do
+      after(:build) do |user|
+        user.avatar.attach(io: File.open(
+          Rails.root.join('spec', 'files', "sample.jpg")
+        ), filename: 'sample.jpg', content_type: 'image/jpeg')
+      end
+    end
   end
 end

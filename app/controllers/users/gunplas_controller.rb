@@ -12,13 +12,13 @@ class Users::GunplasController < ApplicationController
   def index
     gunpla_search(nil)
 
-    set_gunplas_page_data(@search.result.count, "ガンプラリスト", :gunpla_list)
+    set_gunplas_page_data(gunplas_count: @search.result.count, sub_title: "ガンプラリスト", breadcumb: :gunpla_list)
   end
 
   def search_index
     gunpla_search(search_params)
 
-    set_gunplas_page_data(@search.result.count, "検索結果", :gunpla_search)
+    set_gunplas_page_data(gunplas_count: @search.result.count, sub_title: "検索結果", breadcumb: :gunpla_search)
     render :index
   end
 
@@ -27,12 +27,18 @@ class Users::GunplasController < ApplicationController
     category_listup(@category)
     gunpla_search(nil)
 
-    set_gunplas_page_data(@gunplas.count, "カテゴリー検索", :category_search)
+    set_gunplas_page_data(gunplas_count: @gunpla_list.count, sub_title: "カテゴリー検索", breadcumb: :category_search)
     render :index
   end
 
   def show
     @gunpla = Gunpla.find(params[:id]).decorate
+    @reviews = @gunpla.reviews.
+      page(params[:page]).
+      per(REVIEWS_PAGINATE_COUNT).
+      decorate.
+      includes([images_attachments: :blob]).
+      order(id: :desc)
     gunpla_history_save(@gunpla) if user_signed_in?
   end
 
@@ -44,7 +50,7 @@ class Users::GunplasController < ApplicationController
     @gunpla = Gunpla.new(ganpla_params).decorate
     return render :new unless @gunpla.save
 
-    redirect_to gunpla_url(@gunpla), notice: "ガンプラの登録に成功しました"
+    redirect_to gunpla_url(@gunpla), notice: "ガンプラを登録しました"
   end
 
   def edit; end
@@ -103,7 +109,7 @@ class Users::GunplasController < ApplicationController
     @category = Category.new.decorate
   end
 
-  def set_gunplas_page_data(gunplas_count, sub_title, breadcumb)
+  def set_gunplas_page_data(gunplas_count: nil, sub_title: nil, breadcumb: nil)
     @gunplas_count = gunplas_count
     @sub_title = sub_title
     @breadcumb = breadcumb

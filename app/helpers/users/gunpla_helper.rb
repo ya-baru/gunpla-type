@@ -1,5 +1,5 @@
 module Users::GunplaHelper
-  def header_title(title, count)
+  def header_title(title: nil, count: nil)
     "#{title}（#{count}）"
   end
 

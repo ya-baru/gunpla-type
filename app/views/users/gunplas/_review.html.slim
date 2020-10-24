@@ -1,0 +1,21 @@
+- category = review.gunpla.category
+
+= link_to review_path(review)
+  li.media.border.rounded.mb-2
+    .shadow-sm.mr-3
+      = image_tag review.display_images.first, height: 150, width: 150
+    .media-body.my-auto
+      p
+        = review.title
+      ul.text-left.p-0
+        li
+          = simple_format(h(review.content).truncate(24, omission: "..."), {}, sanitize: false)
+        li id="rate-#{review.id}"
+          = render "users/shared/rate",
+            id: "#rate-#{review.id}",
+            half: true,
+            readonly: true,
+            score: "#{review.rate}",
+            scorename: nil
+        li
+          p= "#{review.created_at.to_s(:datetime_jp)} 投稿"
