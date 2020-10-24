@@ -1,0 +1,13 @@
+- if signed_in? && !current_user?(user)
+  #follow_btn
+    - if current_user.following?(user)
+      = form_with(model: current_user.active_relationships.find_by(followed: user.id), method: :delete, remote: true) do
+        = button_tag(class: "btn btn-outline-secondary rounded-pill") do
+          i.far.fa-heart.mr-1
+          | フォロー中
+    - else
+      = form_with(model: current_user.active_relationships.build, remote: true) do
+        = hidden_field_tag :followed_id, user.id
+        = button_tag(class: "btn btn-info rounded-pill") do
+          i.fas.fa-heart.mr-1
+          | フォロー

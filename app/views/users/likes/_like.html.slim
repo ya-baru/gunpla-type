@@ -1,12 +1,12 @@
 - if signed_in? && !current_user?(review.user)
-  span#like_form
+  span#like_btn
     - if current_user.iine?(review)
-      = form_with(model: current_user.likes.find_by(review_id: review.id), method: :delete, remote: true) do |f|
+      = form_with(model: current_user.likes.find_by(review_id: review.id), method: :delete, remote: true) do
         = button_tag(class: "btn btn-outline-secondary rounded-pill") do
           i.far.fa-thumbs-up.mr-1
           | いいね中！
     - else
-      = form_with(model: current_user.likes.build, remote: true) do |f|
+      = form_with(model: current_user.likes.build, remote: true) do
         = hidden_field_tag :review_id, review.id
         = button_tag(class: "btn btn-info rounded-pill") do
           i.fas.fa-thumbs-up.mr-1
