@@ -64,9 +64,8 @@
               .reviewer_profile
                 = link_to @review.user_name, mypage_path(@review.user)
                 p= @review.user_profile
-            .follow
-              a.btn.btn-info href="#"
-                i.fas.fa-heart.mr-1
-                | フォローする
+            span id="follow-#{@review.user.id}"
+              = render "users/relationships/follow", user: @review.user
+
 
   = render "users/shared/sidebar"

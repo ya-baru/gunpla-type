@@ -3,6 +3,7 @@ class User < ApplicationRecord
   include Avatar
   include LikeReview
   include FavoriteGunpla
+  include Follow
 
   devise :database_authenticatable,
          :registerable,
@@ -23,6 +24,16 @@ class User < ApplicationRecord
   has_many :iine_reviews, through: :likes, source: :review
   has_many :favorites, dependent: :destroy
   has_many :favorite_gunplas, through: :favorites, source: :gunpla
+  has_many :active_relationships,
+           class_name: "Relationship",
+           foreign_key: "follower_id",
+           dependent: :destroy
+  has_many :following, through: :active_relationships, source: :followed
+  has_many :passive_relationships,
+           class_name: "Relationship",
+           foreign_key: "followed_id",
+           dependent: :destroy
+  has_many :followers, through: :passive_relationships, source: :follower
 
   validates :username, presence: true, length: { maximum: 20 }
   validates :profile, length: { maximum: 255 }

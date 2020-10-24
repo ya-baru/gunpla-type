@@ -19,7 +19,7 @@ RSpec.describe "Users::Favorites", type: :request do
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunpla_path(gunpla) }
       it "カウントあり" do
-        expect(Favorite.count).to eq 1
+        expect(user.favorites.count).to eq 1
       end
     end
 
