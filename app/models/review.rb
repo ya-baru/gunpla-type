@@ -2,6 +2,8 @@ class Review < ApplicationRecord
   include Images
 
   has_many_attached :images, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :iine_users, through: :likes, source: :user
 
   belongs_to :user
   belongs_to :gunpla

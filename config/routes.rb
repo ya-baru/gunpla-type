@@ -92,5 +92,7 @@ Rails.application.routes.draw do
         post 'upload_image', defaults: { format: 'json' }
       end
     end
+
+    resources :likes, only: %i(create destroy)
   end
 end

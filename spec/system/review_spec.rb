@@ -75,7 +75,7 @@ RSpec.describe "Review", :js, type: :system do
   end
 
   describe "レビュー編機能のテスト" do
-    let!(:review) { create(:review, :with_image) }
+    let!(:review) { create(:review) }
     let(:other_user) { create(:user) }
     let(:user) { User.first }
     let(:gunpla) { Gunpla.first }
@@ -124,7 +124,7 @@ RSpec.describe "Review", :js, type: :system do
   end
 
   describe "レビューの削除動作のチェック" do
-    let!(:review) { create(:review, :with_image) }
+    let!(:review) { create(:review) }
     let(:user) { User.first }
     let(:gunpla) { Gunpla.first }
 
@@ -143,7 +143,7 @@ RSpec.describe "Review", :js, type: :system do
   end
 
   describe "関連ページにおけるレビュー内容のチェック" do
-    let!(:review) { create(:review, :with_image) }
+    let!(:review) { create(:review) }
     let(:user) { User.first }
     let(:gunpla) { Gunpla.first }
     let(:category) { Category.last }

@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  include Avatar
   include Omniauth
+  include Avatar
+  include Iine
 
   devise :database_authenticatable,
          :registerable,
@@ -17,6 +18,8 @@ class User < ApplicationRecord
   has_many :browsing_histories, dependent: :destroy
   has_many :gunpla_histories, through: :browsing_histories, source: :gunpla
   has_many :reviews, dependent: :destroy
+  has_many :likes, dependent: :destroy
+  has_many :iine_reviews, through: :likes, source: :review
 
   validates :username, presence: true, length: { maximum: 20 }
   validates :profile, length: { maximum: 255 }

@@ -1,11 +1,13 @@
 javascript:
-  $("#{id}").raty({
-    size: 36,
-    starOff: "#{asset_path('star-off.png')}",
-    starOn: "#{asset_path('star-on.png')}",
-    starHalf: "#{asset_path('star-half.png')}",
-    half: "#{half}",
-    readOnly: "#{readonly}",
-    score: "#{score}",
-    scoreName: "#{scorename}",
+  $(document).on('turbolinks:load', function(){
+    $("#{id}").raty({
+      size: 36,
+      starOff: "#{asset_path('star-off.png')}",
+      starOn: "#{asset_path('star-on.png')}",
+      starHalf: "#{asset_path('star-half.png')}",
+      half: "#{half}",
+      readOnly: "#{readonly}",
+      score: "#{score}",
+      scoreName: "#{scorename}",
+    });
   });

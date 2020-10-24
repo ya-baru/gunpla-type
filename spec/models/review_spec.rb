@@ -12,9 +12,10 @@ RSpec.describe Review, type: :model do
   it { is_expected.to validate_length_of(:content).is_at_most(1000) }
   it { is_expected.to validate_presence_of :user_id }
   it { is_expected.to validate_presence_of :gunpla_id }
+  it { is_expected.to have_many(:likes).dependent(:destroy) }
 
   describe "ファクトリーテスト" do
-    let!(:review) { create(:review, :with_image) }
+    let!(:review) { create(:review) }
 
     it "ファクトリーが有効であること" do
       expect(review).to be_valid
