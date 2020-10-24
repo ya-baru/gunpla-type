@@ -4,6 +4,8 @@ class Users::RelationshipsController < ApplicationController
 
   def create
     @user = User.find(params[:followed_id])
+    return redirect_to mypage_url(@user) if current_user?(@user)
+
     unless current_user.following?(@user)
       current_user.follow(@user)
       respond_to do |format|

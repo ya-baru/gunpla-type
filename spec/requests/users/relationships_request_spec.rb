@@ -1,12 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Users::Likes", type: :request do
+RSpec.describe "Users::Relationships", type: :request do
   subject { response }
-
-  let!(:like) { create(:like) }
-  let(:user) { User.first }
-  let(:review) { Review.first }
-  let(:other_user) { create(:user) }
 
   before do
     login
@@ -14,25 +9,27 @@ RSpec.describe "Users::Likes", type: :request do
   end
 
   describe "#create" do
-    let(:url) { post likes_path, params: { review_id: review.id } }
+    let(:follower) { create(:user) }
+    let(:followed) { create(:user) }
+    let(:url) { post relationships_path, params: { followed_id: followed.id } }
 
     context "ログインユーザー" do
-      let(:login) { sign_in other_user }
+      let(:login) { sign_in follower }
 
       it { is_expected.to have_http_status 302 }
-      it { is_expected.to redirect_to review_path(review) }
+      it { is_expected.to redirect_to mypage_path(follower) }
       it "カウントあり" do
-        expect(other_user.likes.count).to eq 1
+        expect(follower.following.count).to eq 1
       end
     end
 
-    context "レビュアー" do
-      let(:login) { sign_in user }
+    context "同一ユーザー" do
+      let(:login) { sign_in followed }
 
       it { is_expected.to have_http_status 302 }
-      it { is_expected.to redirect_to review_path(review) }
+      it { is_expected.to redirect_to mypage_path(followed) }
       it "カウントなし" do
-        expect(user.likes.count).to eq 1
+        expect(followed.following.count).to eq 0
       end
     end
 
@@ -42,13 +39,17 @@ RSpec.describe "Users::Likes", type: :request do
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
       it "カウントなし" do
-        expect(Like.count).to eq 1
+        expect(Relationship.count).to eq 0
       end
     end
   end
 
   describe "#destroy" do
-    let(:url) { delete like_path(review) }
+    let(:relationship) { create(:relationship) }
+    let(:follower) { relationship.follower }
+    let(:followed) { relationship.followed }
+
+    let(:url) { delete relationship_path(followed) }
 
     context "未ログインユーザー" do
       let(:login) { nil }
@@ -56,7 +57,7 @@ RSpec.describe "Users::Likes", type: :request do
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
       it "カウントなし" do
-        expect(Like.count).to eq 1
+        expect(Relationship.count).to eq 1
       end
     end
   end
