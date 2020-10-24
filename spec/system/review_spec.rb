@@ -12,7 +12,7 @@ RSpec.describe "Review", :js, type: :system do
   end
 
   describe "レビュー投稿機能のテスト" do
-    let(:user) { create(:user) }
+    let(:user) { create(:user, :with_avatar) }
     let(:gunpla) { create(:gunpla) }
 
     it "バリデーション, 画像登録, Ratyの各種機能の動作チェックをする" do

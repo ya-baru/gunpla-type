@@ -3,7 +3,7 @@
 
 .card.col-md-10.mx-auto.px-0
   .card-header
-    h2
+    h2.headingLv
       = sub_title
   .card-body
     = form_with model: @contact, url: contact_confirm_path, html: { method: :post }, local: true do |f|

@@ -6,15 +6,15 @@ class GunplaDecorator < ApplicationDecorator
   delegate_all
 
   def category_name
-    category.name
+    object.category.name
   end
 
   def root_category_name
-    category.root.name
+    object.category.root.name
   end
 
   def parent_category_name
-    category.parent.name
+    object.category.parent.name
   end
 
   def images_attached?(height)

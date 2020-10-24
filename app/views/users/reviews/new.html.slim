@@ -5,11 +5,12 @@
   .col-lg-8
     .card.shadow-sm
       .card-header
-        h2
+        h2.headingLv
           = sub_title
       .card-body.my-3
         .text-center
-          h3= "#{@gunpla.name}"
+          h3
+            = "#{@gunpla.name}"
         = form_with model: [@gunpla, @review], url: review_gunplas_path, method: :post, local: true do |f|
           = render "form",
             review: @review,

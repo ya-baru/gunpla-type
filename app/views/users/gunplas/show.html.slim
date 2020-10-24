@@ -8,7 +8,7 @@
         .row.mb-4
           .col-lg-6.offset-lg-3
             .text-center
-              h2
+              h2.headingLv
                 = @gunpla.name
           - if user_signed_in?
             .col-lg-3.text-right
@@ -67,7 +67,7 @@
 
     .card.shadow-sm
       .card-header
-        h2
+        h2.headingLv
           = "レビューリスト（#{@gunpla.reviews.count}）"
       .card-body
         .card-text.border-bottom.mb-4.pb-3

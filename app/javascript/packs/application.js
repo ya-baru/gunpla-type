@@ -22,11 +22,11 @@ import "bootstrap";
 import "@fortawesome/fontawesome-free/js/all";
 import "../stylesheets/application";
 
-import "../javascripts/category";
+import "../javascripts/category_select";
 import "../javascripts/category_search";
-import "../javascripts/avatar";
 import "../javascripts/autocomplete";
-import "../javascripts/review_images";
+import "../javascripts/upload_avatar";
+import "../javascripts/upload_images";
 import "../javascripts/review_thumb";
-import "../javascripts/page_top_scroll";
+import "../javascripts/page_scrolltop";
 // import "../javascripts/recently_viewed_gunplas";

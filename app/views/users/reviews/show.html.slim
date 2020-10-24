@@ -8,7 +8,7 @@
         .row.mb-4
           .col-lg-6.offset-lg-3
             .text-center
-              h2
+              h2.headingLv
                 = @gunpla.name
           - if user_signed_in? && @review.user_id == current_user.id
             .col-lg-3.text-right
