@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users::Reviews", type: :request do
   subject { response }
 
-  let!(:review) { create(:review, :with_image) }
+  let!(:review) { create(:review) }
   let(:user) { User.first }
   let(:gunpla) { Gunpla.first }
 

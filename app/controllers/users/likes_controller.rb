@@ -1,8 +1,11 @@
 class Users::LikesController < ApplicationController
+  include ApplicationHelper
   prepend_before_action :authenticate_user!
 
   def create
     @review = Review.find(params[:review_id])
+    return redirect_to review_url(@review) if current_user?(@review.user)
+
     unless current_user.iine?(@review)
       current_user.iine(@review)
       respond_to do |format|
