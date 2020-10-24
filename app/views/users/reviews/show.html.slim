@@ -36,9 +36,8 @@
               = "#{@review.created_at.to_s(:datetime_jp)} 投稿"
             p
               = simple_format(h(@review.content), {}, sanitize: false)
-            a.btn.btn-info.mb-4 href="#"
-              i.fas.fa-thumbs-up.mr-1
-              | いいね！
+            div.mb-5 id="review-#{@review.id}"
+              = render "users/likes/like", review: @review
 
         .sns.mb-4
           h5.heading.mb-3
