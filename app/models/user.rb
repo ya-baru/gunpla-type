@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   include Omniauth
   include Avatar
-  include Iine
+  include LikeReview
+  include FavoriteGunpla
 
   devise :database_authenticatable,
          :registerable,
@@ -20,6 +21,8 @@ class User < ApplicationRecord
   has_many :reviews, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :iine_reviews, through: :likes, source: :review
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_gunplas, through: :favorites, source: :gunpla
 
   validates :username, presence: true, length: { maximum: 20 }
   validates :profile, length: { maximum: 255 }

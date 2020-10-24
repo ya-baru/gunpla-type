@@ -20,9 +20,8 @@
           .row
             .col-md-5.mb-3.mb-md-0
               = render "thumbnail", reviews: @reviews
-              a.btn.btn-info.btn-block.mt-4.mb-md-3 href="#"
-                i.fas.fa-star.mr-1
-                | お気に入り登録
+              div.mt-4.mb-md-3 id="gunpla-#{@gunpla.id}"
+                = render "users/favorites/favorite", gunpla: @gunpla
             .col-md-7.mb-2
               h5.row.heading
                 | 商品情報
