@@ -16,6 +16,7 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:browsing_histories).dependent(:destroy) }
   it { is_expected.to have_many(:reviews).dependent(:destroy) }
   it { is_expected.to have_many(:likes).dependent(:destroy) }
+  it { is_expected.to have_many(:comments).dependent(:destroy) }
 
   it "ファクトリーが有効であること" do
     expect(user).to be_valid

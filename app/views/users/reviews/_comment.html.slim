@@ -1,0 +1,12 @@
+- if signed_in?
+  .sns.mt-5
+    h5.heading.mb-3
+      | このレビューへのコメント
+    - unless comments.count.zero?
+      ul#comment.overflow-auto.pl-2 style="height:300px;"
+        = render partial: "comment_list", collection: comments, as: :comment
+    = form_with(model: [review, comment], method: :post, local: true) do |f|
+      = f.text_area :content, class: "form-control", placeholder: "255文字以内..."
+      = f.hidden_field :review_id, value: review.id
+      .mt-3
+        = f.submit "コメントを送信する", class: "btn btn-primary btn-block"

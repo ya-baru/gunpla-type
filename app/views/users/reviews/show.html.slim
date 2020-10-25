@@ -53,6 +53,8 @@
               i.fab.fa-line.mr-1
               | Line
 
+
+
         .card
           .card-header
             h5.mb-0
@@ -66,6 +68,9 @@
                 p= @review.user_profile
             span id="follow-#{@review.user.id}"
               = render "users/relationships/follow", user: @review.user
-
+        = render "comment",
+          review: @review,
+          comment: @comment,
+          comments: @comments
 
   = render "users/shared/sidebar"

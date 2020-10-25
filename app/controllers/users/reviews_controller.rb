@@ -6,6 +6,8 @@ class Users::ReviewsController < ApplicationController
 
   def show
     @gunpla = @review.gunpla
+    @comment = current_user.comments.build(review_id: @review.id).decorate if signed_in?
+    @comments = @review.comments.includes([user: [avatar_attachment: :blob]]).order(id: :desc).decorate
   end
 
   def new

@@ -113,7 +113,7 @@ RSpec.describe "Users::Reviews", type: :request do
   end
 
   describe "#update" do
-    let(:url) { patch review_path(review), params: { review: attributes_for(:review) } }
+    let(:url) { patch update_review_path(review), params: { review: attributes_for(:review) } }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }

@@ -3,6 +3,7 @@ class ReviewDecorator < ApplicationDecorator
 
   decorates_association :user
   decorates_association :gunpla
+  decorates_association :comment
 
   def gunpla_name
     object.gunpla.name

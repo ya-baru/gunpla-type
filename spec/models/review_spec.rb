@@ -13,6 +13,7 @@ RSpec.describe Review, type: :model do
   it { is_expected.to validate_presence_of :user_id }
   it { is_expected.to validate_presence_of :gunpla_id }
   it { is_expected.to have_many(:likes).dependent(:destroy) }
+  it { is_expected.to have_many(:comments).dependent(:destroy) }
 
   describe "ファクトリーテスト" do
     let!(:review) { create(:review) }

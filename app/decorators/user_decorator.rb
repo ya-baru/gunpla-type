@@ -1,14 +1,15 @@
 class UserDecorator < ApplicationDecorator
   delegate_all
   decorates_association :review
+  decorates_association :comment
 
-  def use_avatar
+  def use_avatar(size: 150)
     if object.avatar.present?
-      h.content_tag(:div, class: "prev-content") do
-        h.image_tag(object.avatar, alt: "preview", class: "prev-image shadow", size: "150x150")
+      h.content_tag(:span, class: "prev-content") do
+        h.image_tag(object.avatar, alt: "preview", class: "prev-image shadow", size: "#{size}x#{size}")
       end
     else
-      h.image_tag("https://placehold.jp/150x150.png?text=Non-Image", class: "photo-icon shadow")
+      h.image_tag("https://placehold.jp/#{size}x#{size}.png?text=Non-Image", class: "photo-icon shadow")
     end
   end
 
