@@ -1,12 +1,12 @@
-
-li.border-top
-  = comment.user.use_avatar(size: 25)
-  span.ml-1
-    = "#{comment.user_name}"
-  span.mx-2.font_sm
-    = "投稿日: #{comment.created_at.to_s(:full_datetime_jp)}"
-  - if comment.user_id == current_user.id
-    span
-      = link_to "削除", comment_path(comment), method: :delete, data: { confirm: "コメントを削除してよろしいですか?" }
-  p
-    = comment.content
+- if signed_in?
+  .sns.mt-5
+    h5.heading.mb-3
+      | このレビューへのコメント
+    - unless comments.count.zero?
+      ul#comment.overflow-auto.pl-2 style="height:300px;"
+        = render partial: "comment_list", collection: comments, as: :comment
+    = form_with(model: [review, comment], method: :post, local: true) do |f|
+      = f.text_area :content, class: "form-control", placeholder: "255文字以内..."
+      = f.hidden_field :review_id, value: review.id
+      .mt-3
+        = f.submit "コメントを送信する", class: "btn btn-primary btn-block"
