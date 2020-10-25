@@ -83,7 +83,7 @@ Rails.application.routes.draw do
       resources :reviews, only: %i(new)
     end
 
-    resources :reviews, except: %i(index new create) do
+    resources :reviews, only: %i(show edit destroy) do
       member do
         match 'edit', to: 'reviews#update', via: %i(patch put), as: :update
       end
@@ -91,7 +91,11 @@ Rails.application.routes.draw do
       collection do
         post 'upload_image', defaults: { format: 'json' }
       end
+
+      resources :comments, only: %i(create)
     end
+
+    resources :comments, only: %i(destroy)
 
     resources :likes, only: %i(create destroy)
 
