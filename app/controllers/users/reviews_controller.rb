@@ -18,6 +18,7 @@ class Users::ReviewsController < ApplicationController
     @review = current_user.reviews.build(review_params).decorate
     return render :new unless @review.save
 
+    @review.create_notification_review(current_user, @gunpla.id)
     redirect_to review_url(@review), notice: "『#{@gunpla.name}』のレビューが完了しました"
   end
 

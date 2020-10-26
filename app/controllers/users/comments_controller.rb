@@ -6,6 +6,7 @@ class Users::CommentsController < ApplicationController
     @gunpla = @review.gunpla
     @comment = current_user.comments.build(comment_params).decorate
     return redirect_to request.referer, alert: "コメント送信に失敗しました" unless @comment.save
+    @review.create_notification_comment(current_user, @comment.id)
 
     redirect_to request.referer, notice: "コメント送信が完了しました"
   end

@@ -10,21 +10,22 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
       ul.navbar-nav.ml-auto
         - if user_signed_in?
           li.nav-item
-            a.nav-link.text-white href="#"
-              span style="color: orange;"
-                i.far.fa-bell.mr-2
+            = link_to notifications_path, class: "nav-link text-white" do
+              - if current_user.unchecked_notifications.any?
+                .fa-stack
+                  i.far.fa-bell.fa-lg.fa-stack-2x.ml-3.mt-1 style="font-size: 0.65em;"
+                  i.fas.fa-circle.n-circle.fa-stack-1x.m-0
                 | お知らせ
-          / li.nav-item
-          /   a.nav-link.text-white href="#"
-          /     i.far.fa-bell.mr-2
-          /     | お知らせ
+              - else
+                i.far.fa-bell.mr-1
+                | お知らせ
           li.nav-item
             = link_to mypage_path(current_user), class: "nav-link text-white" do
-              i.fas.fa-user.mr-1
+              i.fas.fa-user
               | マイページ
           li.nav-item
             = link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do
-              i.fas.fa-sign-out-alt.mr-1
+              i.fas.fa-sign-out-alt
               | ログアウト
           = render "layouts/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"
 

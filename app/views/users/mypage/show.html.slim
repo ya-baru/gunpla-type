@@ -6,7 +6,7 @@ section
     .user_avatar.mr-4.mb-4
       = link_to mypage_path(@user) do
         - if @user.avatar.attached?
-          = image_tag @user.display_avatar(150), class: "shadow"
+          = image_tag @user.display_avatar, class: "shadow"
         - else
           img.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
     .user.d-flex.align-items-center

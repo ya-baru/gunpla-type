@@ -3,7 +3,7 @@ class Users::GunplasController < ApplicationController
   include GunplaHistory
   include GunplaSearch
 
-  before_action :authenticate_user!, only: %i(new create edit update)
+  prepend_before_action :authenticate_user!, only: %i(new create edit update)
   before_action :set_gunpla, only: %i(show edit update)
   before_action :set_parent_categories, only: %i(new create edit update index search_index select_category_index)
   before_action :set_category_data, only: %i(edit update)

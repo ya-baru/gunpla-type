@@ -1,0 +1,17 @@
+- notifications = @notifications.where.not(visitor_id: current_user.id)
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          | お知らせ
+      .card-body.my-3
+        - if notifications.exists?
+          = render partial: "notification", collection: notifications, as: :notification
+          = paginate notifications
+        - else
+          p
+            | 通知はありません
+
+  = render "users/shared/sidebar"

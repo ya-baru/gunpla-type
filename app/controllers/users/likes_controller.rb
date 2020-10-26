@@ -8,6 +8,7 @@ class Users::LikesController < ApplicationController
 
     unless current_user.iine?(@review)
       current_user.iine(@review)
+      @review.create_notification_like(current_user)
       respond_to do |format|
         format.html { redirect_to request.referrer || review_url(@review) }
         format.js

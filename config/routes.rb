@@ -102,5 +102,7 @@ Rails.application.routes.draw do
     resources :favorites, only: %i(create destroy)
 
     resources :relationships, only: %i(create destroy)
+
+    resources :notifications, only: :index
   end
 end

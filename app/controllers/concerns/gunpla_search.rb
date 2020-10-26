@@ -7,7 +7,8 @@ module GunplaSearch
         @gunplas = @search.result.
           page(params[:page]).
           per(GUNPLAS_PAGINATE_COUNT).
-          decorate.includes([:category, :reviews]).
+          decorate.
+          includes([:category, :reviews]).
           order(id: :desc)
         return
       end

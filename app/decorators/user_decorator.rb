@@ -4,7 +4,7 @@ class UserDecorator < ApplicationDecorator
   decorates_association :comment
 
   def use_avatar(size: 150)
-    if object.avatar.present?
+    if object.avatar.attached?
       h.content_tag(:span, class: "prev-content") do
         h.image_tag(object.avatar, alt: "preview", class: "prev-image shadow", size: "#{size}x#{size}")
       end
@@ -19,5 +19,9 @@ class UserDecorator < ApplicationDecorator
     else
       h.link_to "『#{gunpla.name}』 をレビューする", h.new_gunpla_review_path(gunpla), class: "btn btn-primary btn-block"
     end
+  end
+
+  def unchecked_notifications
+    object.passive_notifications.where(checked: false)
   end
 end
