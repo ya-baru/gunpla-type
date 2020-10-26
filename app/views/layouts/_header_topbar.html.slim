@@ -12,12 +12,12 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
           li.nav-item
             = link_to notifications_path, class: "nav-link text-white" do
               - if current_user.unchecked_notifications.any?
-                .fa-stack
-                  i.far.fa-bell.fa-lg.fa-stack-2x.ml-3.mt-1 style="font-size: 0.65em;"
+                .fa-stack style="width: 22px;"
+                  i.far.fa-bell.fa-lg.fa-stack-2x.mr-0.mt-1 style="font-size: 0.65em;"
                   i.fas.fa-circle.n-circle.fa-stack-1x.m-0
                 | お知らせ
               - else
-                i.far.fa-bell.mr-1
+                i.far.fa-bell.mr-1 style="font-size: 1.2em;"
                 | お知らせ
           li.nav-item
             = link_to mypage_path(current_user), class: "nav-link text-white" do

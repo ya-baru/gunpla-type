@@ -25,9 +25,6 @@ module NotificationCreate
           visited_id: user_id,
           action: "like"
         )
-        if notification.visitor_id == notification.visited_id
-          notification.checked = true
-        end
         visited_history_delete(visited: user_id)
         notification.save if notification.valid?
       end
@@ -35,11 +32,10 @@ module NotificationCreate
 
     # お気に入りレビュー
     def create_notification_review(current_user, gunpla_id)
-      temp_ids = Favorite.select(:user_id).where(gunpla_id: gunpla_id).where.not(user_id: current_user.id).distinct
+      temp_ids = Favorite.select(:user_id).where(gunpla_id: gunpla_id).where.not(user_id: current_user.id)
       temp_ids.each do |temp_id|
         save_notification_review(current_user, gunpla_id, temp_id["user_id"])
       end
-      save_notification_review(current_user, gunpla_id, user_id) if temp_ids.blank?
     end
 
     def save_notification_review(current_user, gunpla_id, visited_id)
@@ -57,18 +53,10 @@ module NotificationCreate
     end
 
     # レビューコメント
-    def create_notification_comment(current_user, comment_id)
-      temp_ids = Comment.select(:user_id).where(review_id: id).where.not(user_id: current_user.id).distinct
-      temp_ids.each do |temp_id|
-        save_notification_comment(current_user, comment_id, temp_id["user_id"])
-      end
-      save_notification_comment(current_user, comment_id, user_id) if temp_ids.blank?
-    end
-
-    def save_notification_comment(current_user, comment_id, visited_id)
+    def save_notification_comment(current_user, review_id, visited_id)
       notification = current_user.active_notifications.build(
-        review_id: id,
-        comment_id: comment_id,
+        review_id: review_id,
+        comment_id: id,
         visited_id: visited_id,
         action: "comment"
       )

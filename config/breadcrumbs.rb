@@ -2,6 +2,14 @@ crumb :root do
   link "ホーム", root_path
 end
 
+crumb :notification do
+  link "お知らせリスト", notifications_path
+end
+
+crumb :activity do
+  link "アクティビティリスト", activities_path
+end
+
 crumb :company do
   link "運営情報", company_path
 end

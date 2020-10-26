@@ -1,4 +1,6 @@
 class Comment < ApplicationRecord
+  include NotificationCreate
+
   belongs_to :user
   belongs_to :review
 

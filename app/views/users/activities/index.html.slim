@@ -1,0 +1,18 @@
+- provide(:title, sub_title="アクティビティーリスト")
+- breadcrumb :activity
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          = sub_title
+      .card-body.my-3
+        - if @activities.exists?
+          = render partial: "activity", collection: @activities, as: :activity
+          = paginate @activities
+        - else
+          p
+            | 通知はありません
+
+  = render "users/shared/sidebar"

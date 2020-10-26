@@ -1,3 +1,5 @@
+- provide(:title, sub_title="お知らせリスト")
+- breadcrumb :notification
 - notifications = @notifications.where.not(visitor_id: current_user.id)
 
 .row.mx-auto
@@ -5,7 +7,7 @@
     .card.shadow-sm
       .card-header
         h2.headingLv
-          | お知らせリスト
+          = sub_title
       .card-body.my-3
         - if notifications.exists?
           = render partial: "notification", collection: notifications, as: :notification

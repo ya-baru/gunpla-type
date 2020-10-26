@@ -1,0 +1,39 @@
+- visitor = activity.visitor
+- visited = activity.visited.decorate
+
+.col-md-10.mx-auto
+  .form-inline
+    - case activity.action
+    - when "follow" then
+      = link_to mypage_path(visited) do
+        = visited.use_avatar(size: 30)
+        strong
+          = visitor.username
+      | さんをフォローしました
+    - when "like" then
+      span
+        = link_to activity.review do
+          = activity.review.user.decorate.use_avatar(size: 30)
+          strong
+            = "#{activity.review.user.username}さんのレビュー"
+      | にいいねしました
+    - when "review" then
+      span
+        = link_to activity.decorate.review_gunpla_name, activity.review, style: "font-weight: bold;"
+        | をレビューしました
+    - when "comment" then
+      span
+        - if activity.review.user_id == visitor.id
+          = link_to activity.decorate.review_gunpla_name, review_path(activity.review, anchor: "comment"), style: "font-weight: bold;"
+        - else
+          = link_to review_path(activity.review, anchor: "comment") do
+            = activity.review.user.decorate.use_avatar(size: 30)
+            strong
+              = "#{activity.review.user.username}さんのレビュー"
+        | にコメントしました
+        p.text-muted.mb-0
+          = Comment.find_by(id: activity.comment_id)&.content
+
+  .small.text-muted.text-right
+    = time_ago_in_words(activity.created_at).upcase
+  hr
