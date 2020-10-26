@@ -103,6 +103,8 @@ Rails.application.routes.draw do
 
     resources :relationships, only: %i(create destroy)
 
-    resources :notifications, only: :index
+    resources :notifications, only: %i(index update)
+
+    resources :activities, only: :index
   end
 end

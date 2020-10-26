@@ -5,7 +5,7 @@
     .card.shadow-sm
       .card-header
         h2.headingLv
-          | お知らせ
+          | お知らせリスト
       .card-body.my-3
         - if notifications.exists?
           = render partial: "notification", collection: notifications, as: :notification

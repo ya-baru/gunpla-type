@@ -25,14 +25,9 @@
         = "のレビューにコメントしました"
         p.text-muted.mb-0
           = Comment.find_by(id: notification.comment_id)&.content
-
-  .small.text-muted.text-right
-    abbr.timeago title="#{notification.created_at.getutc.iso8601}"
-      = notification.created_at.to_s
-    / = time_ago_in_words(notification.created_at).upcase
+  .d-flex.justify-content-between
+    = form_with model: notification, local: true do |f|
+      = f.submit "OK", class: "btn btn-primary btn-sm py-0"
+    .small.text-muted
+      = time_ago_in_words(notification.created_at).upcase
   hr
-
-javascript:
-  $(document).on("turbolinks:load", function () {
-    $("abbr.timeago").timeago();
-  });

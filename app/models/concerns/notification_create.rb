@@ -9,6 +9,7 @@ module NotificationCreate
           visited_id: id,
           action: "follow"
         )
+        visited_history_delete(visited: id)
         notification.save if notification.valid?
       end
     end
@@ -27,6 +28,7 @@ module NotificationCreate
         if notification.visitor_id == notification.visited_id
           notification.checked = true
         end
+        visited_history_delete(visited: user_id)
         notification.save if notification.valid?
       end
     end
@@ -50,6 +52,7 @@ module NotificationCreate
       if notification.visitor_id == notification.visited_id
         notification.checked = true
       end
+      visited_history_delete(visited: visited_id)
       notification.save if notification.valid?
     end
 
@@ -72,7 +75,15 @@ module NotificationCreate
       if notification.visitor_id == notification.visited_id
         notification.checked = true
       end
+      visited_history_delete(visited: visited_id)
       notification.save if notification.valid?
     end
+  end
+
+  private
+
+  def visited_history_delete(visited: nil)
+    visited_histories = Notification.where(visited_id: visited)
+    visited_histories.first.destroy if visited_histories.count > VISITEDE_STOCK_LIMIT
   end
 end
