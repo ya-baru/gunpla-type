@@ -46,5 +46,7 @@ class User < ApplicationRecord
   validates :email, confirmation: true, on: :change_email
   validates :email_confirmation, presence: true, on: :change_email
   validates :password, format: { with: VALID_PASSWORD_REGEX }
+  validates :admin_flg, inclusion: { in: [true, false] }
+  validates :notice, inclusion: { in: [true, false] }
   validate :avatar_type, :avatar_size
 end

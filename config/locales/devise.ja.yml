@@ -30,6 +30,7 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
         admin_flg: 管理者権限
+        notice: お知らせ機能
     models:
       user: ユーザ
   devise:
