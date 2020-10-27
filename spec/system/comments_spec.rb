@@ -70,13 +70,14 @@ RSpec.describe "Comments", type: :system do
       end
 
       # OKクリックで項目を非表示
-      click_on "OK"
+      click_on "全て確認済み"
       aggregate_failures do
         expect(Notification.first.checked).to be_truthy
         expect(current_path).to eq notifications_path
         expect(page).not_to have_selector(".form-inline a", text: other_user.username)
         expect(page).not_to have_selector(".form-inline a", text: gunpla.name)
         expect(page).not_to have_selector(".form-inline p", text: "プロポーションと可動の両立！")
+        expect(page).to have_content("お知らせはありません")
       end
     end
   end

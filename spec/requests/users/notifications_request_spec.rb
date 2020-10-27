@@ -30,14 +30,7 @@ RSpec.describe "Users::Notifications", type: :request do
     let!(:notification) { create(:notification) }
     let(:visitor) { notification.visitor }
     let(:visited) { notification.visited }
-    let(:url) { patch notification_path(notification) }
-
-    context "ログインユーザー" do
-      let(:login) { sign_in visited }
-
-      it { is_expected.to have_http_status(302) }
-      it { is_expected.to redirect_to mypage_path(visited) }
-    end
+    let(:url) { patch notification_path(notification), params: { id: visited.id } }
 
     context "未ログインユーザー" do
       let(:login) { nil }

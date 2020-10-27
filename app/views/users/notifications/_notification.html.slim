@@ -1,33 +1,29 @@
 - visitor = notification.visitor.decorate
 - visited = notification.visited
 
-.col-md-10.mx-auto
-  .form-inline
-    span
-      = link_to mypage_path(visitor) do
-        = visitor.use_avatar(size: 30)
-        strong
-          = visitor.username
-      | さんが
-      br
+.form-inline
+  span
+    = link_to mypage_path(visitor) do
+      = visitor.use_avatar(size: 30)
+      strong
+        = visitor.username
+    | さんが
+    br
 
-      - case notification.action
-      - when "follow" then
-        | あなたをフォローしました
-      - when "like" then
-        = link_to notification.decorate.review_gunpla_name, notification.review, style: "font-weight: bold;"
-        | のレビューにいいねしました
-      - when "review" then
-        = link_to notification.decorate.gunpla_name, notification.review, style: "font-weight: bold;"
-        | をレビューしました
-      - when "comment" then
-        = link_to notification.decorate.review_gunpla_name, review_path(notification.review, anchor: "comment"), style: "font-weight: bold;"
-        | のレビューにコメントしました
-        p.text-muted.mb-0
-          = Comment.find_by(id: notification.comment_id)&.content
-  .d-flex.justify-content-between
-    = form_with model: notification, local: true do |f|
-      = f.submit "OK", class: "btn btn-primary btn-sm py-0"
-    .small.text-muted
-      = time_ago_in_words(notification.created_at).upcase
-  hr
+    - case notification.action
+    - when "follow" then
+      | あなたをフォローしました
+    - when "like" then
+      = link_to notification.decorate.review_gunpla_name, notification.review, style: "font-weight: bold;"
+      | のレビューにいいねしました
+    - when "review" then
+      = link_to notification.decorate.gunpla_name, notification.review, style: "font-weight: bold;"
+      | をレビューしました
+    - when "comment" then
+      = link_to notification.decorate.review_gunpla_name, review_path(notification.review, anchor: "comment"), style: "font-weight: bold;"
+      | のレビューにコメントしました
+      p.text-muted.mb-0
+        = Comment.find_by(id: notification.comment_id)&.content
+.small.text-muted.text-right
+  = time_ago_in_words(notification.created_at).upcase
+hr
