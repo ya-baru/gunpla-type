@@ -4,6 +4,7 @@ class User < ApplicationRecord
   include LikeReview
   include FavoriteGunpla
   include Follow
+  include NotificationCreate
 
   devise :database_authenticatable,
          :registerable,
@@ -36,6 +37,8 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :comments, dependent: :destroy
+  has_many :active_notifications, class_name: "Notification", foreign_key: "visitor_id", dependent: :destroy
+  has_many :passive_notifications, class_name: "Notification", foreign_key: "visited_id", dependent: :destroy
 
   validates :username, presence: true, length: { maximum: 20 }
   validates :profile, length: { maximum: 255 }

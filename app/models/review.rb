@@ -1,10 +1,12 @@
 class Review < ApplicationRecord
   include Images
+  include NotificationCreate
 
   has_many_attached :images, dependent: :destroy
   has_many :likes, dependent: :destroy
   has_many :iine_users, through: :likes, source: :user
   has_many :comments, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   belongs_to :user
   belongs_to :gunpla

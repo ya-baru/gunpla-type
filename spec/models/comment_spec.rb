@@ -7,6 +7,7 @@ RSpec.describe Comment, type: :model do
   it { is_expected.to validate_presence_of :review_id }
   it { is_expected.to validate_presence_of :content }
   it { is_expected.to validate_length_of(:content).is_at_most(255) }
+  it { is_expected.to have_many(:notifications).dependent(:destroy) }
 
   describe "ファクトリーテスト" do
     let!(:comment) { create(:comment) }

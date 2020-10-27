@@ -97,3 +97,14 @@
     }
   }
 }
+
+// お知らせ
+.n-circle {
+  position: absolute;
+  font-size: 1.2rem;
+  top: 0.4rem;
+  left: -1rem;
+  padding-left: 1rem;
+  padding-top: 0rem;
+  color: $orange;
+}

@@ -1,0 +1,19 @@
+- provide(:title, sub_title="お知らせリスト")
+- breadcrumb :notification
+- notifications = @notifications.where.not(visitor_id: current_user.id)
+
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          = sub_title
+      .card-body.my-3
+        - if notifications.exists?
+          = render partial: "notification", collection: notifications, as: :notification
+          = paginate notifications
+        - else
+          p
+            | お知らせはありません
+
+  = render "users/shared/sidebar"
