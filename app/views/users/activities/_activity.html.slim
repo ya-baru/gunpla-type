@@ -8,7 +8,7 @@
       = link_to mypage_path(visited) do
         = visited.use_avatar(size: 30)
         strong
-          = visitor.username
+          = visited.username
       | さんをフォローしました
     - when "like" then
       span
@@ -18,9 +18,9 @@
             = "#{activity.review.user.username}さんのレビュー"
       | にいいねしました
     - when "review" then
-      span
-        = link_to activity.decorate.review_gunpla_name, activity.review, style: "font-weight: bold;"
-        | をレビューしました
+        span
+          = link_to activity.decorate.review_gunpla_name, activity.review, style: "font-weight: bold;"
+          | をレビューしました
     - when "comment" then
       span
         - if activity.review.user_id == visitor.id
@@ -33,7 +33,6 @@
         | にコメントしました
         p.text-muted.mb-0
           = Comment.find_by(id: activity.comment_id)&.content
-
   .small.text-muted.text-right
     = time_ago_in_words(activity.created_at).upcase
   hr

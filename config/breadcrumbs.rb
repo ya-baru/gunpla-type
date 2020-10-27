@@ -7,7 +7,7 @@ crumb :notification do
 end
 
 crumb :activity do
-  link "アクティビティリスト", activities_path
+  link "アクティビティー", activities_path
 end
 
 crumb :company do

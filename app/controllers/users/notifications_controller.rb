@@ -12,14 +12,11 @@ class Users::NotificationsController < ApplicationController
         [review: [:user, :gunpla]],
         [visitor: [avatar_attachment: :blob]]
       )
-    # @notifications.where(checked: false).each do |notification|
-    #   notification.update_attributes(checked: true)
-    # end
   end
 
   def update
     notification = Notification.find(params[:id])
-    notification.update_attributes(checked: true)
+    notification.update(checked: true)
     redirect_to request.referer || mypage_url(current_user)
   end
 end

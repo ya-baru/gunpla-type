@@ -3,7 +3,9 @@ module NotificationCreate
   included do
     # フォロー
     def create_notification_follow(current_user)
-      temp = Notification.where(["visitor_id = ? and visited_id = ? and action = ?", current_user.id, id, "follow"])
+      temp = Notification.where(
+        ["visitor_id = ? and visited_id = ? and action = ?", current_user.id, id, "follow"]
+      )
       if temp.blank?
         notification = current_user.active_notifications.build(
           visited_id: id,
@@ -36,6 +38,7 @@ module NotificationCreate
       temp_ids.each do |temp_id|
         save_notification_review(current_user, gunpla_id, temp_id["user_id"])
       end
+      save_notification_review(current_user, gunpla_id, current_user.id)
     end
 
     def save_notification_review(current_user, gunpla_id, visited_id)
