@@ -2,137 +2,20 @@
 - breadcrumb :mypage, @user
 
 .user
-  .d-flex.align-items-center
-    .user_avatar.mr-4.mb-4
-      = @user.use_avatar?
-      / = link_to mypage_path(@user) do
-      /   - if @user.avatar.attached?
-      /     = image_tag @user.display_avatar, class: "shadow"
-      /   - else
-      /     img.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
-    .d-flex.align-items-center
-      .user-box.mr-3
-        .mb-0
-          = link_to mypage_path(@user) do
-            h2.headingLv
-              = @user.username
-            p
-              | レビュー 10件
-        .mb-2
-          a
-            | お気に入り 10件
+  = render "profile", user: @user
 
-      .user-btn
-        - if current_user?(@user)
-          = link_to "アクティビティ", activities_path, class: "btn btn-primary rounded-pill d-block mb-2"
-          = link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-info rounded-pill"
-        - else
-          span id="follow-#{@user.id}"
-            = render "users/relationships/follow", user: @user
-
-.user_profile.mb-4.col-sm-7
-  p.font-weight-bold.mb-0
-    | プロフィール
-  = simple_format(h(@user.profile), {}, sanitize: false)
-- if current_user?(@user)
-  .mb-3
-    = link_to "レビューする", gunplas_path, class: "btn btn-success rounded-pill d-block"
-
-.user_stats.mb-4.pb-3.border-bottom.border-secondary
-  .d-flex.justify-content-around
-    a href="#"
-      strong
-        | いいね！
-        span#iines
-          | (10)
-    a href="#"
-      strong
-        | フォロー
-        span#following
-          | (10)
-    a href="#"
-      strong#followers
-        | フォロワー
-        span#iines
-          | (10)
-
-.user_menu
+.menu.row.mt-5
   - if current_user?(@user)
-    = render "users/shared/account_management"
-    = render "mymenu"
-/   h1
-/     | レビューリスト（10）
+    .col-lg-4.d-none.d-lg-block
+      = render "users/shared/account_management"
+      = render "mymenu"
 
-/ ol.user_grid
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
-/   li.card.shadow-sm
-/     img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-/     .card-body
-/       h5.card-title
-/         | タイトル
-/       h6.card-subtitle.text-muted.mb-2
-/         | サブタイトル
-/       p.card-text
-/         | 2020年08月19日投稿
+  .col-lg-8.mb-4.mx-auto
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          = "レビューリスト（#{@reviews.count}）"
+      .card-body
+        ol.list-unstyled.mt-3
+          = render partial: "users/shared/review_list", collection: @reviews, as: :review
+        = paginate @reviews

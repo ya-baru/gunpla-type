@@ -64,11 +64,10 @@ Rails.application.routes.draw do
     # mypage
     resources :mypage, only: %i(show) do
       collection do
-        get 'iine_review', to: 'mypage#iine_review'
-        get 'new_review', to: 'mypage#new_review'
-        get 'favorite_gunpla', to: 'mypage#favorite_gunpla'
-        get 'follow', to: 'mypage#follow'
-        get 'follower', to: 'mypage#follower'
+        get 'iine_review', to: 'mypage#iine_reviews'
+        get 'favorite_gunpla', to: 'mypage#favorite_gunplas'
+        get 'follow', to: 'mypage#following'
+        get 'follower', to: 'mypage#followers'
       end
     end
 

@@ -1,0 +1,45 @@
+.user_status
+  .user_box.row.mb-4
+    .col-4.col-lg-2
+      = user.use_avatar?
+    .col-8.col-lg-10
+      = link_to mypage_path(user) do
+        h4
+          = user.username
+        p
+          = "レビュー #{user.reviews.count}件"
+      p
+        = link_to "お気に入り #{user.favorites.count}件", favorite_gunpla_mypage_index_path
+
+  .user_btn.mb-4
+    - if current_user?(user)
+      .d-flex.justify-content-center.justify-content-md-start
+        = link_to activities_path, class: "btn btn-primary rounded-pill d-block mr-2 w-200px" do
+          i.fas.fa-history.mr-2
+          | アクティビティー
+        = link_to edit_user_registration_path, class: "btn btn-info rounded-pill w-200px" do
+          i.fas.fa-user-edit.mr-2
+          | プロフィール編集
+    - else
+      span id="follow-#{user.id}"
+        = render "users/relationships/follow", user: user
+
+.user_profile.mb-4.col-md-6
+  p.font-weight-bold.mb-0
+    | プロフィール
+  = simple_format(h(user.profile), {}, sanitize: false)
+- if current_user?(user)
+  .text-center.text-md-left.mb-3
+    = link_to gunplas_path, class: "btn btn-success rounded-pill w-420px" do
+      i.fas.fa-pen.mr-1
+      | ガンプラをレビューする
+
+
+.user_stats.mb-4.pb-3.border-bottom.border-secondary
+  .d-flex.justify-content-around
+    strong
+      = link_to "いいね！（#{user.likes.count}）", iine_review_mypage_index_path
+    strong
+      = link_to "フォロー（#{user.likes.count}）", iine_review_mypage_index_path
+    strong
+      = link_to "フォロワー（#{user.likes.count}）", follower_mypage_index_path
