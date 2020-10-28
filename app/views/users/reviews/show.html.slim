@@ -62,7 +62,7 @@
           .card-body
             .reviewer.d-flex
               .reviewer_avatar.mr-3.mb-4
-                = @review.user.use_avatar(size: 80)
+                = @review.user.use_avatar?(size: 80)
               .reviewer_profile
                 = link_to @review.user_name, mypage_path(@review.user)
                 p= @review.user_profile

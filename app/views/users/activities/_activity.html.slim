@@ -6,14 +6,14 @@
     - case activity.action
     - when "follow" then
       = link_to mypage_path(visited) do
-        = visited.use_avatar(size: 30)
+        = visited.use_avatar?(size: 30)
         strong
           = visited.username
       | さんをフォローしました
     - when "like" then
       span
         = link_to activity.review do
-          = activity.review.user.decorate.use_avatar(size: 30)
+          = activity.review.user.decorate.use_avatar?(size: 30)
           strong
             = "#{activity.review.user.username}さんのレビュー"
       | にいいねしました
@@ -27,7 +27,7 @@
           = link_to activity.decorate.review_gunpla_name, review_path(activity.review, anchor: "comment"), style: "font-weight: bold;"
         - else
           = link_to review_path(activity.review, anchor: "comment") do
-            = activity.review.user.decorate.use_avatar(size: 30)
+            = activity.review.user.decorate.use_avatar?(size: 30)
             strong
               = "#{activity.review.user.username}さんのレビュー"
         | にコメントしました

@@ -62,7 +62,15 @@ Rails.application.routes.draw do
     get 'unlock_mail_sent', to: 'completes#unlock'
 
     # mypage
-    resources :mypage, only: %i(show)
+    resources :mypage, only: %i(show) do
+      collection do
+        get 'iine_review', to: 'mypage#iine_review'
+        get 'new_review', to: 'mypage#new_review'
+        get 'favorite_gunpla', to: 'mypage#favorite_gunpla'
+        get 'follow', to: 'mypage#follow'
+        get 'follower', to: 'mypage#follower'
+      end
+    end
 
     # gunpla
     resources :gunplas, except: %i(create update destroy) do

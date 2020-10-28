@@ -6,25 +6,32 @@ RSpec.describe "Notifications", :js, type: :system do
   let(:gunpla) { Gunpla.first }
   let(:other_user) { create(:user) }
 
+  before do
+    sign_in other_user
+    visit gunpla_path(gunpla)
+    click_on "『#{gunpla.name}』 をレビューする"
+    fill_in "タイトル", with: "おすすめ！"
+    fill_in "内容", with: "組み立てやすい！"
+    page.all("img")[4].click
+    attach_file "review[images][]", ["#{Rails.root}/spec/files/sample.jpg"], make_visible: true
+  end
+
   def expect_page_information(sub_title: nil, breadcrumb: nil)
     expect(page).to have_title("#{sub_title} - GUNPLA-Type")
     expect(page).to have_selector("li.breadcrumb-item", text: "ホーム")
     expect(page).to have_selector("li.breadcrumb-item", text: breadcrumb)
   end
 
+  def user_change
+    sign_out other_user
+    sign_in user
+    visit notifications_path
+  end
+
   describe "お知らせの動作テスト" do
     it "お気に入り登録ガンプラのレビューに対するお知らせテストをする" do
-      sign_in other_user
-      visit gunpla_path(gunpla)
-
-      click_on "『#{gunpla.name}』 をレビューする"
-      fill_in "タイトル", with: "おすすめ！"
-      fill_in "内容", with: "組み立てやすい！"
-      page.all("img")[4].click
-      attach_file "review[images][]", ["#{Rails.root}/spec/files/sample.jpg"], make_visible: true
+      # レビュアーとお気に入りユーザーのレコードが作成
       expect(page).to have_selector(".image-box img")
-
-      # 自分とお気に入りユーザーのレコードが作成
       expect { click_on "レビューを投稿する" }.to change(Notification, :count).by(2)
 
       # アクティビティーチェック
@@ -39,9 +46,7 @@ RSpec.describe "Notifications", :js, type: :system do
       expect(page).not_to have_selector(".form-inline a", text: gunpla.name)
 
       # お気に入り登録ユーザー
-      sign_out other_user
-      sign_in user
-      visit notifications_path
+      user_change
       aggregate_failures do
         expect_page_information(sub_title: "お知らせリスト", breadcrumb: "お知らせリスト")
         expect(page).to have_selector(".form-inline a", text: other_user.username, count: 1)
@@ -64,22 +69,12 @@ RSpec.describe "Notifications", :js, type: :system do
     let!(:favorite) { create(:favorite_none_notice) }
 
     it "非通知の場合、自動的にお知らせがチェック済みに処理される" do
-      sign_in other_user
-      visit gunpla_path(gunpla)
-
-      click_on "『#{gunpla.name}』 をレビューする"
-      fill_in "タイトル", with: "おすすめ！"
-      fill_in "内容", with: "組み立てやすい！"
-      page.all("img")[4].click
-      attach_file "review[images][]", ["#{Rails.root}/spec/files/sample.jpg"], make_visible: true
       expect(page).to have_selector(".image-box img")
 
       click_on "レビューを投稿する"
       expect(user.passive_notifications[0].action).to be_truthy
 
-      sign_out other_user
-      sign_in user
-      visit notifications_path
+      user_change
       expect(page).to have_content("お知らせはありません")
     end
   end
