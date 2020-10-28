@@ -2,8 +2,9 @@ class UserDecorator < ApplicationDecorator
   delegate_all
   decorates_association :review
   decorates_association :comment
+  decorates_association :like
 
-  def use_avatar?(size: 150)
+  def avatar_attached?(size: 140)
     if object.avatar.attached?
       h.content_tag(:span, class: "prev-content") do
         h.image_tag(object.avatar, alt: "preview", class: "prev-image shadow", size: "#{size}x#{size}")

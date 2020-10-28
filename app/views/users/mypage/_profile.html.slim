@@ -1,15 +1,15 @@
 .user_status
   .user_box.row.mb-4
     .col-4.col-lg-2
-      = user.use_avatar?
+      = user.decorate.avatar_attached?
     .col-8.col-lg-10
       = link_to mypage_path(user) do
         h4
           = user.username
         p
-          = "レビュー #{user.reviews.count}件"
+          = "レビュー #{user.reviews_count}件"
       p
-        = link_to "お気に入り #{user.favorites.count}件", favorite_gunpla_mypage_index_path
+        = link_to "お気に入り #{user.favorites_count}件", favorite_gunplas_mypage_path(user)
 
   .user_btn.mb-4
     - if current_user?(user)
@@ -34,12 +34,11 @@
       i.fas.fa-pen.mr-1
       | ガンプラをレビューする
 
-
 .user_stats.mb-4.pb-3.border-bottom.border-secondary
   .d-flex.justify-content-around
     strong
-      = link_to "いいね！（#{user.likes.count}）", iine_review_mypage_index_path
+      = link_to "いいね！（#{user.likes_count}）", iine_reviews_mypage_path(user)
     strong
-      = link_to "フォロー（#{user.likes.count}）", iine_review_mypage_index_path
+      = link_to "フォロー（#{user.following.count}）", following_mypage_path(user)
     strong
-      = link_to "フォロワー（#{user.likes.count}）", follower_mypage_index_path
+      = link_to "フォロワー（#{user.followers.count}）", followers_mypage_path(user)

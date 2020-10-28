@@ -1,0 +1,4 @@
+li.list-group-item
+  = link_to mypage_path(follow) do
+    = follow.avatar_attached?(size: 30)
+    = follow.username

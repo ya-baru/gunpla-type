@@ -20,8 +20,8 @@ RSpec.describe "Mypage", type: :system do
     context "存在しないユーザー" do
       let(:other_user) { build(:user, id: 2) }
 
-      it "マイページへリダイレクトされる" do
-        expect(page).to have_content(user.username)
+      it "ホームへリダイレクトされる" do
+        expect(current_path).to eq root_path
       end
     end
   end

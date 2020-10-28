@@ -1,0 +1,19 @@
+- category = gunpla.category
+
+= link_to gunpla_path(gunpla)
+  li.media.border.rounded.mb-2
+    .shadow-sm.mr-3 style="width: 150px;"
+      = gunpla.images_attached?(150)
+    .media-body.my-auto
+      p
+        = gunpla.name
+      ul.text-left.p-0
+        li
+          = category.grade_and_scale
+        li id="rate-#{gunpla.id}"
+          = render "users/shared/rate",
+            id: "#rate-#{gunpla.id}",
+            half: true,
+            readonly: true,
+            score: "#{gunpla.reviews.average(:rate).to_f.round(1)}",
+            scorename: nil

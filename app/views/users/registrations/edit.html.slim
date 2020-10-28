@@ -25,7 +25,7 @@
             = f.label :avatar, class: "image_label"
               | ユーザー画像
               .prev-contents.d-lg-flex.mt-2
-                = current_user.use_avatar?
+                = current_user.avatar_attached?
                 .align-self-center.mt-3.mt-lg-0
                   = f.file_field :avatar, accept: "image/jpeg,image/png", class: 'hidden_file mt-4 mt-lg-0 ml-lg-4'
           .text-center.border-top.pt-4

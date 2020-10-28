@@ -1,21 +1,27 @@
-- provide(:title, "マイページ")
-- breadcrumb :mypage, @user
+- provide(:title, @title)
+- breadcrumb @breadcrumb, @user
 
 .user
   = render "profile", user: @user
 
 .menu.row.mt-5
+  .col-lg-8.order-lg-2.mb-4.mx-auto
+    - if current_page?(mypage_path(@user))
+      = render "reviews", reviews: @reviews, title: @title, message: "ガンプラのレビューはありません"
+
+    - if current_page?(iine_reviews_mypage_path(@user))
+      = render "reviews", reviews: @reviews, title: @title, message: "いいね！したレビューはありません"
+
+    - if current_page?(favorite_gunplas_mypage_path(@user))
+      = render "gunplas", gunplas: @gunplas, title: "お気に入りガンプラリスト"
+
+    - if current_page?(following_mypage_path(@user))
+      = render "follows", follows: @follwing, title: "フォローリスト", message: "フォローはありません"
+
+    - if current_page?(followers_mypage_path(@user))
+      = render "follows", follows: @followers, title: "フォロワーリスト", message: "フォロワーはありません"
+
   - if current_user?(@user)
-    .col-lg-4.d-none.d-lg-block
+    .col-lg-4.order-lg-1.mb-2
       = render "users/shared/account_management"
       = render "mymenu"
-
-  .col-lg-8.mb-4.mx-auto
-    .card.shadow-sm
-      .card-header
-        h2.headingLv
-          = "レビューリスト（#{@reviews.count}）"
-      .card-body
-        ol.list-unstyled.mt-3
-          = render partial: "users/shared/review_list", collection: @reviews, as: :review
-        = paginate @reviews

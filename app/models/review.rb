@@ -11,6 +11,8 @@ class Review < ApplicationRecord
   belongs_to :user
   belongs_to :gunpla
 
+  counter_culture :user
+
   validates :title, presence: true, length: { maximum: 50 }
   validates :content, presence: true, length: { maximum: 1000 }
   validates :user_id, presence: true, uniqueness: { scope: :gunpla_id }

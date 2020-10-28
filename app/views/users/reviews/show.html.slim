@@ -60,10 +60,10 @@
             h5.mb-0
               | レビュアー
           .card-body
-            .reviewer.row
+            .reviewer.row.mb-3
               .col-4.col-md-3
                 .reviewer_avatar.text-center
-                  = @review.user.use_avatar?(size: 80)
+                  = @review.user.avatar_attached?(size: 80)
               .col-8.col-md-9
                 .reviewer_profile
                   p

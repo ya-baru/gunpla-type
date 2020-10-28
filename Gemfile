@@ -117,3 +117,5 @@ gem 'cells-slim'
 gem 'rspec-cells'
 
 gem 'draper'
+
+gem 'counter_culture'

@@ -35,7 +35,7 @@ class Users::GunplasController < ApplicationController
     @gunpla = Gunpla.find(params[:id]).decorate
     @reviews = @gunpla.reviews.
       page(params[:page]).
-      per(REVIEWS_PAGINATE_COUNT).
+      per(LIST_PAGINATE_COUNT).
       decorate.
       includes([images_attachments: :blob]).
       order(id: :desc)
