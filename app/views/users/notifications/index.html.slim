@@ -12,7 +12,7 @@
         - if notifications.exists?
           .col-md-10.mx-auto
             .mb-4
-              = form_with model: notifications.first, local: true do |f|
+              = form_with model: notifications[0], local: true do |f|
                 = f.hidden_field :ids, value: current_user.passive_notifications.ids
                 = f.submit "全て確認済み", class: "btn btn-primary btn-block"
             = render partial: "notification", collection: notifications, as: :notification

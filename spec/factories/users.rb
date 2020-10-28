@@ -33,5 +33,9 @@ FactoryBot.define do
         ), filename: 'sample.jpg', content_type: 'image/jpeg')
       end
     end
+
+    trait :none_notice do
+      notice { false }
+    end
   end
 end
