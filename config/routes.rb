@@ -64,7 +64,7 @@ Rails.application.routes.draw do
     # mypage
     resources :mypage, only: %i(show) do
       member do
-        get :iine_reviews, :favorite_gunplas, :following, :followers
+        get :like_reviews, :favorite_gunplas, :following, :followers
       end
     end
 

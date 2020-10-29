@@ -1,6 +1,6 @@
 - if signed_in? && !current_user?(review.user)
   span#like_btn
-    - if current_user.iine?(review)
+    - if current_user.like?(review)
       = form_with(model: current_user.likes.find_by(review_id: review.id), method: :delete, remote: true) do
         = button_tag(class: "btn btn-outline-secondary rounded-pill") do
           i.far.fa-thumbs-up.mr-1

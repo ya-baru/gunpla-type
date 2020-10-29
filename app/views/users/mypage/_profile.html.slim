@@ -37,7 +37,7 @@
 .user_stats.mb-4.pb-3.border-bottom.border-secondary
   .d-flex.justify-content-around
     strong
-      = link_to "いいね！（#{user.likes_count}）", iine_reviews_mypage_path(user)
+      = link_to "いいね！（#{user.likes_count}）", like_reviews_mypage_path(user)
     strong
       = link_to "フォロー（#{user.following.count}）", following_mypage_path(user)
     strong

@@ -5,21 +5,19 @@ class Users::MypageController < ApplicationController
     @reviews = @user.reviews.
       page(params[:page]).
       per(LIST_PAGINATE_COUNT).
-      includes([gunpla: :category]).
-      # includes([gunpla: :category], [images_attachments: :blob]).
+      # includes([images_attachments: :blob]).
       order(id: :desc)
     @breadcrumb = :mypage
     @title = "マイページ"
   end
 
-  def iine_reviews
-    @reviews = @user.iine_reviews.
+  def like_reviews
+    @reviews = @user.like_reviews.
       page(params[:page]).
       per(LIST_PAGINATE_COUNT).
-      includes([gunpla: :category]).
-      # includes([gunpla: :category], [images_attachments: :blob]).
+      # includes([images_attachments: :blob]).
       order(id: :desc)
-    @breadcrumb = :iine_reviews
+    @breadcrumb = :like_reviews
     @title = "いいね！レビューリスト"
     render :show
   end

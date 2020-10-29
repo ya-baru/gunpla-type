@@ -1,16 +1,16 @@
 module LikeReview
   extend ActiveSupport::Concern
   included do
-    def iine(review)
-      iine_reviews << review
+    def uplike(review)
+      like_reviews << review
     end
 
-    def uniine(review)
+    def unlike(review)
       likes.find_by(review_id: review.id).destroy
     end
 
-    def iine?(review)
-      iine_reviews.include?(review)
+    def like?(review)
+      like_reviews.include?(review)
     end
   end
 end

@@ -52,8 +52,8 @@ crumb :mypage do |user|
   link "マイページ", mypage_path(user)
 end
 
-crumb :iine_reviews do |user|
-  link "いいね！レビューリスト", iine_reviews_mypage_path(user)
+crumb :like_reviews do |user|
+  link "いいね！レビューリスト", like_reviews_mypage_path(user)
 end
 
 crumb :favorite_gunplas do |user|

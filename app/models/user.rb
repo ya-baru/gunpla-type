@@ -22,7 +22,7 @@ class User < ApplicationRecord
   has_many :gunpla_histories, through: :browsing_histories, source: :gunpla
   has_many :reviews, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :iine_reviews, through: :likes, source: :review
+  has_many :like_reviews, through: :likes, source: :review
   has_many :favorites, dependent: :destroy
   has_many :favorite_gunplas, through: :favorites, source: :gunpla
   has_many :active_relationships,
