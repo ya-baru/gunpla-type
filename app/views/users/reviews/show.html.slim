@@ -53,19 +53,21 @@
               i.fab.fa-line.mr-1
               | Line
 
-
-
         .card
           .card-header
             h5.mb-0
               | レビュアー
           .card-body
-            .reviewer.d-flex
-              .reviewer_avatar.mr-3.mb-4
-                = @review.user.use_avatar(size: 80)
-              .reviewer_profile
-                = link_to @review.user_name, mypage_path(@review.user)
-                p= @review.user_profile
+            .reviewer.row.mb-3
+              .col-4.col-md-3
+                .reviewer_avatar.text-center
+                  = @review.user.avatar_attached?(height: 80, width: 80)
+              .col-8.col-md-9
+                .reviewer_profile
+                  p
+                    = link_to @review.user_name, mypage_path(@review.user)
+                  p
+                    = @review.user_profile
             span id="follow-#{@review.user.id}"
               = render "users/relationships/follow", user: @review.user
         = render "comment",

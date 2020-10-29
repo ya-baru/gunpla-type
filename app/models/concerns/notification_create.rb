@@ -11,6 +11,7 @@ module NotificationCreate
           visited_id: id,
           action: "follow"
         )
+        notification.checked = true unless notification.visited.notice?
         visited_history_delete(visited: id)
         notification.save if notification.valid?
       end
@@ -27,6 +28,7 @@ module NotificationCreate
           visited_id: user_id,
           action: "like"
         )
+        notification.checked = true unless notification.visited.notice?
         visited_history_delete(visited: user_id)
         notification.save if notification.valid?
       end
@@ -48,9 +50,8 @@ module NotificationCreate
         visited_id: visited_id,
         action: "review"
       )
-      if notification.visitor_id == notification.visited_id
-        notification.checked = true
-      end
+      notification.checked = true unless notification.visited.notice?
+      notification.checked = true if notification.visitor_id == notification.visited_id
       visited_history_delete(visited: visited_id)
       notification.save if notification.valid?
     end
@@ -63,9 +64,8 @@ module NotificationCreate
         visited_id: visited_id,
         action: "comment"
       )
-      if notification.visitor_id == notification.visited_id
-        notification.checked = true
-      end
+      notification.checked = true unless notification.visited.notice?
+      notification.checked = true if notification.visitor_id == notification.visited_id
       visited_history_delete(visited: visited_id)
       notification.save if notification.valid?
     end

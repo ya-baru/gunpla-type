@@ -1,7 +1,7 @@
 
 li.border-top
   = link_to mypage_path(comment.user) do
-    = comment.user.use_avatar(size: 25)
+    = comment.user.avatar_attached?(height: 30, width: 30)
     span.ml-1
       = "#{comment.user_name}"
   span.mx-2.font_sm

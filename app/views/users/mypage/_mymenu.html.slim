@@ -1,0 +1,24 @@
+.card.shadow-sm
+  .card-header
+    h2.headingLv
+      | マイメニュー
+  .card-body.p-0
+    ul.list-group.list-group-flush
+      li.list-group-item.list-group-item-action.p-0
+        = link_to gunplas_path, class: "d-block p-3" do
+          i.fas.fa-pen.mr-2
+          | ガンプラをレビューする
+          span.float-right.text-info
+            i.fa.fa-angle-right
+      li.list-group-item.list-group-item-action.p-0
+        = link_to activities_path, class: "d-block p-3" do
+          i.fas.fa-history.mr-2
+          | アクティビティー
+          span.float-right.text-info
+            i.fa.fa-angle-right
+      li.list-group-item.list-group-item-action.p-0
+        = link_to notifications_path, class: "d-block p-3" do
+          i.far.fa-bell.mr-2
+          | お知らせ
+          span.float-right.text-info
+            i.fa.fa-angle-right

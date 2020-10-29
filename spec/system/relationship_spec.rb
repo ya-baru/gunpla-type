@@ -38,11 +38,12 @@ RSpec.describe "Relationship", :js, type: :system do
       expect(page).to have_selector(".form-inline a", text: follower.username, count: 1)
 
       # OKクリックで項目を非表示
-      click_on "OK"
+      click_on "全て確認済み"
       aggregate_failures do
         expect(Notification.first.checked).to be_truthy
         expect(current_path).to eq notifications_path
         expect(page).not_to have_selector(".form-inline a", text: follower.username)
+        expect(page).to have_content("お知らせはありません")
       end
     end
   end

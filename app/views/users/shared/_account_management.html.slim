@@ -1,4 +1,4 @@
-.col-lg-4.order-lg-1
+.mb-2
   .card.shadow-sm
     .card-header
       h2.headingLv
@@ -9,20 +9,30 @@
           = link_to mypage_path(current_user), class: "d-block p-3" do
             i.fas.fa-user.mr-2
             | マイページ
+            span.float-right.text-info
+              i.fa.fa-angle-right
         li.list-group-item.list-group-item-action.p-0
           = link_to edit_user_registration_path, class: "d-block p-3" do
             i.fas.fa-user-edit.mr-2
             | プロフィール編集
+            span.float-right.text-info
+              i.fa.fa-angle-right
         - unless current_user.uid?
           li.list-group-item.list-group-item-action.p-0
             = link_to edit_password_user_registration_path, class: "d-block p-3" do
               i.fas.fa-user-lock.mr-2
               | パスワード編集
+              span.float-right.text-info
+                i.fa.fa-angle-right
           li.list-group-item.list-group-item-action.p-0
             = link_to edit_email_user_registration_path, class: "d-block p-3" do
               i.far.fa-envelope.mr-2
               | メールアドレス編集
+              span.float-right.text-info
+                i.fa.fa-angle-right
         li.list-group-item.list-group-item-action.p-0
           = link_to signout_confirm_path, class: "d-block p-3" do
             i.fas.fa-user-alt-slash.mr-2
             | 退会の手続き
+            span.float-right.text-info
+              i.fa.fa-angle-right

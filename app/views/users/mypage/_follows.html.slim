@@ -1,0 +1,10 @@
+.card.shadow-sm
+  .card-header
+    h2.headingLv
+      = "#{title}（#{follows.count}）"
+  .card-body
+    - if follows.present?
+      ul.list-group.list-group-flush
+        = render partial: "follow", collection: follows, as: :follow
+    - else
+      = message

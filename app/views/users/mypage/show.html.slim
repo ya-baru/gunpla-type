@@ -1,129 +1,27 @@
-- provide(:title, "マイページ")
-- breadcrumb :mypage, @user
+- provide(:title, @title)
+- breadcrumb @breadcrumb, @user
 
-section
-  .d-flex.align-items-center
-    .user_avatar.mr-4.mb-4
-      = link_to mypage_path(@user) do
-        - if @user.avatar.attached?
-          = image_tag @user.display_avatar, class: "shadow"
-        - else
-          img.shadow src="https://placehold.jp/150x150.png?text=Non-Image"
-    .user.d-flex.align-items-center
-      .user-box.mr-3
-        = link_to mypage_path(@user) do
-          h2.headingLv
-            = @user.username
-          p.mb-0
-            | レビュー 10件
-        p.mb-2
-          | お気に入り 10件
-      .user-btn
-        - if current_user?(@user)
-          = link_to "プロフィール編集", edit_user_registration_path, class: "btn btn-info rounded-pill mb-2"
-        - else
-          span id="follow-#{@user.id}"
-            a.btn.btn-info.rounded-pill href="#"
-              | フォローする
-        = link_to "レビューする", gunplas_path, class: "btn btn-success rounded-pill d-block"
+.user
+  = render "profile", user: @user
 
-section.user_profile.mb-5.col-sm-7
-  p.font-weight-bold.mb-0
-    | プロフィール
-  = simple_format(h(@user.profile), {}, sanitize: false)
+.menu.row.mt-5
+  .menu_status.col-lg-8.order-lg-2.mb-4.mx-auto
+    - if current_page?(mypage_path(@user))
+      = render "reviews", reviews: @reviews, title: "レビューリスト", message: "ガンプラのレビューはありません"
 
-section.user_stats.mb-4.pb-3.border-bottom.border-secondary
-  .d-flex.justify-content-around
-    a href="#"
-      strong
-        | いいね！
-        span#iines
-          | (10)
-    a href="#"
-      strong
-        | フォロー
-        span#following
-          | (10)
-    a href="#"
-      strong#followers
-        | フォロワー
-        span#iines
-          | (10)
+    - if current_page?(like_reviews_mypage_path(@user))
+      = render "reviews", reviews: @reviews, title: @title, message: "いいね！したレビューはありません"
 
-section
-  h1
-    | レビューリスト（10）
+    - if current_page?(favorite_gunplas_mypage_path(@user))
+      = render "gunplas", gunplas: @gunplas, title: "お気に入りガンプラリスト"
 
-ol.user_grid
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
-  li.card.shadow-sm
-    img.card-img-top src="https://placehold.jp/150x150.png?text=Non-Image"
-    .card-body
-      h5.card-title
-        | タイトル
-      h6.card-subtitle.text-muted.mb-2
-        | サブタイトル
-      p.card-text
-        | 2020年08月19日投稿
+    - if current_page?(following_mypage_path(@user))
+      = render "follows", follows: @follwing, title: "フォローリスト", message: "フォローはありません"
+
+    - if current_page?(followers_mypage_path(@user))
+      = render "follows", follows: @followers, title: "フォロワーリスト", message: "フォロワーはありません"
+
+  - if current_user?(@user)
+    .menu_list.col-lg-4.order-lg-1.d-none.d-lg-block.mb-2
+      = render "users/shared/account_management"
+      = render "mymenu"

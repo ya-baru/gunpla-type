@@ -52,6 +52,22 @@ crumb :mypage do |user|
   link "マイページ", mypage_path(user)
 end
 
+crumb :like_reviews do |user|
+  link "いいね！レビューリスト", like_reviews_mypage_path(user)
+end
+
+crumb :favorite_gunplas do |user|
+  link "お気に入りガンプラリスト", favorite_gunplas_mypage_path(user)
+end
+
+crumb :following do |user|
+  link "フォローリスト", following_mypage_path(user)
+end
+
+crumb :followers do |user|
+  link "フォロワーリスト", followers_mypage_path(user)
+end
+
 crumb :profile_edit do |user|
   link "プロフィール編集", edit_user_registration_path(user)
   parent :mypage, user

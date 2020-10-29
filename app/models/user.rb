@@ -22,7 +22,7 @@ class User < ApplicationRecord
   has_many :gunpla_histories, through: :browsing_histories, source: :gunpla
   has_many :reviews, dependent: :destroy
   has_many :likes, dependent: :destroy
-  has_many :iine_reviews, through: :likes, source: :review
+  has_many :like_reviews, through: :likes, source: :review
   has_many :favorites, dependent: :destroy
   has_many :favorite_gunplas, through: :favorites, source: :gunpla
   has_many :active_relationships,
@@ -46,5 +46,10 @@ class User < ApplicationRecord
   validates :email, confirmation: true, on: :change_email
   validates :email_confirmation, presence: true, on: :change_email
   validates :password, format: { with: VALID_PASSWORD_REGEX }
+  validates :admin_flg, inclusion: { in: [true, false] }
+  validates :notice, inclusion: { in: [true, false] }
   validate :avatar_type, :avatar_size
+  validates :reviews_count, presence: true
+  validates :likes_count, presence: true
+  validates :favorites_count, presence: true
 end

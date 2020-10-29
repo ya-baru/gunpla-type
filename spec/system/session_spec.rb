@@ -53,12 +53,14 @@ RSpec.describe "Session", type: :system do
 
       it "３０日後に自動でログアウトする" do
         expect(user.reload.remember_created_at).not_to eq nil
+
         travel_to 30.days.after do
-          expect(current_path).to eq mypage_path(user)
+          visit edit_user_registration_path
+          expect(current_path).to eq edit_user_registration_path
         end
 
         travel_to 31.days.after do
-          visit mypage_path(user)
+          visit edit_user_registration_path
           expect(page).to have_selector(".alert-danger", text: "ログインしてください。")
           expect(current_path).to eq new_user_session_path
         end
@@ -70,8 +72,9 @@ RSpec.describe "Session", type: :system do
 
       it "１時間経過でタイムアウトする" do
         expect(user.reload.remember_created_at).to eq nil
+
         travel_to 60.minutes.after do
-          visit mypage_path(user)
+          visit edit_user_registration_path
           expect(page).to have_selector(".alert-danger", text: "ログインしてください。")
           expect(current_path).to eq new_user_session_path
         end

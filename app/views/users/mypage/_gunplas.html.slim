@@ -1,0 +1,11 @@
+.card.shadow-sm
+  .card-header
+    h2.headingLv
+      = "#{title}（#{gunplas.count}）"
+  .card-body
+    - if gunplas.present?
+      ol.list-unstyled.mt-3
+        = render partial: "gunpla", collection: gunplas, as: :gunpla
+      = paginate gunplas
+    - else
+      | お気に入り登録したガンプラはありません

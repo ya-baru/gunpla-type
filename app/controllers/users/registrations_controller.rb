@@ -46,7 +46,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     resource.avatar.attach(account_update_params[:avatar]) if account_update_params[:avatar].present?
     return render :edit unless resource_updated
-
+    use_notice?
     redirect_to mypage_url(current_user), notice: I18n.t("devise.registrations.updated")
   end
 
@@ -136,5 +136,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def OAuth_user?
     redirect_to mypage_url(current_user) if current_user.uid?
+  end
+
+  def use_notice?
+    if resource.notice?
+      resource.passive_notifications.each do |notification|
+        notification.update(checked: false)
+      end
+    end
   end
 end

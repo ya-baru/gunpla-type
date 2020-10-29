@@ -1,0 +1,11 @@
+.card.shadow-sm
+  .card-header
+    h2.headingLv
+      = "#{title}（#{reviews.count}）"
+  .card-body
+    - if reviews.present?
+      ol.list-unstyled.mt-3
+        = render partial: "users/shared/review", collection: reviews, as: :review
+      = paginate reviews
+    - else
+      = message
