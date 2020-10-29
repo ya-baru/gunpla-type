@@ -22,6 +22,6 @@
       = render "follows", follows: @followers, title: "フォロワーリスト", message: "フォロワーはありません"
 
   - if current_user?(@user)
-    .menu_list.col-lg-4.order-lg-1.d-none.d-lg-block.mb-2
-      = render "users/shared/account_management"
+    .menu_list.col-lg-4.order-lg-1.mb-2
       = render "mymenu"
+      = render "users/shared/account_management"

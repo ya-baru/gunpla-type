@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 2020_10_28_091147) do
   end
 
   create_table "gunplas", force: :cascade do |t|
-    t.string "name", limit: 50, null: false
+    t.string "name", limit: 30, null: false
     t.integer "sales_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(version: 2020_10_28_091147) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string "title", limit: 50, null: false
+    t.string "title", limit: 30, null: false
     t.text "content", null: false
     t.bigint "user_id", null: false
     t.bigint "gunpla_id", null: false

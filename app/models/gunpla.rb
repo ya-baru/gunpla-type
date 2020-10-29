@@ -11,7 +11,7 @@ class Gunpla < ApplicationRecord
   has_many :favorite_users, through: :favorites, source: :user
   has_many :notifications, dependent: :destroy
 
-  validates :name, presence: true, length: { maximum: 50 }
+  validates :name, presence: true, length: { maximum: 30 }
   validates :sales_id, presence: true
   validates :category_id, presence: true
 

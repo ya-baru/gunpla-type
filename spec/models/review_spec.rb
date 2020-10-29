@@ -7,7 +7,7 @@ RSpec.describe Review, type: :model do
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:gunpla) }
   it { is_expected.to validate_presence_of :title }
-  it { is_expected.to validate_length_of(:title).is_at_most(50) }
+  it { is_expected.to validate_length_of(:title).is_at_most(30) }
   it { is_expected.to validate_presence_of :content }
   it { is_expected.to validate_length_of(:content).is_at_most(1000) }
   it { is_expected.to validate_presence_of :user_id }

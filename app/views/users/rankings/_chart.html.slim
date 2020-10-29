@@ -1,0 +1,21 @@
+.card.shadow-sm.mb-2
+  .card-header
+    h2.headingLv
+      = header
+  .card-body
+    div
+      = chart
+    ol.gunpla_index.row.p-0.justify-content-around
+      - objects.each_with_index do |object, i|
+        - link_path = mypage_path(object.flatten[1]) if link == "reviewer"
+        - link_path = review_path(object.flatten[1]) if link == "review"
+        - link_path = gunpla_path(object.flatten[1]) if link == "gunpla"
+        - link_path = mypage_path(object.flatten[1]) if link == "follow"
+        li.card.shadow-sm.col-4.mt-3
+          = link_to link_path do
+            span
+              = "#{i+1}位:"
+            span.text-muted
+              = "（#{object[1]}件）"
+            p.mb-1
+              = object.flatten[0]

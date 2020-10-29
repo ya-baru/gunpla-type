@@ -22,16 +22,16 @@
           .review_content
             h5.heading.mb-3
               | レビュー情報
-            .d-flex style="height: 24px;"
-              div id="rate"
-                = render "users/shared/rate",
-                  id: "#rate",
-                  half: true,
-                  readonly: true,
-                  score: "#{@review.rate}",
-                  scorename: nil
-              p.ml-3
-                = @review.title
+            p.mb-0
+              = @review.title
+            div id="rate"
+              = render "users/shared/rate",
+                id: "#rate",
+                half: true,
+                readonly: true,
+                score: "#{@review.rate}",
+                scorename: nil
+
             em
               = "#{@review.created_at.to_s(:datetime_jp)} 投稿"
             p

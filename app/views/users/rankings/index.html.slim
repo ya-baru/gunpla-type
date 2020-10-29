@@ -1,0 +1,28 @@
+.row.mx-auto
+  .col-lg-8
+    = render "chart",
+      header: "トップレビュアー（レビューが多い順）",
+      chart: bar_chart(@review_rank),
+      objects: @reviewer_link,
+      link: "reviewer"
+
+    = render "chart",
+      header: "フォローランキング（フォローが多い順）",
+      chart: bar_chart(@follow_rank),
+      objects: @follow_link,
+      link: "follow"
+
+    = render "chart",
+      header: "人気ガンプラ（お気に入り登録が多い順）",
+      chart: pie_chart(@favorite_rank),
+      objects: @gunpla_link,
+      link: "gunpla"
+
+    = render "chart",
+      header: "人気レビュー（いいね！が多い順）",
+      chart: column_chart(@like_rank),
+      objects: @review_link,
+      link: "review"
+
+
+  = render "users/shared/sidebar"

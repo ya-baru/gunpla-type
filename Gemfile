@@ -116,6 +116,11 @@ gem 'cells-rails'
 gem 'cells-slim'
 gem 'rspec-cells'
 
+# Decorator
 gem 'draper'
 
+# Count
 gem 'counter_culture'
+
+# Ranking
+gem "chartkick"
