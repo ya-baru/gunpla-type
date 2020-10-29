@@ -4,7 +4,7 @@
 .form-inline
   span
     = link_to mypage_path(visitor) do
-      = visitor.avatar_attached?(size: 30)
+      = visitor.avatar_attached?(height: 30, width: 30)
       strong
         = visitor.username
     | さんが

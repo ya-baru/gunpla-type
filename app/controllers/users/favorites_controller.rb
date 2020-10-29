@@ -4,7 +4,6 @@ class Users::FavoritesController < ApplicationController
 
   def create
     @gunpla = Gunpla.find(params[:gunpla_id])
-
     unless current_user.favorite?(@gunpla)
       current_user.favorite(@gunpla)
       respond_to do |format|

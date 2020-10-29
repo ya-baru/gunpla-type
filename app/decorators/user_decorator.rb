@@ -4,13 +4,13 @@ class UserDecorator < ApplicationDecorator
   decorates_association :comment
   decorates_association :like
 
-  def avatar_attached?(size: 140)
+  def avatar_attached?(height: 140, width: 140)
     if object.avatar.attached?
       h.content_tag(:span, class: "prev-content") do
-        h.image_tag(object.avatar, alt: "preview", class: "prev-image shadow", size: "#{size}x#{size}")
+        h.image_tag(object.display_avatar, height: height, width: width, alt: "preview", class: "prev-image shadow")
       end
     else
-      h.image_tag("https://placehold.jp/#{size}x#{size}.png?text=Non-Image", class: "photo-icon shadow")
+      h.image_tag("https://placehold.jp/#{height}x#{width}.png?text=Non-Image", class: "photo-icon shadow")
     end
   end
 

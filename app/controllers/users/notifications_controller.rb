@@ -8,8 +8,8 @@ class Users::NotificationsController < ApplicationController
       per(NOTIFICATION_PAGINATE_COUNT).
       order(created_at: :desc).
       includes(
-        [:visited, :comment, :gunpla],
-        [review: [:user, :gunpla]],
+        [:visited, :gunpla],
+        [review: [:gunpla]],
         [visitor: [avatar_attachment: :blob]]
       )
   end

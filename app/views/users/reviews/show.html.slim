@@ -53,8 +53,6 @@
               i.fab.fa-line.mr-1
               | Line
 
-
-
         .card
           .card-header
             h5.mb-0
@@ -63,7 +61,7 @@
             .reviewer.row.mb-3
               .col-4.col-md-3
                 .reviewer_avatar.text-center
-                  = @review.user.avatar_attached?(size: 80)
+                  = @review.user.avatar_attached?(height: 80, width: 80)
               .col-8.col-md-9
                 .reviewer_profile
                   p

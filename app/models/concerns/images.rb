@@ -1,8 +1,8 @@
 module Images
   extend ActiveSupport::Concern
   included do
-    def display_images
-      images.includes([:blob]).each { |image| image.variant(resize_to_limit: [250, 250]).processed }
+    def display_images(height: 180, weight: 180)
+      images.includes([:blob]).each { |image| image.variant(resize_to_limit: [height, weight]).processed }
     end
 
     private

@@ -3,7 +3,7 @@
 = link_to gunpla_path(gunpla)
   li.media.border.rounded.mb-2
     .shadow-sm.mr-3 style="width: 150px;"
-      = gunpla.images_attached?(150)
+      = gunpla.images_attached?(height: 150, width: 150)
     .media-body.my-auto
       p
         = gunpla.name

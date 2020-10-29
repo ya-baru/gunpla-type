@@ -8,7 +8,7 @@ class Users::ActivitiesController < ApplicationController
       per(ACTIVITY_PAGINATE_COUNT).
       order(created_at: :desc).
       includes(
-        [:visitor, :comment, :gunpla],
+        [:visitor],
         [review: [:user, :gunpla]],
         [visited: [avatar_attachment: :blob]]
       )
