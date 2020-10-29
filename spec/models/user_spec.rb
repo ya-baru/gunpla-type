@@ -25,6 +25,9 @@ RSpec.describe User, type: :model do
   it { is_expected.to have_many(:comments).dependent(:destroy) }
   it { is_expected.to have_many(:active_notifications).class_name("Notification").dependent(:destroy) }
   it { is_expected.to have_many(:passive_notifications).class_name("Notification").dependent(:destroy) }
+  it { is_expected.to validate_presence_of :reviews_count }
+  it { is_expected.to validate_presence_of :likes_count }
+  it { is_expected.to validate_presence_of :favorites_count }
 
   it "ファクトリーが有効であること" do
     expect(user).to be_valid

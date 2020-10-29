@@ -49,4 +49,7 @@ class User < ApplicationRecord
   validates :admin_flg, inclusion: { in: [true, false] }
   validates :notice, inclusion: { in: [true, false] }
   validate :avatar_type, :avatar_size
+  validates :reviews_count, presence: true
+  validates :likes_count, presence: true
+  validates :favorites_count, presence: true
 end

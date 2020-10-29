@@ -5,6 +5,9 @@ FactoryBot.define do
     password { "password" }
     password_confirmation { "password" }
     confirmed_at { Time.current }
+    reviews_count { 0 }
+    likes_count { 0 }
+    favorites_count { 0 }
 
     trait :admin do
       admin_flg { true }
@@ -32,6 +35,10 @@ FactoryBot.define do
           Rails.root.join('spec', 'files', "sample.jpg")
         ), filename: 'sample.jpg', content_type: 'image/jpeg')
       end
+    end
+
+    trait :with_profile do
+      profile { "ファーストが一番好きです" }
     end
 
     trait :none_notice do

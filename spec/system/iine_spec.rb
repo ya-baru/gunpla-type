@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Iine", :js, type: :system do
+RSpec.describe "like", :js, type: :system do
   let!(:review) { create(:review) }
   let(:user) { User.first }
   let!(:other_user) { create(:user) }
