@@ -14,6 +14,7 @@ class Gunpla < ApplicationRecord
   validates :name, presence: true, length: { maximum: 30 }
   validates :sales_id, presence: true
   validates :category_id, presence: true
+  validates :favorites_count, presence: true
 
   scope :by_name_like, -> (name) {
     where("name LIKE :value", { value: "%#{sanitize_sql_like(name)}%" }).limit(AUTOCOMPETE_COUNT)

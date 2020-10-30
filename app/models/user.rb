@@ -52,4 +52,5 @@ class User < ApplicationRecord
   validates :reviews_count, presence: true
   validates :likes_count, presence: true
   validates :favorites_count, presence: true
+  validates :relationships_count, presence: true
 end

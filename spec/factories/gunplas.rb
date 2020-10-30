@@ -3,6 +3,7 @@ FactoryBot.define do
     sequence(:name) { |n| "GUNPLA-#{n}" }
     sales_id { Sales.first.id }
     category_id { create(:child_category).id }
+    favorites_count { 0 }
 
     # after(:build) do |gunpla|
     #   gunpla.category_id = create(:child_category).id

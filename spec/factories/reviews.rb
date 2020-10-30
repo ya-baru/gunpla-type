@@ -3,6 +3,7 @@ FactoryBot.define do
     sequence(:title) { |n| "おすすめ-#{n}" }
     content { "組み立てやすい！" }
     rate { 4 }
+    likes_count { 0 }
     association :gunpla
     association :user
 

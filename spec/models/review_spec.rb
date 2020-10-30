@@ -4,17 +4,19 @@ RSpec.describe Review, type: :model do
   let!(:user) { create(:user) }
   let!(:gunpla) { create(:gunpla) }
 
+  it { is_expected.to have_many(:likes).dependent(:destroy) }
+  it { is_expected.to have_many(:comments).dependent(:destroy) }
+  it { is_expected.to have_many(:notifications).dependent(:destroy) }
   it { is_expected.to belong_to(:user) }
   it { is_expected.to belong_to(:gunpla) }
+
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_length_of(:title).is_at_most(30) }
   it { is_expected.to validate_presence_of :content }
   it { is_expected.to validate_length_of(:content).is_at_most(1000) }
   it { is_expected.to validate_presence_of :user_id }
   it { is_expected.to validate_presence_of :gunpla_id }
-  it { is_expected.to have_many(:likes).dependent(:destroy) }
-  it { is_expected.to have_many(:comments).dependent(:destroy) }
-  it { is_expected.to have_many(:notifications).dependent(:destroy) }
+  it { is_expected.to validate_presence_of :likes_count }
 
   describe "ファクトリーテスト" do
     let!(:review) { create(:review) }

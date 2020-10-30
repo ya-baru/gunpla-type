@@ -21,5 +21,6 @@ class Review < ApplicationRecord
     less_than_or_equal_to: 5,
     greater_than_or_equal_to: 1,
   }
+  validates :likes_count, presence: true
   validate :images_type, :images_size, :images_length
 end

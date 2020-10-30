@@ -6,5 +6,5 @@
     div
       = chart
     - if objects.present?
-      ol.gunpla_index.row.p-0.mt-4
+      ol.rank_list.row.p-0.mt-4
         = render partial: "chart_links", collection: objects, as: :object, locals: { link: link }
