@@ -110,5 +110,7 @@ Rails.application.routes.draw do
     resources :notifications, only: %i(index update)
 
     resources :activities, only: :index
+
+    resources :rankings, only: :index
   end
 end

@@ -3,6 +3,13 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
   let(:user) { build(:user) }
 
+  it { is_expected.to have_many(:browsing_histories).dependent(:destroy) }
+  it { is_expected.to have_many(:reviews).dependent(:destroy) }
+  it { is_expected.to have_many(:likes).dependent(:destroy) }
+  it { is_expected.to have_many(:comments).dependent(:destroy) }
+  it { is_expected.to have_many(:active_notifications).class_name("Notification").dependent(:destroy) }
+  it { is_expected.to have_many(:passive_notifications).class_name("Notification").dependent(:destroy) }
+
   it { is_expected.to validate_presence_of :username }
   it { is_expected.to validate_length_of(:username).is_at_most(20) }
   it { is_expected.to validate_length_of(:profile).is_at_most(255) }
@@ -13,21 +20,16 @@ RSpec.describe User, type: :model do
   it { is_expected.to validate_presence_of :password }
   it { is_expected.to validate_length_of(:password).is_at_least(6) }
   it { is_expected.to validate_length_of(:password).is_at_most(20) }
+  it { is_expected.to validate_presence_of :reviews_count }
+  it { is_expected.to validate_presence_of :likes_count }
+  it { is_expected.to validate_presence_of :favorites_count }
+  it { is_expected.to validate_presence_of :relationships_count }
   it { is_expected.to allow_value(true).for(:admin_flg) }
   it { is_expected.to allow_value(false).for(:admin_flg) }
   it { is_expected.not_to allow_value(nil).for(:admin_flg) }
   it { is_expected.to allow_value(true).for(:notice) }
   it { is_expected.to allow_value(false).for(:notice) }
   it { is_expected.not_to allow_value(nil).for(:notice) }
-  it { is_expected.to have_many(:browsing_histories).dependent(:destroy) }
-  it { is_expected.to have_many(:reviews).dependent(:destroy) }
-  it { is_expected.to have_many(:likes).dependent(:destroy) }
-  it { is_expected.to have_many(:comments).dependent(:destroy) }
-  it { is_expected.to have_many(:active_notifications).class_name("Notification").dependent(:destroy) }
-  it { is_expected.to have_many(:passive_notifications).class_name("Notification").dependent(:destroy) }
-  it { is_expected.to validate_presence_of :reviews_count }
-  it { is_expected.to validate_presence_of :likes_count }
-  it { is_expected.to validate_presence_of :favorites_count }
 
   it "ファクトリーが有効であること" do
     expect(user).to be_valid

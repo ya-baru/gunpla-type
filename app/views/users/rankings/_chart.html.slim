@@ -1,0 +1,10 @@
+.card.shadow-sm.mb-2
+  .card-header
+    h2.headingLv
+      = header
+  .card-body
+    div
+      = chart
+    - if objects.present?
+      ol.rank_list.row.p-0.mt-4
+        = render partial: "chart_links", collection: objects, as: :object, locals: { link: link }

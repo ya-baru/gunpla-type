@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Comments", type: :system do
+RSpec.describe "Comment", type: :system do
   describe "コメント送信機能のテスト" do
     let!(:review) { create(:review) }
     let(:user) { User.first }

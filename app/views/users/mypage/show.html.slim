@@ -7,21 +7,21 @@
 .menu.row.mt-5
   .menu_status.col-lg-8.order-lg-2.mb-4.mx-auto
     - if current_page?(mypage_path(@user))
-      = render "reviews", reviews: @reviews, title: "レビューリスト", message: "ガンプラのレビューはありません"
+      = render "reviews", reviews: @reviews, user: @user, title: "レビューリスト", message: "ガンプラのレビューはありません"
 
     - if current_page?(like_reviews_mypage_path(@user))
-      = render "reviews", reviews: @reviews, title: @title, message: "いいね！したレビューはありません"
+      = render "reviews", reviews: @reviews, user: @user, title: @title, message: "いいね！したレビューはありません"
 
     - if current_page?(favorite_gunplas_mypage_path(@user))
-      = render "gunplas", gunplas: @gunplas, title: "お気に入りガンプラリスト"
+      = render "gunplas", gunplas: @gunplas, user: @user, title: "お気に入りガンプラリスト"
 
     - if current_page?(following_mypage_path(@user))
-      = render "follows", follows: @follwing, title: "フォローリスト", message: "フォローはありません"
+      = render "follows", follows: @follwing, user: @user, title: "フォローリスト", message: "フォローはありません"
 
     - if current_page?(followers_mypage_path(@user))
-      = render "follows", follows: @followers, title: "フォロワーリスト", message: "フォロワーはありません"
+      = render "follows", follows: @followers, user: @user, title: "フォロワーリスト", message: "フォロワーはありません"
 
   - if current_user?(@user)
-    .menu_list.col-lg-4.order-lg-1.d-none.d-lg-block.mb-2
-      = render "users/shared/account_management"
+    .menu_list.col-lg-4.order-lg-1.mb-2
       = render "mymenu"
+      = render "users/shared/account_management"

@@ -22,16 +22,16 @@
           .review_content
             h5.heading.mb-3
               | レビュー情報
-            .d-flex style="height: 24px;"
-              div id="rate"
-                = render "users/shared/rate",
-                  id: "#rate",
-                  half: true,
-                  readonly: true,
-                  score: "#{@review.rate}",
-                  scorename: nil
-              p.ml-3
-                = @review.title
+            p.mb-0
+              = @review.title
+            div id="rate"
+              = render "users/shared/rate",
+                id: "#rate",
+                half: true,
+                readonly: true,
+                score: "#{@review.rate}",
+                scorename: nil
+
             em
               = "#{@review.created_at.to_s(:datetime_jp)} 投稿"
             p
@@ -60,8 +60,9 @@
           .card-body
             .reviewer.row.mb-3
               .col-4.col-md-3
-                .reviewer_avatar.text-center
-                  = @review.user.avatar_attached?(height: 80, width: 80)
+                = link_to mypage_path(@review.user) do
+                  .reviewer_avatar.text-center
+                    = @review.user.avatar_attached?(height: 80, width: 80)
               .col-8.col-md-9
                 .reviewer_profile
                   p

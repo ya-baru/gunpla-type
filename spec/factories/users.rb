@@ -8,6 +8,7 @@ FactoryBot.define do
     reviews_count { 0 }
     likes_count { 0 }
     favorites_count { 0 }
+    relationships_count { 0 }
 
     trait :admin do
       admin_flg { true }

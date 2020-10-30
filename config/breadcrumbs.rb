@@ -10,6 +10,10 @@ crumb :activity do
   link "アクティビティー", activities_path
 end
 
+crumb :ranking do
+  link "ランキング", rankings_path
+end
+
 crumb :company do
   link "運営情報", company_path
 end

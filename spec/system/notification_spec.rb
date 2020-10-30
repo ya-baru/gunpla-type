@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Notifications", :js, type: :system do
+RSpec.describe "Notification", :js, type: :system do
   let!(:favorite) { create(:favorite) }
   let(:user) { User.first }
   let(:gunpla) { Gunpla.first }

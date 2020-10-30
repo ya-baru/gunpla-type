@@ -13,7 +13,7 @@ class Review < ApplicationRecord
 
   counter_culture :user
 
-  validates :title, presence: true, length: { maximum: 50 }
+  validates :title, presence: true, length: { maximum: 30 }
   validates :content, presence: true, length: { maximum: 1000 }
   validates :user_id, presence: true, uniqueness: { scope: :gunpla_id }
   validates :gunpla_id, presence: true
@@ -21,5 +21,6 @@ class Review < ApplicationRecord
     less_than_or_equal_to: 5,
     greater_than_or_equal_to: 1,
   }
+  validates :likes_count, presence: true
   validate :images_type, :images_size, :images_length
 end

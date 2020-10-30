@@ -131,13 +131,11 @@ RSpec.describe "Review", :js, type: :system do
     it "編集ページから削除する" do
       sign_in user
       visit edit_review_path(review)
-      page.accept_confirm('レビューを削除してよろしいですか?') do
-        click_on("削除")
-      end
+      page.accept_confirm('レビューを削除してよろしいですか?') { click_on("削除") }
 
       aggregate_failures do
-        expect(current_path).to eq gunpla_path(gunpla)
         expect(page).to have_content("『#{review.gunpla.name}』のレビューを削除しました")
+        expect(current_path).to eq gunpla_path(gunpla)
       end
     end
   end

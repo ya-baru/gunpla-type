@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_28_091147) do
+ActiveRecord::Schema.define(version: 2020_10_30_014837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,11 +83,12 @@ ActiveRecord::Schema.define(version: 2020_10_28_091147) do
   end
 
   create_table "gunplas", force: :cascade do |t|
-    t.string "name", limit: 50, null: false
+    t.string "name", limit: 30, null: false
     t.integer "sales_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "category_id", null: false
+    t.integer "favorites_count", default: 0, null: false
     t.index ["category_id"], name: "index_gunplas_on_category_id"
   end
 
@@ -129,13 +130,14 @@ ActiveRecord::Schema.define(version: 2020_10_28_091147) do
   end
 
   create_table "reviews", force: :cascade do |t|
-    t.string "title", limit: 50, null: false
+    t.string "title", limit: 30, null: false
     t.text "content", null: false
     t.bigint "user_id", null: false
     t.bigint "gunpla_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.float "rate", default: 0.0, null: false
+    t.integer "likes_count", default: 0, null: false
     t.index ["gunpla_id"], name: "index_reviews_on_gunpla_id"
     t.index ["user_id", "gunpla_id"], name: "index_reviews_on_user_id_and_gunpla_id", unique: true
     t.index ["user_id"], name: "index_reviews_on_user_id"
@@ -171,6 +173,7 @@ ActiveRecord::Schema.define(version: 2020_10_28_091147) do
     t.integer "reviews_count", default: 0, null: false
     t.integer "likes_count", default: 0, null: false
     t.integer "favorites_count", default: 0, null: false
+    t.integer "relationships_count", default: 0, null: false
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
