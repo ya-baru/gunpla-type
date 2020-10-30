@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   root 'users/home#index'
 
+  scope module: :admins do
+    resources :articles
+  end
+
   devise_for :users,
              skip: %i(registrations sessions confirmations unlocks passwords),
              controllers: {

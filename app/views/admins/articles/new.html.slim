@@ -1,8 +1,18 @@
-h1 トップページ
-h2 Gmap
+= form_with model: @article, local: true do |f|
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :content
+    = f.text_area :content
+  .field
+    = f.label :address
+    = f.text_field :address
+    input type="button" value="Encode" onclick="codeAddress()"
 
-input#address type="textbox" value="GeekSalon"
-input type="button" value="Encode" onclick="codeAddress()"
+  .actions
+    = f.submit
+
 
 #display
 
@@ -28,7 +38,7 @@ javascript:
   }
 
   function codeAddress(){
-    let inputAddress = document.getElementById('address').value;
+    let inputAddress = document.getElementById('article_address').value;
 
     geocoder.geocode( { 'address': inputAddress}, function(results, status) {
       if (status == 'OK') {
