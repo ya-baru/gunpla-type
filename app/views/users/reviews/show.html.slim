@@ -60,8 +60,9 @@
           .card-body
             .reviewer.row.mb-3
               .col-4.col-md-3
-                .reviewer_avatar.text-center
-                  = @review.user.avatar_attached?(height: 80, width: 80)
+                = link_to mypage_path(@review.user) do
+                  .reviewer_avatar.text-center
+                    = @review.user.avatar_attached?(height: 80, width: 80)
               .col-8.col-md-9
                 .reviewer_profile
                   p

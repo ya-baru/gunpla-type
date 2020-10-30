@@ -1,0 +1,26 @@
+- if link == "reviewer"
+  - link_path = mypage_path(object)
+  - count = object.reviews_count
+  - name = object.username
+- if link == "review"
+  - link_path = review_path(object)
+  - count = object.likes_count
+  - name = object.title
+- if link == "gunpla"
+  - link_path = gunpla_path(object)
+  - count = object.favorites_count
+  - name = object.name
+- if link == "follow"
+  - link_path = mypage_path(object)
+  - count = object.relationships_count
+  - name = object.username
+
+.card.shadow-sm.col-4
+  = link_to link_path do
+    li
+      span
+        = "#{object_counter+1}位:"
+      span.text-muted
+        = "（#{count}件）"
+      p.mb-1
+        = name
