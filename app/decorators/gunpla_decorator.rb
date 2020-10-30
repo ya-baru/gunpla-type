@@ -15,6 +15,10 @@ class GunplaDecorator < ApplicationDecorator
     object.category.parent.name
   end
 
+  def reviews_count
+    object.reviews.count
+  end
+
   def images_attached?(height: nil, width: nil)
     if object.reviews.present?
       review = object.reviews.last

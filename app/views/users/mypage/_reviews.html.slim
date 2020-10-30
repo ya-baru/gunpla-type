@@ -1,7 +1,10 @@
+- reviews_count = user.reviews_count if current_page?(mypage_path(user))
+- reviews_count = user.likes_count if current_page?(like_reviews_mypage_path(user))
+
 .card.shadow-sm
   .card-header
     h2.headingLv
-      = "#{title}（#{reviews.count}）"
+      = "#{title}（#{reviews_count}）"
   .card-body
     - if reviews.present?
       ol.list-unstyled.mt-3

@@ -4,25 +4,25 @@
 .row.mx-auto
   .col-lg-8
     = render "chart",
-      header: "トップレビュアー（レビューが多い順）",
+      header: "トップレビュアー",
       chart: bar_chart(@reviewer_rank.pluck(:username, :reviews_count), label: "レビュー数"),
       objects: @reviewer_rank,
       link: "reviewer"
 
     = render "chart",
-      header: "フォローランキング（フォローが多い順）",
+      header: "フォローランキング",
       chart: bar_chart(@follow_rank.pluck(:username, :relationships_count), label: "フォロー数"),
       objects: @follow_rank,
       link: "follow"
 
     = render "chart",
-      header: "人気ガンプラ（お気に入り登録が多い順）",
+      header: "お気に入りガンプラ",
       chart: pie_chart(@gunpla_rank.pluck(:name, :favorites_count), label: "登録数", legend: "bottom"),
       objects: @gunpla_rank,
       link: "gunpla"
 
     = render "chart",
-      header: "人気レビュー（いいね！が多い順）",
+      header: "いいね！レビュー",
       chart: column_chart(@review_rank.pluck(:title, :likes_count), label: "いいね！数"),
       objects: @review_rank,
       link: "review"

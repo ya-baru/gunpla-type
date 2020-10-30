@@ -1,7 +1,10 @@
+- follows_count = user.following.count if current_page?(following_mypage_path(user))
+- follows_count = user.relationships_count if current_page?(followers_mypage_path(user))
+
 .card.shadow-sm
   .card-header
     h2.headingLv
-      = "#{title}（#{follows.count}）"
+      = "#{title}（#{follows_count}）"
   .card-body
     - if follows.present?
       ul.list-group.list-group-flush
