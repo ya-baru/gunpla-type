@@ -44,6 +44,6 @@ class Admins::ArticlesController < ApplicationController
   end
 
   def user_admin?
-    redirect_to root_path unless current_user.admin_flg?
+    redirect_to mypage_path(current_user) unless current_user.admin_flg?
   end
 end

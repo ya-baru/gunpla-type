@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-
   root 'users/home#index'
+
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   namespace :admins do
     resources :articles
@@ -116,5 +116,7 @@ Rails.application.routes.draw do
     resources :activities, only: :index
 
     resources :rankings, only: :index
+
+    resources :articles, only: %i(index show)
   end
 end

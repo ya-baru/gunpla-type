@@ -1,5 +1,5 @@
 class Review < ApplicationRecord
-  include Images
+  include ReviewImages
   include NotificationCreate
 
   has_many_attached :images, dependent: :destroy

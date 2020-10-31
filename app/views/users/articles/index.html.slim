@@ -1,0 +1,15 @@
+- provide(:title, sub_title="記事一覧")
+- breadcrumb :articles
+
+.row
+  .col-lg-8.mb-4.mx-auto
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          = sub_title
+      .card-body
+        ol.list-unstyled.mt-3
+          = render partial: "article", collection: @articles
+        = paginate @articles
+
+  = render "users/shared/sidebar"
