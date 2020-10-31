@@ -6,7 +6,7 @@ RSpec.describe "Review", :js, type: :system do
       expect(page).to have_title("#{sub_title} - GUNPLA-Type")
       expect(page).to have_selector("li.breadcrumb-item", text: "ホーム")
       expect(page).to have_selector("li.breadcrumb-item", text: "ガンプラリスト")
-      expect(page).to have_selector("li.breadcrumb-item", text: gunpla.name)
+      expect(page).to have_selector("li.breadcrumb-item", text: "ガンプラ詳細")
       expect(page).to have_selector("li.breadcrumb-item", text: breadcrumb)
     end
   end

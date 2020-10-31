@@ -77,7 +77,7 @@ class Users::GunplasController < ApplicationController
   private
 
   def ganpla_params
-    params.require(:gunpla).permit(:name, :sales_id, :category_id)
+    params.require(:gunpla).permit(:name, :sales, :category_id)
   end
 
   def search_params

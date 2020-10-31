@@ -12,7 +12,7 @@ ja:
         message: ご用件
       gunpla:
         name: 商品名
-        sales_id: 販売方法
+        sales: 販売方法
         category_id: カテゴリー
       review:
         title: タイトル

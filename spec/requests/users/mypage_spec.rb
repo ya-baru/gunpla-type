@@ -72,7 +72,8 @@ RSpec.describe "Users::mypage", type: :request do
     context "未ログインユーザー" do
       let(:login) { nil }
 
-      it { is_expected.to have_http_status 200 }
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to new_user_session_path }
     end
 
     context "存在しないユーザー" do

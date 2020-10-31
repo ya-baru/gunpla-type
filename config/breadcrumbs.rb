@@ -138,7 +138,7 @@ crumb :category_search do
 end
 
 crumb :gunpla do |gunpla|
-  link gunpla.name, gunpla_path(gunpla)
+  link "ガンプラ詳細", gunpla_path(gunpla)
   parent :gunpla_list, gunpla
 end
 
