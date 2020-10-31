@@ -486,6 +486,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  actiontext
   active_hash
   active_storage_validations
   ancestry

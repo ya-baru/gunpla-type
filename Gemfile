@@ -127,3 +127,5 @@ gem "chartkick"
 
 # Map
 gem 'geocoder'
+
+gem 'actiontext'

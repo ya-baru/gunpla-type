@@ -1,9 +1,11 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
+@import "trix/dist/trix";
 
 @import "users/custom-variables";
 @import "users/social";
 @import "users/option";
+@import "users/actiontext";
 
 @import "users/mypage";
 @import "users/gunpla";
@@ -35,4 +37,11 @@ footer {
   margin-top: auto;
   background-color: $dark;
   width: 100%;
+}
+
+// Actiontext
+trix-editor {
+  min-height: 20em;
+  max-height: 20em;
+  overflow-y: auto;
 }
