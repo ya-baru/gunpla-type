@@ -1,22 +1,4 @@
-= form_with model: @article, local: true do |f|
-  .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :content
-    = f.text_area :content
-  .field
-    = f.label :address
-    = f.text_field :address
-    input type="button" value="Encode" onclick="codeAddress()"
-
-  .actions
-    = f.submit
-
-
-#display
-
-#map
+= render "form", article: @article, url: admins_articles_path
 
 javascript:
   let map
@@ -28,7 +10,7 @@ javascript:
 
     map = new google.maps.Map(document.getElementById('map'), {
       center: {lat: 35.6803997, lng: 139.7690174},
-      zoom: 12,
+      zoom: 15,
     });
 
     marker = new google.maps.Marker({

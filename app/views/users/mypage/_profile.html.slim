@@ -12,7 +12,11 @@
         = link_to "お気に入り #{user.favorites_count}件", favorite_gunplas_mypage_path(user)
 
   .user_btn.mb-4
-    - if current_user?(user)
+    - if user.id == 1 && current_user.admin_flg?
+      .d-flex.justify-content-center.justify-content-md-start
+        = link_to "管理者画面", rails_admin_path, class: "btn btn-danger rounded-pill mr-2 w-200px"
+        = link_to "記事一覧", admins_articles_path, class: "btn btn-primary rounded-pill w-200px"
+    - elsif current_user?(user)
       .d-flex.justify-content-center.justify-content-md-start
         = link_to activities_path, class: "btn btn-primary rounded-pill d-block mr-2 w-200px" do
           i.fas.fa-history.mr-2

@@ -1,22 +1,71 @@
-<h2>gmap</h2>
-<div id='map'></div>
+<div class="article row mx-auto">
+  <div class="col-lg-8 mx-auto">
+    <div class="card shadow-sm m">
+      <div class="card-body m-4">
+        <div class="article_head text-center mb-5">
+          <div class="d-flex justify-content-between m-4">
+            <%= link_to "編集", edit_admins_article_path(@article), class: "btn btn-success"%>
+            <%= link_to "削除", admins_article_path(@article), method: :delete, data: { confirm: "記事を削除してよろしいですか?" }, class: "btn btn-danger"%>
+            <%= link_to "戻る", admins_articles_path(@article), class: "btn btn-secondary
+            "%>
+          </div>
+          <h2 class="headingLv">
+            <%= @article.title %>
+          </h2>
+          <p class="text-right text-muted mb-4">
+            <%= @article.created_at.to_s(:datetime_jp) %>
+          </p>
+          <div class="article_image">
+            <%= @article.image_attached? %>
+          </div>
+        </div>
+        <div class="article_box">
+          <h5 class="heading">Content</h5>
+          <div class="article_content mb-5">
+            <%= @article.content %>
+          </div>
+          <div class="article_map">
+            <% if @article.address? %>
+              <h5 class="heading">Access</h5>
+              <div id='map' style="width: auto; height:400px"></div>
+            <% end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
   let map
   let geocoder
 
-  function initMap(){
-    geocoder = new google.maps.Geocoder()
 
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: <%= @article.latitude %>, lng: <%= @article.longitude %>},
-      zoom: 12,
+  function initMap(){
+    var myMap = new google.maps.Map(document.getElementById("map"), {
+      center: new google.maps.LatLng(<%= @article.latitude %>, <%= @article.longitude %>),
+      scaleControl: true,
+      zoom: 15,
     });
 
-    marker = new google.maps.Marker({
-      position:  {lat: <%= @article.latitude %>, lng: <%= @article.longitude %>},
-      map: map
+    var myMarker = new google.maps.Marker({
+      position: new google.maps.LatLng(<%= @article.latitude %>, <%= @article.longitude %>),
+      map: myMap
+    });
+    var myInfoWindow = new google.maps.InfoWindow({
+      content: "<%= @article.building %><br><%= @article.address %>"
+    });
+
+    google.maps.event.addListenerOnce(myMarker, "click", function() {
+      myInfoWindow.open(myMap, myMarker);
+    });
+
+    google.maps.event.addListener(myInfoWindow, "closeclick", function() {
+      google.maps.event.addListenerOnce(myMarker, "click", function(event) {
+        myInfoWindow.open(myMap, myMarker);
+      });
     });
   }
 

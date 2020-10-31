@@ -8,6 +8,11 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
 
     .collapse.navbar-collapse#change-navbar
       ul.navbar-nav.ml-auto
+        - if user_signed_in? && current_user.admin_flg?
+          li.nav-item
+            = link_to "管理者画面", rails_admin_path, class: "nav-link text-white"
+          li.nav-item
+            = link_to "記事一覧", admins_articles_path, class: "nav-link text-white"
         - if user_signed_in?
           li.nav-item
             = link_to notifications_path, class: "nav-link text-white" do

@@ -4,6 +4,7 @@ ja:
       contact: お問い合わせ
       gunpla: ガンプラ
       review: レビュー
+      article: 記事
     attributes:
       contact:
         name: お名前
@@ -18,3 +19,8 @@ ja:
         content: 内容
         images: 画像
         rate: 評価
+      article:
+        title: タイトル
+        address: 住所
+        building: 建物
+        image: 画像

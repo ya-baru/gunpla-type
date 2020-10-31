@@ -9,38 +9,30 @@ input type="button" value="Encode" onclick="codeAddress()"
 #map
 
 javascript:
-  let map
-  let geocoder
-  const display = document.getElementById('display')
-
   function initMap(){
-    geocoder = new google.maps.Geocoder()
-
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat: 35.6803997, lng: 139.7690174},
-      zoom: 12,
+    var myMap = new google.maps.Map(document.getElementById("map"), {
+      center: new google.maps.LatLng(35.6803997, 139.7690174),
+      scaleControl: true,
+      zoom: 15,
     });
 
-    marker = new google.maps.Marker({
-      position:  {lat: 35.6803997, lng: 139.7690174},
-      map: map
+    var myMarker = new google.maps.Marker({
+      position: new google.maps.LatLng(35.6803997, 139.7690174),
+      map: myMap
     });
-  }
+    var myInfoWindow = new google.maps.InfoWindow({
+      content: "新宿駅で～す</br>あいうえお"
+    });
 
-  function codeAddress(){
-    let inputAddress = document.getElementById('address').value;
+    google.maps.event.addListenerOnce(myMarker, "click", function() {
+      myInfoWindow.open(myMap, myMarker);
+    });
 
-    geocoder.geocode( { 'address': inputAddress}, function(results, status) {
-      if (status == 'OK') {
-        map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: map,
-            position: results[0].geometry.location
-        });
-        display.textContent = "検索結果：" + results[ 0 ].geometry.location
-      } else {
-        alert('該当する結果がありませんでした：' + status);
-      }
+    google.maps.event.addListener(myInfoWindow, "closeclick", function() {
+      google.maps.event.addListenerOnce(myMarker, "click", function(event) {
+        myInfoWindow.open(myMap, myMarker);
+      });
     });
   }
+
 script src="https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.googlemap[:api_key]}&callback=initMap" async defer
