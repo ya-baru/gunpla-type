@@ -1,0 +1,22 @@
+h5.heading.mb-3
+  | SNSでシェア
+.d-none.d-md-block
+  .d-flex.justify-content-between
+    = link_to "http://www.facebook.com/share.php?u=#{request.url}&text=#{title}", class: 'btn btn-sns btn-fb w-150px', title: 'Facebook', target: '_blank' do
+      i.fab.fa-facebook-square.mr-1
+      | Facebook
+    = link_to "http://line.me/R/msg/text/?#{request.url}&text=#{title}", class: 'btn btn-sns btn-ln w-150px', title: 'LINE', target: '_blank' do
+      i.fab.fa-line.mr-1
+      | Line
+    = link_to "https://twitter.com/share?url=#{request.url}&text=#{title}", class: 'btn btn-sns btn-tw w-150px', title: 'Twitter', target: '_blank' do
+      i.fab.fa-twitter-square.mr-1
+      | Twitter
+
+.d-md-none
+  .d-flex.justify-content-between
+    = link_to "http://www.facebook.com/share.php?u=#{request.url}&text=#{title}", class: 'btn btn-sns btn-fb', title: 'Facebook', target: '_blank' do
+      i.fab.fa-facebook-square
+    = link_to "http://line.me/R/msg/text/?#{request.url}&text=#{title}", class: 'btn btn-sns btn-ln', title: 'LINE', target: '_blank' do
+      i.fab.fa-line
+    = link_to "https://twitter.com/share?url=#{request.url}&text=#{title}", class: 'btn btn-sns btn-tw', title: 'Twitter', target: '_blank' do
+      i.fab.fa-twitter-square

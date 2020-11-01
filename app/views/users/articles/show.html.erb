@@ -21,6 +21,9 @@
           <div class="article_content mb-4">
             <%= @article.content %>
           </div>
+          <div class="sns mb-4">
+            <%= render "users/shared/sns_share", title: @article.title %>
+          </div>
           <div class="article_map">
             <% if @article.address? %>
               <h5 class="heading">Access</h5>

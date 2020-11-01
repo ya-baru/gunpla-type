@@ -11,7 +11,7 @@
 
     = render "chart",
       header: "フォローランキング",
-      chart: pie_chart(@follow_rank.pluck(:username, :relationships_count), label: "フォロー数", legend: "bottom"),
+      chart: column_chart(@follow_rank.pluck(:username, :relationships_count), label: "フォロー数", legend: "bottom"),
       objects: @follow_rank,
       link: "follow"
 
