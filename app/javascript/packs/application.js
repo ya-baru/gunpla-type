@@ -12,6 +12,8 @@ require("jquery-ui/ui/widgets/autocomplete");
 require("jquery.raty");
 require("chartkick")
 require("chart.js")
+require("trix")
+require("@rails/actiontext")
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -28,6 +30,7 @@ import "../javascripts/category_select";
 import "../javascripts/category_search";
 import "../javascripts/autocomplete";
 import "../javascripts/upload_avatar";
+import "../javascripts/upload_image";
 import "../javascripts/upload_images";
 import "../javascripts/review_thumb";
 import "../javascripts/page_scrolltop";

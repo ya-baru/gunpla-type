@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe "Mypage", :js, type: :system do
+RSpec.describe "Mypage", type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user, :with_profile, :with_avatar) }
 
   def expect_page_information(sub_title: nil, breadcrumb: nil)
@@ -62,7 +63,7 @@ RSpec.describe "Mypage", :js, type: :system do
 
       context "レビューあり" do
         let!(:review) { create(:review) }
-        let(:user) { User.first }
+        let(:user) { review.user }
 
         it "要素の表示チェックをする" do
           sign_in user
@@ -75,6 +76,21 @@ RSpec.describe "Mypage", :js, type: :system do
               expect(page).to have_selector("li", text: review.created_at.to_s(:datetime_jp))
             end
           end
+        end
+      end
+
+      describe "管理者ページへのアクセスチェック" do
+        let!(:admin) { create(:user, :admin) }
+
+        it "管理者以外だとマイページへリダイレクトされる" do
+          sign_in user
+          visit mypage_path(admin)
+          expect(current_path).to eq mypage_path(user)
+
+          sign_out user
+          sign_in admin
+          visit mypage_path(admin)
+          expect(current_path).to eq mypage_path(admin)
         end
       end
     end
@@ -132,7 +148,7 @@ RSpec.describe "Mypage", :js, type: :system do
 
     context "いいねあり" do
       let!(:like) { create(:like) }
-      let(:user) { User.first }
+      let(:user) { like.user }
       let(:review) { Review.first }
 
       it "要素の表示チェックをする" do
@@ -150,8 +166,8 @@ RSpec.describe "Mypage", :js, type: :system do
     end
   end
 
-  # # 個別テストのみ成功
-  # describe "お気に入りガンプラリストのアクセスチェック", :focus do
+  # # 個別テストでのみ成功
+  # describe "お気に入りガンプラリストのアクセスチェック" do
   #   let(:gunplas) { user.favorite_gunplas }
 
   #   context "お気に入り登録なし" do
@@ -172,7 +188,7 @@ RSpec.describe "Mypage", :js, type: :system do
 
   #   context "お気に入り登録あり" do
   #     let!(:favorite) { create(:favorite) }
-  #     let(:user) { User.first }
+  #     let(:user) { favorite.user }
   #     let(:gunpla) { Gunpla.first }
   #     let(:category) { gunpla.category }
 

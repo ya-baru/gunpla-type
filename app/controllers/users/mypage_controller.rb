@@ -1,5 +1,7 @@
 class Users::MypageController < ApplicationController
+  prepend_before_action :authenticate_user!
   before_action :setup_user
+  before_action :user_admin?
 
   def show
     @reviews = @user.reviews.
@@ -61,5 +63,11 @@ class Users::MypageController < ApplicationController
   def setup_user
     @user = User.find_by(id: params[:id])
     return redirect_to root_path if @user.nil?
+  end
+
+  def user_admin?
+    if @user == User.first
+      redirect_to mypage_path(current_user) unless current_user.admin_flg?
+    end
   end
 end

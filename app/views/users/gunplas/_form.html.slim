@@ -31,11 +31,11 @@
                   = f.collection_select :category_id, category_grandchildren, :id, :name, { selected: category_grandchild }, id: "gunpla_grandchild_category", class: "form-control"
           tr.form-group
             th.table-active
-              = f.label :sales_id, class: "form-require"
-              = gunpla.form_error_message(:sales_id)
+              = f.label :sales, class: "form-require"
+              = gunpla.form_error_message(:sales)
             td
               div
-                =< f.collection_select(:sales_id, Sales.all, :id, :name, { include_blank: "選択して下さい" }, class: "form-control" )
+                =< f.select :sales, Gunpla.sales.keys, { include_blank: "選択して下さい" }, {class: 'form-control'}
         .row.mt-4
           .col-md-5.offset-md-1.px-3
             = f.submit "ガンプラを#{btn}する", class: "btn btn-primary btn-block"

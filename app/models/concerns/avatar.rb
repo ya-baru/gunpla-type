@@ -2,7 +2,7 @@ module Avatar
   extend ActiveSupport::Concern
   included do
     def display_avatar(height: 140, width: 140)
-      avatar.variant(resize_to_limit: [height, width]).processed
+      avatar.variant(resize_to_fill: [height, width]).processed
     end
 
     private

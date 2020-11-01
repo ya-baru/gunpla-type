@@ -1,4 +1,4 @@
-- provide(:title, @gunpla.name)
+- provide(:title, "ガンプラ詳細")
 - breadcrumb :gunpla, @gunpla
 
 .row.mx-auto
@@ -45,24 +45,13 @@
                   th.col-3.table-active
                     | 販売方法
                   td.col-8
-                    = @gunpla.sales.name
+                    = @gunpla.sales
           - if user_signed_in?
             .review.mb-5
               = current_user.review_registered?(@gunpla)
 
         .sns
-          h5.heading.mb-3
-            | SNSでシェア
-          .d-flex.justify-content-between
-            a.btn.btn-sns.btn-fb.w-150px href="#"
-              i.fab.fa-facebook-square.mr-1
-              | Facebook
-            a.btn.btn-sns.btn-tw.w-150px href="#"
-              i.fab.fa-twitter-square.mr-1
-              | Twitter
-            a.btn.btn-sns.btn-ln.w-150px href="#"
-              i.fab.fa-line.mr-1
-              | Line
+          = render "users/shared/sns_share", title: @gunpla.name
 
     .card.shadow-sm
       .card-header

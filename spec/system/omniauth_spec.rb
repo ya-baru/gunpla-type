@@ -2,6 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "Omniauth", :js, type: :system do
   describe "OmniAuthでアカウント登録とログインテスト" do
+    let!(:admin) { create(:user, :admin) }
+    let(:user) { User.last }
+
     context "facebook" do
       before do
         OmniAuth.config.mock_auth[:facebook] = nil
@@ -12,15 +15,15 @@ RSpec.describe "Omniauth", :js, type: :system do
       it "ボタンクリックでアカウントが作成される" do
         aggregate_failures do
           expect { click_on "Facebookで登録" }.to change(User, :count).by(1)
-          expect(current_path).to eq mypage_path(User.first)
+          expect(current_path).to eq mypage_path(user)
           expect(page).to have_selector(".alert-success", text: "Facebook アカウントによる認証に成功しました")
         end
 
-        sign_out User.first
+        sign_out user
         visit new_user_session_path
         aggregate_failures do
           expect { click_on "Facebookでログイン" }.not_to change(User, :count)
-          expect(current_path).to eq mypage_path(User.first)
+          expect(current_path).to eq mypage_path(user)
           expect(page).to have_selector(".alert-success", text: "Facebook アカウントによる認証に成功しました")
         end
       end
@@ -36,15 +39,15 @@ RSpec.describe "Omniauth", :js, type: :system do
       it "ボタンクリックでアカウントが作成される" do
         aggregate_failures do
           expect { click_on "Twitterで登録" }.to change(User, :count).by(1)
-          expect(current_path).to eq mypage_path(User.first)
+          expect(current_path).to eq mypage_path(user)
           expect(page).to have_selector(".alert-success", text: "Twitter アカウントによる認証に成功しました")
         end
 
-        sign_out User.first
+        sign_out user
         visit new_user_session_path
         aggregate_failures do
           expect { click_on "Twitterでログイン" }.not_to change(User, :count)
-          expect(current_path).to eq mypage_path(User.first)
+          expect(current_path).to eq mypage_path(user)
           expect(page).to have_selector(".alert-success", text: "Twitter アカウントによる認証に成功しました")
         end
       end
@@ -60,15 +63,15 @@ RSpec.describe "Omniauth", :js, type: :system do
       it "ボタンクリックでアカウントが作成される" do
         aggregate_failures do
           expect { click_on "Googleで登録" }.to change(User, :count).by(1)
-          expect(current_path).to eq mypage_path(User.first)
+          expect(current_path).to eq mypage_path(user)
           expect(page).to have_selector(".alert-success", text: "Google アカウントによる認証に成功しました")
         end
 
-        sign_out User.first
+        sign_out user
         visit new_user_session_path
         aggregate_failures do
           expect { click_on "Googleでログイン" }.not_to change(User, :count)
-          expect(current_path).to eq mypage_path(User.first)
+          expect(current_path).to eq mypage_path(user)
           expect(page).to have_selector(".alert-success", text: "Google アカウントによる認証に成功しました")
         end
       end

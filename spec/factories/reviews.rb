@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :review do
+  factory :review, class: "Review" do
     sequence(:title) { |n| "おすすめ-#{n}" }
     content { "組み立てやすい！" }
     rate { 4 }

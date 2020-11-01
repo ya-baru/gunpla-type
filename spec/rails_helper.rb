@@ -72,4 +72,7 @@ RSpec.configure do |config|
   # OmuniAutuモックの設定
   OmniAuth.config.test_mode = true
   config.include OmniAuthHelper
+
+  # リッチテキストエリア検証用の設定
+  config.include ActionTextHelper, type: :system
 end

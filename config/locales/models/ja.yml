@@ -4,6 +4,7 @@ ja:
       contact: お問い合わせ
       gunpla: ガンプラ
       review: レビュー
+      article: 記事
     attributes:
       contact:
         name: お名前
@@ -11,10 +12,16 @@ ja:
         message: ご用件
       gunpla:
         name: 商品名
-        sales_id: 販売方法
+        sales: 販売方法
         category_id: カテゴリー
       review:
         title: タイトル
         content: 内容
         images: 画像
         rate: 評価
+      article:
+        title: タイトル
+        content: 内容
+        address: 住所
+        building: 建物
+        image: 画像

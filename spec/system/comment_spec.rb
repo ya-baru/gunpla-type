@@ -88,7 +88,7 @@ RSpec.describe "Comment", type: :system do
     let(:review) { Review.first }
     let(:other_user) { create(:user) }
 
-    it "レビューページからコメントを削除する" do
+    it "レビューページからコメントを削除する", :js do
       # 他ユーザーは非表示
       sign_in other_user
       visit review_path(review)
@@ -97,9 +97,16 @@ RSpec.describe "Comment", type: :system do
 
       sign_in user
       visit review_path(review)
-      expect { click_on "削除" }.to change(user.comments, :count).by(-1)
-      expect(current_path).to eq review_path(review)
-      expect(page).to have_selector(".alert-success", text: "コメントを削除しました")
+
+      page.accept_confirm do
+        click_on "削除"
+      end
+
+      aggregate_failures do
+        expect(page).to have_selector(".alert-success", text: "コメントを削除しました")
+        expect(user.reload.comments.count).to eq 0
+        expect(current_path).to eq review_path(review)
+      end
     end
   end
 end

@@ -1,8 +1,10 @@
 class Gunpla < ApplicationRecord
   include StringNormalizable
 
-  extend ActiveHash::Associations::ActiveRecordExtensions
-  belongs_to_active_hash :sales
+  enum sales: { 一般販売: 0, プレミアムバンダイ限定: 1, ガンダムベース限定: 2, イベント限定: 3, その他: 4 }
+
+  # extend ActiveHash::Associations::ActiveRecordExtensions
+  # belongs_to_active_hash :sales
   belongs_to :category
 
   has_many :browsing_histories, dependent: :destroy
@@ -12,7 +14,7 @@ class Gunpla < ApplicationRecord
   has_many :notifications, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 30 }
-  validates :sales_id, presence: true
+  validates :sales, presence: true
   validates :category_id, presence: true
   validates :favorites_count, presence: true
 

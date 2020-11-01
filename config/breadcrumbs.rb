@@ -14,6 +14,15 @@ crumb :ranking do
   link "ランキング", rankings_path
 end
 
+crumb :articles do
+  link "記事一覧", articles_path
+end
+
+crumb :article do |article|
+  link "記事詳細", article_path(article)
+  parent :articles
+end
+
 crumb :company do
   link "運営情報", company_path
 end
@@ -129,7 +138,7 @@ crumb :category_search do
 end
 
 crumb :gunpla do |gunpla|
-  link gunpla.name, gunpla_path(gunpla)
+  link "ガンプラ詳細", gunpla_path(gunpla)
   parent :gunpla_list, gunpla
 end
 

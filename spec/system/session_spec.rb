@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Session", type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   describe "メールアドレスによるログインとログアウトの機能チェック" do
@@ -77,6 +78,40 @@ RSpec.describe "Session", type: :system do
           visit edit_user_registration_path
           expect(page).to have_selector(".alert-danger", text: "ログインしてください。")
           expect(current_path).to eq new_user_session_path
+        end
+      end
+    end
+  end
+
+  describe "管理者がログイン" do
+    let(:admin) { create(:user, :admin) }
+
+    it "管理者専用のダッシュボードへリダイレクトされる" do
+      visit new_user_session_path
+
+      fill_in "メールアドレス", with: admin.email
+      fill_in "パスワード", with: admin.password
+      click_on "ログインする"
+
+      expect(current_path).to eq rails_admin_path
+    end
+
+    describe "ページリンクの表示チェック" do
+      it "各要素の表示差異を検証する" do
+        sign_in admin
+
+        visit mypage_path(admin)
+        aggregate_failures do
+          expect(page).to have_content("管理者画面", count: 2)
+          expect(page).to have_content("記事一覧", count: 2)
+        end
+
+        sign_out admin
+        sign_in user
+        visit mypage_path(user)
+        aggregate_failures do
+          expect(page).not_to have_content("管理者画面")
+          expect(page).not_to have_content("記事一覧")
         end
       end
     end

@@ -124,3 +124,8 @@ gem 'counter_culture'
 
 # Ranking
 gem "chartkick"
+
+# Map
+gem 'geocoder'
+
+gem 'actiontext'

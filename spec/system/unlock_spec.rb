@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Unlock", type: :system do
+RSpec.describe "Unlock", :js, type: :system do
   describe "アカウント凍結解除方法の案内メールの再送信チェック" do
     let!(:user) { create(:user) }
 
@@ -53,8 +53,8 @@ RSpec.describe "Unlock", type: :system do
           fill_in "メールアドレス", with: user.email
           fill_in "パスワード", with: user.password
           click_on "ログインする"
+          expect(current_path).to eq mypage_path(user)
         end
-        expect(page).to have_content("ログインしました")
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe "Unlock", type: :system do
         fill_in "メールアドレス", with: unconfirm_user.email
         aggregate_failures do
           expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
-          expect(page).to have_content("アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントを有効化してください。")
+          expect(page).to have_content("カウントが有効化されていません。\nメールに記載された手順にしたがって、アカウントを有効化してください。")
           expect(current_path).to eq root_path
         end
       end

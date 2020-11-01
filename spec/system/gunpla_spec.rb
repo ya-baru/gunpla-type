@@ -57,7 +57,7 @@ RSpec.describe "Gunpla", :js, type: :system do
     it "編集ページでガンプラを更新する" do
       visit gunpla_path(gunpla)
       click_on "編集"
-      expect_page_information(sub_title: "ガンプラ編集", breadcrumb: gunpla.name)
+      expect_page_information(sub_title: "ガンプラ編集", breadcrumb: "ガンプラ編集")
 
       aggregate_failures do
         expect(page).to have_select("作品", selected: "機動戦士ガンダム")
@@ -71,7 +71,7 @@ RSpec.describe "Gunpla", :js, type: :system do
 
       aggregate_failures do
         expect(Gunpla.first.name).to eq "MG シャア専用ザク"
-        expect(Gunpla.first.sales.name).to eq "プレミアムバンダイ限定"
+        expect(Gunpla.first.sales).to eq "プレミアムバンダイ限定"
         expect(page).to have_selector(".alert-success", text: "ガンプラを更新しました")
         expect(current_path).to eq gunpla_path(Gunpla.first)
       end

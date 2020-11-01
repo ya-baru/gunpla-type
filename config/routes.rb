@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
+  root 'users/home#index'
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
-  root 'users/home#index'
+  namespace :admins do
+    resources :articles
+  end
 
   devise_for :users,
              skip: %i(registrations sessions confirmations unlocks passwords),
@@ -112,5 +116,7 @@ Rails.application.routes.draw do
     resources :activities, only: :index
 
     resources :rankings, only: :index
+
+    resources :articles, only: %i(index show)
   end
 end

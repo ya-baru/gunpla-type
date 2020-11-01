@@ -1,0 +1,33 @@
+.row
+  .card.mx-auto.shadow-sm
+    .card-header
+      h2.headingLv
+        | 記事作成
+    .card-body
+      .mb-3
+        = link_to admins_articles_path do
+          button
+            | 記事一覧へ戻る
+
+      = form_with model: article, url: url, local: true do |f|
+        .form-group.mb-4
+          = f.label :title
+          = f.text_field :title, class: "form-control"
+          = article.form_error_message(:title)
+        .mb-4
+          = f.label :content
+          = f.rich_text_area :content, class: "form-control"
+          = article.form_error_message(:content)
+        .mb-4
+          = f.label :image
+          br
+          = f.file_field :image, accept: "image/jpeg, image/jpg, image/png"
+          = article.form_error_message(:image)
+        .form-group.mb-4
+          = f.label :building
+          = f.text_field :building, class: "form-control col-6"
+        .form-group
+          = f.label :address
+          = f.text_field :address, class: "form-control mb-2"
+        .actions.mt-4
+          = f.submit

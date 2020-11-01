@@ -1,0 +1,12 @@
+.row
+  .col-lg-8.mx-auto
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          | 記事一覧
+      .card-body
+        .mb-3
+          = link_to "記事を作成する", new_admins_article_path, class: "btn btn-primary btn-block"
+        ol
+          = render partial: "article", collection: @articles
+        = paginate @articles

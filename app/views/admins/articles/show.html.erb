@@ -1,0 +1,64 @@
+<div class="article row mx-auto">
+  <div class="col-lg-8 mx-auto">
+    <div class="card shadow-sm m">
+      <div class="card-body m-4">
+        <div class="article_head text-center mb-5">
+          <div class="d-flex justify-content-between m-4">
+            <%= link_to "編集", edit_admins_article_path(@article), class: "btn btn-success"%>
+            <%= link_to "削除", admins_article_path(@article), method: :delete, data: { confirm: "記事を削除してよろしいですか?" }, class: "btn btn-danger"%>
+            <%= link_to "戻る", admins_articles_path(@article), class: "btn btn-secondary"%>
+          </div>
+          <h2 class="headingLv mb-3">
+            <%= @article.title %>
+          </h2>
+          <p class="text-right text-muted mb-3">
+            <%= "更新日 #{@article.updated_at.to_s(:datetime_jp)}" %>
+          </p>
+          <% if @article.image.attached? %>
+            <%= image_tag(@article.display_image) %>
+          <% end %>
+        </div>
+        <div class="article_box">
+          <h5 class="heading">Content</h5>
+          <div class="article_content mb-4">
+            <%= @article.content %>
+          </div>
+          <div class="article_map">
+            <% if @article.address? %>
+              <h5 class="heading">Access</h5>
+              <div id='map' style="width: auto; height:400px"></div>
+            <% end%>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initMap() {
+    var test = {lat: <%= @article.latitude %>, lng: <%= @article.longitude %>};
+    var map = new google.maps.Map(document.getElementById("map"), {
+      zoom: 15,
+      center: test
+    });
+    var transitLayer = new google.maps.TransitLayer();
+    transitLayer.setMap(map);
+
+    var contentString = "<%= @article.building %><br>住所：<%= @article.address %>";
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+
+    var marker = new google.maps.Marker({
+      position:test,
+      map: map,
+      title: contentString
+    });
+
+    marker.addListener("click", function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= Rails.application.credentials.googlemap[:api_key] %>&callback=initMap" async defer></script>
