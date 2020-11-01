@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :favorite do
+  factory :favorite, class: "Favorite" do
     association :user
     association :gunpla
 

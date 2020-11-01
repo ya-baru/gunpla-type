@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "UserUpdate", type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   before do
@@ -33,16 +34,16 @@ RSpec.describe "UserUpdate", type: :system do
 
       # 成功
       fill_in "ユーザー名", with: "new-user"
-      fill_in "プロフィール", with: "あいうえお"
+      fill_in "プロフィール", with: "Vガンが好きです"
       attach_file "user[avatar]", "#{Rails.root}/spec/files/sample.jpg"
       click_on "更新する"
 
       aggregate_failures do
-        expect(current_path).to eq mypage_path(user)
-        expect(page).to have_selector(".alert-success", text: "アカウント情報を変更しました。")
-        expect(page).to have_selector("img[src$='sample.jpg']")
-        expect(user.reload.username).to eq "new-user"
-        expect(user.reload.profile).to eq "あいうえお"
+        expect(user.reload.avatar.attached?).to be_truthy
+        expect(user.reload).to have_attributes(
+          username: "new-user",
+          profile: "Vガンが好きです",
+        )
       end
 
       visit edit_user_registration_path
@@ -71,8 +72,6 @@ RSpec.describe "UserUpdate", type: :system do
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
-        expect(current_path).to eq mypage_path(user)
-        expect(page).to have_selector(".alert-success", text: "メールアドレスが正しく変更されました。")
         expect(user.reload.email).to eq "new@example.com"
       end
     end
@@ -102,7 +101,6 @@ RSpec.describe "UserUpdate", type: :system do
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
-        expect(current_path).to eq mypage_path(user)
         expect(page).to have_selector(".alert-success", text: "パスワードが正しく変更されました。")
         # expect(user.reload.password).to eq "new-password"
       end

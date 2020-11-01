@@ -97,6 +97,7 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to have_http_status(302) }
       it { is_expected.to redirect_to mypage_path(user) }
       it "正常に更新されること" do
+        expect(flash[:notice]).to eq "アカウント情報を変更しました。"
         expect(user.reload).to have_attributes(
           username: "change_name",
           profile: "あいうえお"
@@ -290,6 +291,7 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to redirect_to mypage_path(user) }
       it "正常に更新されること" do
         expect(user.reload).to have_attributes(email: "new@example.com")
+        expect(flash[:notice]).to eq "メールアドレスが正しく変更されました。"
       end
     end
 

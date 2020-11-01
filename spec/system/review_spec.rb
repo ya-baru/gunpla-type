@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Review", :js, type: :system do
+  let!(:admin) { create(:user, :admin) }
+
   def expect_page_information(sub_title: nil, breadcrumb: nil)
     aggregate_failures do
       expect(page).to have_title("#{sub_title} - GUNPLA-Type")
@@ -48,9 +50,9 @@ RSpec.describe "Review", :js, type: :system do
         expect(page).to have_selector(".image-box img")
         expect(page).to have_selector("a.btn-edit")
         expect(page).to have_selector("a.btn-delete")
-        expect(all(".image-box img").count).to eq 2
         expect(all("a.btn-edit").count).to eq 2
         expect(all("a.btn-delete").count).to eq 2
+        expect(all(".image-box img").count).to eq 2
       end
 
       # 三枚目まで投稿ボタンが表示
@@ -77,7 +79,7 @@ RSpec.describe "Review", :js, type: :system do
   describe "レビュー編機能のテスト" do
     let!(:review) { create(:review) }
     let(:other_user) { create(:user) }
-    let(:user) { User.first }
+    let(:user) { review.user }
     let(:gunpla) { Gunpla.first }
 
     it "編集ページで各種項目の更新テストする" do
@@ -115,17 +117,19 @@ RSpec.describe "Review", :js, type: :system do
       end
 
       aggregate_failures do
-        expect(review.reload.title).to eq "コスパ最高！"
-        expect(review.reload.content).to eq "量産機のスタンダードキット！"
-        expect(review.reload.rate).to eq 5.0
         expect(review.reload.images.count).to eq 2
+        expect(review.reload).to have_attributes(
+          title: "コスパ最高！",
+          content: "量産機のスタンダードキット！",
+          rate: 5.0,
+        )
       end
     end
   end
 
   describe "レビューの削除動作のチェック" do
     let!(:review) { create(:review) }
-    let(:user) { User.first }
+    let(:user) { review.user }
     let(:gunpla) { Gunpla.first }
 
     it "編集ページから削除する" do
@@ -142,7 +146,7 @@ RSpec.describe "Review", :js, type: :system do
 
   describe "関連ページにおけるレビュー内容のチェック" do
     let!(:review) { create(:review) }
-    let(:user) { User.first }
+    let(:user) { review.user }
     let(:gunpla) { Gunpla.first }
     let(:category) { Category.last }
 

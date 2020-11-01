@@ -1,6 +1,6 @@
 class Admins::ArticlesController < ApplicationController
   prepend_before_action :authenticate_user!
-  prepend_before_action :user_admin?
+  before_action :user_admin?
   before_action :setup_article, only: %i(show edit update destroy)
 
   def index

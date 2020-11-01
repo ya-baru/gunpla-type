@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users::mypage", type: :request do
   subject { response }
 
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   before do
@@ -32,6 +33,23 @@ RSpec.describe "Users::mypage", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to root_path }
+    end
+
+    describe "管理者ページへのアクセス" do
+      let(:url) { get mypage_path(admin) }
+
+      context "管理者" do
+        let(:login) { sign_in admin }
+
+        it { is_expected.to have_http_status 200 }
+      end
+
+      context "未ログインユーザー" do
+        let(:login) { nil }
+
+        it { is_expected.to have_http_status 302 }
+        it { is_expected.to redirect_to new_user_session_path }
+      end
     end
   end
 

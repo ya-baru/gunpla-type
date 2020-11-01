@@ -6,7 +6,8 @@
     .card-body
       .mb-3
         = link_to admins_articles_path do
-          input type="button" value="記事一覧へ戻る"
+          button
+            | 記事一覧へ戻る
 
       = form_with model: article, url: url, local: true do |f|
         .form-group.mb-4
@@ -14,7 +15,7 @@
           = f.text_field :title, class: "form-control"
           = article.form_error_message(:title)
         .mb-4
-          = f.label :content, "内容"
+          = f.label :content
           = f.rich_text_area :content, class: "form-control"
           = article.form_error_message(:content)
         .mb-4

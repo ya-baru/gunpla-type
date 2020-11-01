@@ -22,9 +22,7 @@ class GunplaDecorator < ApplicationDecorator
   def images_attached?(height: nil, width: nil)
     if object.reviews.present?
       review = object.reviews.last
-      if review.present?
-        h.image_tag review.display_images.first, class: "card-img-top", height: height, width: width
-      end
+      h.image_tag review.display_images.first, class: "card-img-top", height: height, width: width
     else
       h.image_tag("https://placehold.jp/180x180.png?text=Non-Image", class: "card-img-top", height: height)
     end

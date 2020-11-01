@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Rankings", type: :system do
+RSpec.describe "Rankings", :js, type: :system do
   describe "ランキングページの表示テスト" do
     let!(:like) { create(:like) }
     let!(:favorite) { create(:favorite) }

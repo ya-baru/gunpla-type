@@ -66,7 +66,7 @@ class Users::MypageController < ApplicationController
   end
 
   def user_admin?
-    if @user.id == 1
+    if @user == User.first
       redirect_to mypage_path(current_user) unless current_user.admin_flg?
     end
   end

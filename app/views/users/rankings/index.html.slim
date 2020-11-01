@@ -5,25 +5,25 @@
   .col-lg-8
     = render "chart",
       header: "トップレビュアー",
-      chart: bar_chart(@reviewer_rank.pluck(:username, :reviews_count), label: "レビュー数"),
+      chart: pie_chart(@reviewer_rank.pluck(:username, :reviews_count), label: "レビュー数", legend: "bottom"),
       objects: @reviewer_rank,
       link: "reviewer"
 
     = render "chart",
       header: "フォローランキング",
-      chart: bar_chart(@follow_rank.pluck(:username, :relationships_count), label: "フォロー数"),
+      chart: pie_chart(@follow_rank.pluck(:username, :relationships_count), label: "フォロー数", legend: "bottom"),
       objects: @follow_rank,
       link: "follow"
 
     = render "chart",
       header: "お気に入りガンプラ",
-      chart: pie_chart(@gunpla_rank.pluck(:name, :favorites_count), label: "登録数", legend: "bottom"),
+      chart: bar_chart(@gunpla_rank.pluck(:name, :favorites_count), label: "登録数"),
       objects: @gunpla_rank,
       link: "gunpla"
 
     = render "chart",
       header: "いいね！レビュー",
-      chart: column_chart(@review_rank.pluck(:title, :likes_count), label: "いいね！数"),
+      chart: pie_chart(@review_rank.pluck(:title, :likes_count), label: "いいね！数", legend: "bottom"),
       objects: @review_rank,
       link: "review"
 
