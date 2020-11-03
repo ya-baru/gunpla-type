@@ -1,0 +1,9 @@
+= link_to article_path(article)
+  li.media.mb-2
+    .media-body.my-auto
+      p
+        = article.title
+      ul.text-left.p-0
+        li.text-muted
+          = "更新日 #{article.updated_at.to_s(:datetime_jp)}"
+  hr

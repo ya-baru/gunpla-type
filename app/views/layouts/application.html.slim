@@ -9,6 +9,10 @@ html
     .wrapper
       header
         = render "layouts/header"
+      = image_tag(asset_path("HGUC GUNDAM.jpg"), alt: "HGUC GUNDAM")
+      = image_tag(asset_path("HGCE FREEDOM GUNDAM.jpg"), alt: "HGUC GUNDAM")
+      = image_tag(asset_path("PG UNICORN GUNDAM.jpg"), alt: "HGUC GUNDAM")
+
       .container.my-5
         = render "layouts/breadcrumbs"
         = render "layouts/flash_messages"

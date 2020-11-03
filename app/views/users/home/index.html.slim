@@ -1,34 +1,34 @@
-h1 トップページ
-h2 Gmap
 
-/ #display
-/ #map
+.row.mx-auto
+  .col-lg-8
+    .card.shadow-sm.mb-2
+      .card-header
+        h2.headingLv
+          | ニュース
+      .card-body
+        ol.list-unstyled.overflow-auto style="height:200px;"
+          = render partial: "article", collection: @articles
 
-/ javascript:
-/   function initMap(){
-/     var myMap = new google.maps.Map(document.getElementById("map"), {
-/       center: new google.maps.LatLng(35.6803997, 139.7690174),
-/       scaleControl: true,
-/       zoom: 15,
-/     });
+    .card.shadow-sm.mb-2
+      .card-header
+        h2.headingLv
+          | 人気のガンプラ
+      .card-body
+        - if @gunplas.present?
+          ol.row.p-0.justify-content-around
+            = render partial: "users/gunplas/gunpla", collection: @gunplas
+        - else
+          | ガンプラの登録はありません
 
-/     var myMarker = new google.maps.Marker({
-/       position: new google.maps.LatLng(35.6803997, 139.7690174),
-/       map: myMap
-/     });
-/     var myInfoWindow = new google.maps.InfoWindow({
-/       content: "新宿駅で～す</br>あいうえお"
-/     });
+    .card.shadow-sm
+      .card-header
+        h2.headingLv
+          | 最新のレビュー
+      .card-body
+        - if @reviews.present?
+          ol.list-unstyled.mt-3
+            = render partial: "users/shared/review", collection: @reviews
+        - else
+          | レビューの投稿はありません
 
-/     google.maps.event.addListenerOnce(myMarker, "click", function() {
-/       myInfoWindow.open(myMap, myMarker);
-/     });
-
-/     google.maps.event.addListener(myInfoWindow, "closeclick", function() {
-/       google.maps.event.addListenerOnce(myMarker, "click", function(event) {
-/         myInfoWindow.open(myMap, myMarker);
-/       });
-/     });
-/   }
-
-/ script src="https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.googlemap[:api_key]}&callback=initMap" async defer
+  = render "users/shared/sidebar"
