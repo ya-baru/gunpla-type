@@ -10,7 +10,6 @@ class Users::UnlocksController < Devise::UnlocksController
   def create
     user = User.find_by(email: resource_params[:email])
     if user.present?
-      # account_confirmed : concerns/account.rb
       return account_unconfirm unless user.confirmed_at?
     end
 
