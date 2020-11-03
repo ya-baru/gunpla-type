@@ -1,7 +1,7 @@
 nav.navbar.navbar-expand-md.bg-dark.navbar-dark
   .container
-    h1
-      = link_to "GUNPLA-Type", root_path, class: "navbar-brand font-weight-bold"
+    = link_to root_path do
+      = image_tag(asset_path("logo.png"), alt: "logo")
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#change-navbar" aria-controls="change-navbar" aria-expanded="false" aria-label="Toggle navigation"
       span.navbar-toggler-icon.collapse-close
@@ -32,7 +32,7 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
             = link_to destroy_user_session_path, method: :delete, class: "nav-link text-white" do
               i.fas.fa-sign-out-alt
               | ログアウト
-          = render "layouts/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"
+          = render "layouts/headers/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"
 
         - else
           li.nav-item
@@ -43,4 +43,4 @@ nav.navbar.navbar-expand-md.bg-dark.navbar-dark
             = link_to new_user_session_path, class: "nav-link text-white" do
               i.fas.fa-sign-in-alt.mr-2
               | ログイン
-          = render "layouts/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"
+          = render "layouts/headers/header_navbar_list", nav_class: "d-block d-md-none", nav_color: "text-white"

@@ -8,12 +8,22 @@
 
 User.create!(
   username: "管理者",
-  profile: "管理者ページです。",
+  profile: "管理者です。",
   email: Rails.application.credentials.admin[:email],
   password: Rails.application.credentials.admin[:password],
   password_confirmation: Rails.application.credentials.admin[:password],
   confirmed_at: Time.current,
   admin_flg: true
+)
+
+User.create!(
+  username: "テストユーザー",
+  profile: "テストユーザーです。",
+  email:  "test@example.com",
+  password: "password",
+  password_confirmation: "password",
+  confirmed_at: Time.current,
+  admin_flg: false
 )
 
 require "csv"

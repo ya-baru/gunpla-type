@@ -113,7 +113,15 @@
   color: $orange;
 }
 
+// Googlemap
 #map {
   height: 600px;
   width: 600px;
+}
+
+// Actiontext
+trix-editor {
+  min-height: 20em;
+  max-height: 20em;
+  overflow-y: auto;
 }

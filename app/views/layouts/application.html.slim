@@ -3,22 +3,17 @@ html
   head
     title
       = full_title(sub_title: yield(:title))
-    = render "layouts/rails_default"
-    = render "layouts/shim"
+    = render "layouts/configs/rails_default"
+    = render "layouts/configs/shim"
   body
     .wrapper
       header
-        = render "layouts/header"
-      = image_tag(asset_path("HGUC GUNDAM.jpg"), alt: "HGUC GUNDAM")
-      = image_tag(asset_path("HGCE FREEDOM GUNDAM.jpg"), alt: "HGUC GUNDAM")
-      = image_tag(asset_path("PG UNICORN GUNDAM.jpg"), alt: "HGUC GUNDAM")
-
+        = render "layouts/headers/header"
+      = render "layouts/home_image"
       .container.my-5
-        = render "layouts/breadcrumbs"
-        = render "layouts/flash_messages"
+        = render "layouts/options/breadcrumbs"
+        = render "layouts/options/flash_messages"
         = yield
       footer
-        = render "layouts/footer"
-    #page_top
-      a href="#"
-        i.fas.fa-angle-up.fa-lg
+        = render "layouts/footers/footer"
+    = render "layouts/options/scroll_top"

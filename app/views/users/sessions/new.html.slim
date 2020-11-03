@@ -9,7 +9,7 @@
         h2.headingLv
           | メールアドレスでログイン
       .card-body
-        = form_with model: resource, as: resource_name, url:  session_path(resource_name), local: true do |f|
+        = form_with model: resource, as: resource_name, url: session_path(resource_name), local: true do |f|
           .form-group
             = f.label :email
             = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control"
@@ -20,8 +20,9 @@
             .form-group
               => f.check_box :remember_me
               = f.label :remember_me
-          .text-center.border-top.pt-4
-            = f.submit "ログインする", class: "btn btn-primary w-250px"
+          .border-top.pt-4.d-flex.flex-column
+            = f.submit "ログインする", class: "mx-auto btn btn-primary w-420px"
+        = render "users/shared/test_login"
         br
         = render "links"
 

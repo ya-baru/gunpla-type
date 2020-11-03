@@ -26,8 +26,10 @@
             = f.label :password_confirmation, class: "form-require"
             = f.password_field :password_confirmation, class: "form-control lead"
             = resource.form_error_message(:password_confirmation)
-          .text-center.border-top.mt-4.pt-4
-            = f.submit "アカウントを作成する", class: "btn btn-primary w-250px"
+          .text-center.border-top.pt-4.d-flex.flex-column
+            = f.submit "アカウントを作成する", class: "mx-auto btn btn-primary w-420px"
+        = render "users/shared/test_login"
+
           br
           = link_to "利用規約", term_path
           | と
