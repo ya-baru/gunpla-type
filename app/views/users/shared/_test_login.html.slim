@@ -1,7 +1,0 @@
-.text-center.mt-3
-  = form_with model: User.new, url: session_path(User.new), method: :post, local: true do |f|
-    = f.hidden_field :email, value: "test@example.com"
-    = f.hidden_field :password, value: "password"
-    = button_tag type: 'submit', class:"mx-auto btn btn-secondary w-420px" do
-      i class="fas fa-power-off mr-1"
-      | テストユーザーでログイン

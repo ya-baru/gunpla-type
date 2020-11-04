@@ -7,7 +7,7 @@ class UserDecorator < ApplicationDecorator
   def avatar_attached?(height: 140, width: 140)
     if object.avatar.attached?
       h.content_tag(:span, class: "prev-content") do
-        h.image_tag(object.display_avatar, height: height, width: width, alt: "preview", class: "prev-image shadow")
+        h.image_tag(object.display_avatar, height: height, width: width, alt: "preview", class: "prev-image shadow-sm")
       end
     else
       h.image_tag("https://placehold.jp/#{height}x#{width}.png?text=Non-Image", class: "photo-icon shadow")
