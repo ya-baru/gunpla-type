@@ -38,14 +38,24 @@ RSpec.describe "Users::Comments", type: :request do
 
   describe "#destroy" do
     let!(:comment) { create(:comment) }
+    let(:user) { comment.user }
     let(:other_user) { create(:user) }
     let(:url) { delete comment_path(comment) }
+
+    context "コメントユーザー" do
+      let(:login) { sign_in user }
+
+      it "削除されること" do
+        expect(Comment.count).to eq 0
+        expect(flash[:notice]).to eq "コメントを削除しました"
+      end
+    end
 
     context "コメントユーザー以外" do
       let(:login) { sign_in other_user }
 
       it { is_expected.to have_http_status 404 }
-      it "カウントなし" do
+      it "削除されないこと" do
         expect(Comment.count).to eq 1
       end
     end

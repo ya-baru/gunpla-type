@@ -60,15 +60,13 @@ RSpec.describe "Signup", type: :system do
         expect { click_on "確定" }.to change { ActionMailer::Base.deliveries.count }.by(1)
         expect(current_path).to eq account_confirmation_mail_sent_path
         expect(page).to have_title("送信完了 - GUNPLA-Type")
-        click_on "トップページへ戻る"
-        expect(current_path).to eq root_path
       end
 
       # 無効なトークンでアクセス
       visit confirmation_path(confirmation_token: "invalid_token")
       aggregate_failures do
         expect(current_path).to eq confirmation_path
-        expect(User.first.confirmed_at).to eq nil
+        expect(User.last.confirmed_at).to eq nil
       end
 
       # 有効なトークンでアクセス
@@ -76,7 +74,7 @@ RSpec.describe "Signup", type: :system do
       aggregate_failures do
         expect(current_path).to eq new_user_session_path
         expect(page).to have_selector(".alert-success", text: "メールアドレスが確認できました。")
-        expect(User.first.confirmed_at).not_to eq nil
+        expect(User.last.confirmed_at).not_to eq nil
       end
 
       # もう一度アクセスするとエラー発生
@@ -107,7 +105,7 @@ RSpec.describe "Signup", type: :system do
           aggregate_failures do
             expect(current_path).to eq new_user_session_path
             expect(page).to have_selector(".alert-success", text: "メールアドレスが確認できました。")
-            expect(User.first.confirmed_at).not_to eq nil
+            expect(User.last.confirmed_at).not_to eq nil
           end
         end
       end
@@ -121,7 +119,7 @@ RSpec.describe "Signup", type: :system do
           aggregate_failures do
             expect(current_path).to eq confirmation_path
             expect(page).to have_content("メールアドレスの期限が切れました。1日 までに確認する必要があります。 新しくリクエストしてください。")
-            expect(User.first.confirmed_at).to eq nil
+            expect(User.last.confirmed_at).to eq nil
           end
         end
       end

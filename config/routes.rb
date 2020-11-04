@@ -48,31 +48,26 @@ Rails.application.routes.draw do
   end
 
   scope module: :users do
-    # about
     get 'company', to: 'about#company'
     get 'privacy', to: 'about#privacy'
     get 'term', to: 'about#term'
     get 'questions', to: 'about#questions'
 
-    # contact
     get 'contact', to: 'contacts#new', as: :new_user_contact
     match 'contact_confirm', to: 'contacts#confirm', via: %i(get post)
     post 'contact', to: 'contacts#create', as: :user_contact
     post 'contact', to: 'contacts#new', action: :contact_confirm_back
 
-    # complete
     get 'account_confirmation_mail_sent', to: 'completes#account_confirm'
     get 'password_reset_mail_sent', to: 'completes#password_reset'
     get 'unlock_mail_sent', to: 'completes#unlock'
 
-    # mypage
-    resources :mypage, only: %i(show) do
+    resources :mypage, only: :show do
       member do
         get :like_reviews, :favorite_gunplas, :following, :followers
       end
     end
 
-    # gunpla
     resources :gunplas, except: %i(create update destroy) do
       collection do
         get 'search', to: 'gunplas#search_index'
@@ -88,7 +83,7 @@ Rails.application.routes.draw do
         match 'edit', to: 'gunplas#update', via: %i(patch put), as: :update
       end
 
-      resources :reviews, only: %i(new)
+      resources :reviews, only: :new
     end
 
     resources :reviews, only: %i(show edit destroy) do
@@ -100,10 +95,10 @@ Rails.application.routes.draw do
         post 'upload_image', defaults: { format: 'json' }
       end
 
-      resources :comments, only: %i(create)
+      resources :comments, only: :create
     end
 
-    resources :comments, only: %i(destroy)
+    resources :comments, only: :destroy
 
     resources :likes, only: %i(create destroy)
 

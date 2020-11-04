@@ -34,4 +34,4 @@ import "../javascripts/upload_image";
 import "../javascripts/upload_images";
 import "../javascripts/review_thumb";
 import "../javascripts/page_scrolltop";
-// import "../javascripts/recently_viewed_gunplas";
+import "../javascripts/swiper";

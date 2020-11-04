@@ -125,10 +125,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
     self.resource = send(:"current_#{resource_name}").decorate
   end
 
-  # def valid_params
-  #   sign_up_params.select { |k, v| k == 'email' || k == 'username' }
-  # end
-
   def psassword_invalid_message
     resource.errors.add(:password, :blank)
     resource.errors.add(:password_confirmation, :blank)

@@ -115,7 +115,6 @@ RSpec.describe "UserUpdate", type: :system do
       aggregate_failures do
         expect { click_on "退会する" }.to change(User, :count).by(-1)
         expect(current_path).to eq root_path
-        expect(page).to have_selector(".alert-success", text: "アカウントを削除しました。またのご利用をお待ちしております。")
       end
     end
   end

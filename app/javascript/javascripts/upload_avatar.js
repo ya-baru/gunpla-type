@@ -16,7 +16,7 @@ $(document).on("turbolinks:load", function () {
       var html =
         `
           <div class="prev-content">
-            <img src="${image}", alt="preview" class="prev-image" width=150 height=150>
+            <img src="${image}", alt="preview" class="prev-image shadow-sm" width=150 height=150>
           </div>
         `;
       return html;

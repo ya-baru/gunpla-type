@@ -2,6 +2,10 @@
   width: 420px !important;
 }
 
+.w-350px {
+  width: 350px !important;
+}
+
 .w-250px {
   width: 250px !important;
 }
@@ -113,7 +117,15 @@
   color: $orange;
 }
 
+// Googlemap
 #map {
   height: 600px;
   width: 600px;
+}
+
+// Actiontext
+trix-editor {
+  min-height: 20em;
+  max-height: 20em;
+  overflow-y: auto;
 }

@@ -68,7 +68,7 @@
               score: "#{@gunpla.reviews.average(:rate).to_f.round(1)}",
               scorename: nil
         ol.list-unstyled.mt-3
-          = render partial: "users/shared/review", collection: @reviews, as: :review, gunpla: @gunpla
+          = render partial: "users/shared/review", collection: @reviews, as: :review
         = paginate @reviews
 
   = render "users/shared/sidebar"

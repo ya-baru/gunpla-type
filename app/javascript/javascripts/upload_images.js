@@ -1,10 +1,10 @@
-$(document).on('turbolinks:load', function () {
+$(document).on("turbolinks:load", function () {
   var count = $(".image-box").length;
   if(count == 3) {
     $(".input_btn").hide();
   }
 
-  $("#review_images").on('change',function(e){
+  $("#review_images").on("change",function(e){
     var files = e.target.files;
     var d = (new $.Deferred()).resolve();
     var size_in_megabytes = this.files[0].size / 1024 / 1024;
@@ -76,14 +76,14 @@ $(document).on('turbolinks:load', function () {
     var img = new Image();
     var def =$.Deferred();
     reader.onload = function(e){
-      var image_box = $('<div>', { class: "image-box col-4" });
-      var shadow = $('<div>', { class: "shadow-sm" });
+      var image_box = $("<div>", { class: "image-box col-4" });
+      var shadow = $("<div>", { class: "shadow-sm" });
       shadow.append(img);
       image_box.append(shadow);
-      image_box.append($('<p>').html(imageFile.name).attr({
+      image_box.append($("<p>").html(imageFile.name).attr({
         class: "mb-1"
       }));
-      image_box.append($('<input>').attr({
+      image_box.append($("<input>").attr({
         name: "review[images][]",
         value: image_id,
         style: "display: none;",
@@ -91,7 +91,7 @@ $(document).on('turbolinks:load', function () {
         class: "review-images-input"
       }));
       image_box.append('<a href="" class="btn-edit mr-2"><i class="far fa-file-image"></i></a>');
-      image_box.append($('<input>').attr({
+      image_box.append($("<input>").attr({
         name: "edit-image[]",
         style: "display: none;",
         type: "file",

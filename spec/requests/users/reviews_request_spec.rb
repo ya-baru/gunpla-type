@@ -4,7 +4,7 @@ RSpec.describe "Users::Reviews", type: :request do
   subject { response }
 
   let!(:review) { create(:review) }
-  let(:user) { User.first }
+  let(:user) { review.user }
   let(:gunpla) { Gunpla.first }
 
   before do
@@ -165,6 +165,10 @@ RSpec.describe "Users::Reviews", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunpla_path(gunpla) }
+      it "削除されること" do
+        expect(Review.count).to eq 0
+        expect(flash[:notice]).to eq "『#{gunpla.name}』のレビューを削除しました"
+      end
     end
 
     context "他ログインユーザー" do
@@ -173,7 +177,8 @@ RSpec.describe "Users::Reviews", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunplas_path }
-      it "フラッシュが表示されること" do
+      it "削除されないこと" do
+        expect(Review.count).to eq 1
         expect(flash[:alert]).to eq "レビューしたガンプラではありません"
       end
     end
