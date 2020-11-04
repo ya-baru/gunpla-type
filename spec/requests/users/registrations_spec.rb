@@ -196,6 +196,7 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to redirect_to root_path }
       it "正常にユーザーが削除されること" do
         expect(User.count).to eq 0
+        expect(flash[:notice]).to eq "アカウントを削除しました。またのご利用をお待ちしております。"
       end
     end
 
