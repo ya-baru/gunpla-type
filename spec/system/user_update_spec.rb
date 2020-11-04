@@ -108,7 +108,7 @@ RSpec.describe "UserUpdate", type: :system do
   end
 
   describe "退会の手続きテスト" do
-    it "確認画面を経てアカウントを削除する" do
+    it "確認画面を経てアカウントを削除する", :focus do
       click_on "退会の手続き"
       expect_page_information("退会の手続き")
 
