@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Password", type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   describe "パスワードリセット方法の案内メールの送信チェック" do

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Favorite", :js, type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
   let(:gunpla) { create(:gunpla) }
 

@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "Notification", :js, type: :system do
+  let!(:admin) { create(:user, :admin) }
   let!(:favorite) { create(:favorite) }
-  let(:user) { User.first }
+  let(:user) { favorite.user }
   let(:gunpla) { Gunpla.first }
   let(:other_user) { create(:user) }
 

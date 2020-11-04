@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Relationship", :js, type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:review) { create(:review) }
   let(:followed) { review.user }
   let(:follower) { create(:user) }

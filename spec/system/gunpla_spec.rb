@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe "Gunpla", :js, type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   before { sign_in user }

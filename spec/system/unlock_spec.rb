@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Unlock", :js, type: :system do
   describe "アカウント凍結解除方法の案内メールの再送信チェック" do
+    let!(:admin) { create(:user, :admin) }
     let!(:user) { create(:user) }
 
     context "アカウント凍結ユーザー" do

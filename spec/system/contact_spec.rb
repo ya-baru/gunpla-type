@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Contact", type: :system do
   describe "問い合わせフォームの機能テスト" do
+    let!(:admin) { create(:user, :admin) }
     let(:contact) { create(:contact) }
 
     def expect_page_information(text)

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Confirmation", type: :system do
+  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   describe "アカウント有効化の案内メールの再送信チェック" do

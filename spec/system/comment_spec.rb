@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "Comment", type: :system do
   describe "コメント送信機能のテスト" do
+    let!(:admin) { create(:user, :admin) }
     let!(:review) { create(:review) }
-    let(:user) { User.first }
+    let(:user) { review.user }
     let(:gunpla) { Gunpla.first }
     let(:other_user) { create(:user) }
 
@@ -84,7 +85,7 @@ RSpec.describe "Comment", type: :system do
 
   describe "コメント削除のテスト" do
     let!(:comment) { create(:comment) }
-    let(:user) { User.first }
+    let(:user) { comment.user }
     let(:review) { Review.first }
     let(:other_user) { create(:user) }
 

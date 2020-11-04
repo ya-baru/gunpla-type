@@ -1,8 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe "like", :js, type: :system do
+  let!(:admin) { create(:user, :admin) }
   let!(:review) { create(:review) }
-  let(:user) { User.first }
+  let(:user) { review.user }
   let!(:other_user) { create(:user) }
 
   describe "いいね機能の動作チェック" do
