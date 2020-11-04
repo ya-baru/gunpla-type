@@ -20,6 +20,7 @@ RSpec.describe "Relationship", :js, type: :system do
       click_on "フォロー中"
       aggregate_failures do
         expect(page).to have_selector("#follow_btn button", text: "フォロー")
+        sleep 0.5
         expect(follower.following.count).to eq 0
       end
 
