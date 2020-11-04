@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Password", type: :system do
-  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   describe "パスワードリセット方法の案内メールの送信チェック" do
@@ -24,19 +23,6 @@ RSpec.describe "Password", type: :system do
         aggregate_failures do
           expect { click_on "送信する" }.to change { ActionMailer::Base.deliveries.count }.by(1)
           expect(current_path).to eq password_reset_mail_sent_path
-        end
-      end
-    end
-
-    context "アカウント未有効化ユーザー" do
-      let(:unconfirm_user) { create(:user, :unconfirmation) }
-
-      it "メールが送信されない" do
-        fill_in "メールアドレス", with: unconfirm_user.email
-        aggregate_failures do
-          expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
-          expect(page).to have_content("アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントを有効化してください。")
-          expect(current_path).to eq root_path
         end
       end
     end

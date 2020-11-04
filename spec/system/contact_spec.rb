@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "Contact", type: :system do
   describe "問い合わせフォームの機能テスト" do
-    let!(:admin) { create(:user, :admin) }
     let(:contact) { create(:contact) }
 
     def expect_page_information(text)
@@ -14,7 +13,7 @@ RSpec.describe "Contact", type: :system do
     end
 
     it "正常な情報を認識してメール送信する" do
-      visit root_path
+      visit new_user_session_path
       click_on "お問い合わせ"
       expect_page_information("お問い合わせ")
 
@@ -53,8 +52,6 @@ RSpec.describe "Contact", type: :system do
       click_on "送信する"
       aggregate_failures do
         expect { click_on "確定" }.to change { ActionMailer::Base.deliveries.count }.by(1)
-        expect(current_path).to eq root_path
-        expect(page).to have_selector(".alert-success", text: "お問い合わせを受け付けました")
       end
     end
   end

@@ -33,10 +33,8 @@ RSpec.describe "Session", type: :system do
 
       # ログアウト
       click_on "ログアウト"
-      aggregate_failures do
-        expect(current_path).to eq root_path
-        expect(page).to have_selector(".alert-success", text: "ログアウトしました。")
-      end
+      visit mypage_path(user)
+      expect(current_path).to eq new_user_session_path
     end
   end
 

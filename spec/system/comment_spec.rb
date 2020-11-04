@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "Comment", type: :system do
   describe "コメント送信機能のテスト" do
-    let!(:admin) { create(:user, :admin) }
     let!(:review) { create(:review) }
     let(:user) { review.user }
     let(:gunpla) { Gunpla.first }
@@ -104,7 +103,7 @@ RSpec.describe "Comment", type: :system do
       end
 
       aggregate_failures do
-        expect(page).to have_selector(".alert-success", text: "コメントを削除しました")
+        sleep 0.5
         expect(user.reload.comments.count).to eq 0
         expect(current_path).to eq review_path(review)
       end

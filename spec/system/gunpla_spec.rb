@@ -1,7 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Gunpla", :js, type: :system do
-  let!(:admin) { create(:user, :admin) }
   let(:user) { create(:user) }
 
   before { sign_in user }
@@ -73,8 +72,8 @@ RSpec.describe "Gunpla", :js, type: :system do
       aggregate_failures do
         expect(Gunpla.first.name).to eq "MG シャア専用ザク"
         expect(Gunpla.first.sales).to eq "プレミアムバンダイ限定"
-        expect(page).to have_selector(".alert-success", text: "ガンプラを更新しました")
         expect(current_path).to eq gunpla_path(Gunpla.first)
+        expect(page).to have_selector(".alert-success", text: "ガンプラを更新しました")
       end
     end
   end

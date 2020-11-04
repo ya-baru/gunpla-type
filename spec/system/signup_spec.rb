@@ -60,8 +60,6 @@ RSpec.describe "Signup", type: :system do
         expect { click_on "確定" }.to change { ActionMailer::Base.deliveries.count }.by(1)
         expect(current_path).to eq account_confirmation_mail_sent_path
         expect(page).to have_title("送信完了 - GUNPLA-Type")
-        click_on "トップページへ戻る"
-        expect(current_path).to eq root_path
       end
 
       # 無効なトークンでアクセス

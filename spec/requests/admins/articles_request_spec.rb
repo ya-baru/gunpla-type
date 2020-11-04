@@ -91,7 +91,7 @@ RSpec.describe "Admins::Articles", type: :request do
       let(:login) { sign_in admin }
 
       it { is_expected.to have_http_status 302 }
-      it { is_expected.to redirect_to admins_article_path(Article.all[1]) }
+      it { is_expected.to redirect_to admins_article_path(Article.last) }
       it "記事が投稿されること" do
         expect(Article.count).to eq 2
       end

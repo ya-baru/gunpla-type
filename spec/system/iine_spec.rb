@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "like", :js, type: :system do
-  let!(:admin) { create(:user, :admin) }
   let!(:review) { create(:review) }
   let(:user) { review.user }
   let!(:other_user) { create(:user) }

@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe "Unlock", :js, type: :system do
   describe "アカウント凍結解除方法の案内メールの再送信チェック" do
-    let!(:admin) { create(:user, :admin) }
     let!(:user) { create(:user) }
 
     context "アカウント凍結ユーザー" do
@@ -66,11 +65,7 @@ RSpec.describe "Unlock", :js, type: :system do
 
       it "メールが送信されない" do
         fill_in "メールアドレス", with: unconfirm_user.email
-        aggregate_failures do
-          expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
-          expect(page).to have_content("カウントが有効化されていません。\nメールに記載された手順にしたがって、アカウントを有効化してください。")
-          expect(current_path).to eq root_path
-        end
+        expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
       end
     end
   end
