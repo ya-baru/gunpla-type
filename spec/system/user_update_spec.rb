@@ -44,6 +44,8 @@ RSpec.describe "UserUpdate", type: :system do
           username: "new-user",
           profile: "Vガンが好きです",
         )
+        expect(current_path).to eq mypage_path(user)
+        expect(page).to have_selector(".alert-success", text: "アカウント情報を変更しました。")
       end
 
       visit edit_user_registration_path
@@ -73,6 +75,7 @@ RSpec.describe "UserUpdate", type: :system do
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
         expect(user.reload.email).to eq "new@example.com"
+        expect(current_path).to eq mypage_path(user)
         expect(page).to have_selector(".alert-success", text: "メールアドレスが正しく変更されました。")
       end
     end
@@ -102,6 +105,7 @@ RSpec.describe "UserUpdate", type: :system do
 
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
+        expect(current_path).to eq mypage_path(user)
         expect(page).to have_selector(".alert-success", text: "パスワードが正しく変更されました。")
         # expect(user.reload.password).to eq "new-password"
       end
@@ -116,6 +120,7 @@ RSpec.describe "UserUpdate", type: :system do
       aggregate_failures do
         expect { click_on "退会する" }.to change(User, :count).by(-1)
         expect(current_path).to eq root_path
+        expect(page).to have_selector(".alert-success", text: "アカウントを削除しました。またのご利用をお待ちしております。")
       end
     end
   end

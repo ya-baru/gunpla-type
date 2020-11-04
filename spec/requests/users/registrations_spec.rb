@@ -97,7 +97,6 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to have_http_status(302) }
       it { is_expected.to redirect_to mypage_path(user) }
       it "正常に更新されること" do
-        expect(flash[:notice]).to eq "アカウント情報を変更しました。"
         expect(user.reload).to have_attributes(
           username: "change_name",
           profile: "あいうえお"
@@ -196,7 +195,6 @@ RSpec.describe "Users::Registrations", type: :request do
       it { is_expected.to redirect_to root_path }
       it "正常にユーザーが削除されること" do
         expect(User.count).to eq 0
-        expect(flash[:notice]).to eq "アカウントを削除しました。またのご利用をお待ちしております。"
       end
     end
 

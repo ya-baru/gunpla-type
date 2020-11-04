@@ -61,19 +61,6 @@ RSpec.describe "Users::Passwords", type: :request do
         expect(ActionMailer::Base.deliveries.count).to eq 1
       end
     end
-
-    context "アカウント未有効化ユーザー" do
-      let!(:user) { create(:user, :unconfirmation) }
-      let(:login) { nil }
-
-      it { is_expected.to have_http_status 302 }
-      it { is_expected.to redirect_to root_path }
-      it "フラッシュメッセージが表示されること" do
-        aggregate_failures do
-          expect(flash[:danger]).to eq "アカウントが有効化されていません。<br>メールに記載された手順にしたがって、アカウントを有効化してください。"
-        end
-      end
-    end
   end
 
   describe "#edit #update" do

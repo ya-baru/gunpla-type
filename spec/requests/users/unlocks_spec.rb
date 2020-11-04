@@ -70,11 +70,6 @@ RSpec.describe "Users::Unlocks", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to root_path }
-      it "フラッシュメッセージが表示されること" do
-        aggregate_failures do
-          expect(flash[:danger]).to eq "アカウントが有効化されていません。<br>メールに記載された手順にしたがって、アカウントを有効化してください。"
-        end
-      end
     end
   end
 

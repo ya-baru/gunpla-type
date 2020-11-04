@@ -66,6 +66,8 @@ RSpec.describe "Unlock", :js, type: :system do
       it "メールが送信されない" do
         fill_in "メールアドレス", with: unconfirm_user.email
         expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
+        expect(page).to have_selector(".alert-danger", text: "アカウントが有効化されていません。\nメールに記載された手順にしたがって、アカウントを有効化してください。")
+        expect(current_path).to eq root_path
       end
     end
   end

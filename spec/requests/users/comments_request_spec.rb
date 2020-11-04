@@ -47,7 +47,6 @@ RSpec.describe "Users::Comments", type: :request do
 
       it "削除されること" do
         expect(Comment.count).to eq 0
-        expect(flash[:notice]).to eq "コメントを削除しました"
       end
     end
 

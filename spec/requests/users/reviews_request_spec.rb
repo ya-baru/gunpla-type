@@ -167,7 +167,6 @@ RSpec.describe "Users::Reviews", type: :request do
       it { is_expected.to redirect_to gunpla_path(gunpla) }
       it "削除されること" do
         expect(Review.count).to eq 0
-        expect(flash[:notice]).to eq "『#{gunpla.name}』のレビューを削除しました"
       end
     end
 
