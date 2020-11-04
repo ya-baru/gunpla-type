@@ -98,6 +98,8 @@ gem 'redcarpet'
 
 # SEO
 gem 'gretel'
+gem 'sitemap_generator'
+gem 'meta-tags'
 
 # Select
 gem 'active_hash'

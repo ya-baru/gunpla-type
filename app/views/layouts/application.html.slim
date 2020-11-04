@@ -1,8 +1,7 @@
 doctype html
 html
   head
-    title
-      = full_title(sub_title: yield(:title))
+    = display_meta_tags(default_meta_tags(sub_title: yield(:title)))
     = render "layouts/configs/rails_default"
     = render "layouts/configs/shim"
   body
