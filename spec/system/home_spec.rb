@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Home", type: :system do
+RSpec.describe "Home", :js, type: :system do
   describe "HOMEページの表示テスト" do
     let!(:article) { create(:article) }
     let!(:review) { create(:review) }

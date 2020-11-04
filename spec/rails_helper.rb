@@ -75,4 +75,6 @@ RSpec.configure do |config|
 
   # リッチテキストエリア検証用の設定
   config.include ActionTextHelper, type: :system
+
+  config.include Rails.application.routes.url_helpers
 end
