@@ -35,7 +35,7 @@ RSpec.describe "Users::Confirmations", type: :request do
 
       it { is_expected.to have_http_status(302) }
       it { is_expected.to redirect_to mypage_path(user) }
-      it "メール送信せずリダイレクトすること" do
+      it "メール送信しないこと" do
         expect(ActionMailer::Base.deliveries.count).to eq 0
       end
     end

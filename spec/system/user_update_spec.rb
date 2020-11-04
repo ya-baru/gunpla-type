@@ -73,6 +73,7 @@ RSpec.describe "UserUpdate", type: :system do
       aggregate_failures do
         expect { click_on "更新する" }.not_to change { ActionMailer::Base.deliveries.count }
         expect(user.reload.email).to eq "new@example.com"
+        expect(page).to have_selector(".alert-success", text: "メールアドレスが正しく変更されました。")
       end
     end
   end
