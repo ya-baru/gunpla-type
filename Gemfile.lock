@@ -37,8 +37,6 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.1, >= 1.2.0)
-    active_hash (3.1.0)
-      activesupport (>= 5.0.0)
     active_storage_validations (0.9.0)
       rails (>= 5.2.0)
     activejob (6.0.3.4)
@@ -366,9 +364,6 @@ GEM
       actionpack (>= 5.0)
       railties (>= 5.0)
     rexml (3.2.4)
-    rspec-cells (0.3.5)
-      cells (>= 4.0.0, < 6.0.0)
-      rspec-rails (< 5.0)
     rspec-core (3.9.3)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -492,7 +487,6 @@ PLATFORMS
 
 DEPENDENCIES
   actiontext
-  active_hash
   active_storage_validations
   ancestry
   aws-sdk-s3
@@ -541,7 +535,6 @@ DEPENDENCIES
   rails_best_practices
   ransack
   redcarpet
-  rspec-cells
   rspec-rails
   rubocop-airbnb
   sass-rails (~> 6.0)
