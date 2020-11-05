@@ -102,9 +102,6 @@ gem 'sitemap_generator'
 gem 'meta-tags'
 gem 'google-analytics-rails'
 
-# Select
-gem 'active_hash'
-
 # Category
 gem 'ancestry'
 
@@ -117,7 +114,6 @@ gem 'ransack'
 # Cell
 gem 'cells-rails'
 gem 'cells-slim'
-gem 'rspec-cells'
 
 # Decorator
 gem 'draper'

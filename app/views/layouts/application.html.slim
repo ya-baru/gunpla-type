@@ -8,10 +8,11 @@ html
     .wrapper
       header
         = render "layouts/headers/header"
-      = render "layouts/home_image"
-      .container.my-5
+      = render "layouts/options/flash_messages"
+      = render "layouts/introductions/home_image"
+      = render "layouts/introductions/concept"
+      .container.mt-4.mb-5
         = render "layouts/options/breadcrumbs"
-        = render "layouts/options/flash_messages"
         = yield
       footer
         = render "layouts/footers/footer"
