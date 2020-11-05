@@ -50,7 +50,7 @@ RSpec.describe "Session", type: :system do
     context "remember ON" do
       let(:remember) { check "ログインを記憶" }
 
-      it "３０日後に自動でログアウトする" do
+      it "３０日経過に自動でログアウトする" do
         expect(user.reload.remember_created_at).not_to eq nil
 
         travel_to 29.days.after do
@@ -58,10 +58,12 @@ RSpec.describe "Session", type: :system do
           expect(current_path).to eq edit_user_registration_path
         end
 
-        travel_to 30.days.after do
+        travel_to 31.days.after do
           visit edit_user_registration_path
-          expect(page).to have_selector(".alert-danger", text: "ログインしてください。")
-          expect(current_path).to eq new_user_session_path
+          aggregate_failures do
+            expect(page).to have_selector(".alert-danger", text: "セッションがタイムアウトしました。もう一度ログインしてください。")
+            expect(current_path).to eq new_user_session_path
+          end
         end
       end
     end
