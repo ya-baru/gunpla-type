@@ -1,18 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe Article, type: :model do
-  let(:article) { create(:article) }
+  let(:article) { build(:article) }
 
   it { is_expected.to validate_presence_of :title }
   it { is_expected.to validate_length_of(:title).is_at_most(50) }
   it { is_expected.to validate_presence_of :content }
 
-  describe "ファクトリーテスト" do
-    let!(:article) { create(:article) }
-
-    it "ファクトリーが有効であること" do
-      expect(article).to be_valid
-    end
+  it "ファクトリーが有効であること" do
+    expect(article).to be_valid
   end
 
   describe "contentの字数バリデーション" do

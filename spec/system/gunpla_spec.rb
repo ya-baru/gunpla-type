@@ -69,10 +69,11 @@ RSpec.describe "Gunpla", :js, type: :system do
       select "プレミアムバンダイ限定", from: "販売方法"
       click_on "ガンプラを更新する"
 
+      gunpla = Gunpla.first.reload
       aggregate_failures do
-        expect(Gunpla.first.name).to eq "MG シャア専用ザク"
-        expect(Gunpla.first.sales).to eq "プレミアムバンダイ限定"
-        expect(current_path).to eq gunpla_path(Gunpla.first)
+        expect(gunpla.name).to eq "MG シャア専用ザク"
+        expect(gunpla.sales).to eq "プレミアムバンダイ限定"
+        expect(current_path).to eq gunpla_path(gunpla)
         expect(page).to have_selector(".alert-success", text: "ガンプラを更新しました")
       end
     end

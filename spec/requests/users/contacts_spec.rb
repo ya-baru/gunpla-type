@@ -26,7 +26,6 @@ RSpec.describe "Users::Contacts", type: :request do
     it { is_expected.to redirect_to root_path }
     it "メール送信すること" do
       expect(ActionMailer::Base.deliveries.count).to eq 1
-      expect(flash[:notice]).to eq "お問い合わせを受け付けました"
     end
   end
 end

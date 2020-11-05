@@ -11,11 +11,7 @@ RSpec.describe Notification, type: :model do
   it { is_expected.to validate_presence_of :visited_id }
   it { is_expected.to validate_presence_of :action }
 
-  describe "ファクトリーテスト" do
-    let!(:notification) { create(:notification) }
-
-    it "ファクトリーが有効であること" do
-      expect(notification).to be_valid
-    end
+  it "ファクトリーが有効であること" do
+    expect(create(:notification)).to be_valid
   end
 end

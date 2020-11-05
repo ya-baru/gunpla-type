@@ -12,8 +12,8 @@ RSpec.describe "Contact", type: :system do
       end
     end
 
-    it "正常な情報を認識してメール送信する" do
-      visit new_user_session_path
+    it "有効な情報を入力してメール送信する" do
+      visit root_path
       click_on "お問い合わせ"
       expect_page_information("お問い合わせ")
 
@@ -52,6 +52,8 @@ RSpec.describe "Contact", type: :system do
       click_on "送信する"
       aggregate_failures do
         expect { click_on "確定" }.to change { ActionMailer::Base.deliveries.count }.by(1)
+        expect(current_path).to eq root_path
+        expect(page).to have_selector(".alert-success", text: "お問い合わせを受け付けました")
       end
     end
   end

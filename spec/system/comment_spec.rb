@@ -104,6 +104,7 @@ RSpec.describe "Comment", type: :system do
 
       aggregate_failures do
         sleep 0.5
+        expect(page).to have_selector(".alert-success", text: "コメントを削除しました")
         expect(user.reload.comments.count).to eq 0
         expect(current_path).to eq review_path(review)
       end

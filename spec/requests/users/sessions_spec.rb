@@ -70,9 +70,6 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it { is_expected.to have_http_status(302) }
       it { is_expected.to redirect_to root_path }
-      it "フラッシュが表示されること" do
-        expect(flash[:notice]).to eq "ログアウトしました。"
-      end
     end
 
     context "未ログインユーザー" do
@@ -80,6 +77,9 @@ RSpec.describe "Users::Sessions", type: :request do
 
       it { is_expected.to have_http_status(302) }
       it { is_expected.to redirect_to root_path }
+      it "フラッシュが表示されること" do
+        expect(flash[:notice]).to eq "既にログアウト済みです。"
+      end
     end
   end
 end

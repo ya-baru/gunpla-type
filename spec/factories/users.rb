@@ -45,5 +45,9 @@ FactoryBot.define do
     trait :none_notice do
       notice { false }
     end
+
+    trait :update do
+      username { "アムロ" }
+    end
   end
 end

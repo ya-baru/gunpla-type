@@ -102,6 +102,9 @@ RSpec.describe "Admins::Articles", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to mypage_path(user) }
+      it "記事が投稿されないこと" do
+        expect(Article.count).to eq 1
+      end
     end
 
     context "未ログインユーザー" do
@@ -109,6 +112,9 @@ RSpec.describe "Admins::Articles", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
+      it "記事が投稿されないこと" do
+        expect(Article.count).to eq 1
+      end
     end
   end
 
@@ -137,13 +143,16 @@ RSpec.describe "Admins::Articles", type: :request do
   end
 
   describe "#update" do
-    let(:url) { patch admins_article_path(article), params: { article: attributes_for(:article) } }
+    let(:url) { patch admins_article_path(article), params: { article: attributes_for(:article, :update) } }
 
     context "管理者" do
       let(:login) { sign_in admin }
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to admins_article_path(article) }
+      it "更新されること" do
+        expect(article.reload).to have_attributes(title: "記事更新")
+      end
     end
 
     context "管理者以外" do
@@ -151,6 +160,9 @@ RSpec.describe "Admins::Articles", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to mypage_path(user) }
+      it "更新されないこと" do
+        expect(article.reload).not_to have_attributes(title: "記事更新")
+      end
     end
 
     context "未ログインユーザー" do
@@ -158,6 +170,9 @@ RSpec.describe "Admins::Articles", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
+      it "更新されないこと" do
+        expect(article.reload.title).not_to eq "記事更新"
+      end
     end
   end
 
@@ -179,6 +194,9 @@ RSpec.describe "Admins::Articles", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to mypage_path(user) }
+      it "投稿が削除されないこと" do
+        expect(Article.count).to eq 1
+      end
     end
 
     context "未ログインユーザー" do
@@ -186,6 +204,9 @@ RSpec.describe "Admins::Articles", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
+      it "投稿が削除されないこと" do
+        expect(Article.count).to eq 1
+      end
     end
   end
 end

@@ -26,6 +26,19 @@ RSpec.describe "Password", type: :system do
         end
       end
     end
+
+    context "アカウント未有効化ユーザー" do
+      let(:unconfirm_user) { create(:user, :unconfirmation) }
+
+      it "メールが送信されない" do
+        fill_in "メールアドレス", with: unconfirm_user.email
+        aggregate_failures do
+          expect { click_on "送信する" }.not_to change { ActionMailer::Base.deliveries.count }
+          expect(page).to have_selector(".alert-danger", text: "アカウントが有効化されていません。メールに記載された手順にしたがって、アカウントを有効化してください。")
+          expect(current_path).to eq root_path
+        end
+      end
+    end
   end
 
   describe "パスワードリセットページへのアクセスチェック" do

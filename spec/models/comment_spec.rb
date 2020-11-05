@@ -10,11 +10,7 @@ RSpec.describe Comment, type: :model do
   it { is_expected.to validate_presence_of :content }
   it { is_expected.to validate_length_of(:content).is_at_most(255) }
 
-  describe "ファクトリーテスト" do
-    let!(:comment) { create(:comment) }
-
-    it "ファクトリーが有効であること" do
-      expect(comment).to be_valid
-    end
+  it "ファクトリーが有効であること" do
+    expect(create(:comment)).to be_valid
   end
 end

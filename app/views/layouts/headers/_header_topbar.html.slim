@@ -1,7 +1,7 @@
 nav.navbar.navbar-expand-md.bg-dark.navbar-dark
   .container
     = link_to root_path do
-      = image_tag(asset_path("logo.png"), alt: "logo")
+      = image_pack_tag("logo.png", alt: "logo")
 
     button.navbar-toggler type="button" data-toggle="collapse" data-target="#change-navbar" aria-controls="change-navbar" aria-expanded="false" aria-label="Toggle navigation"
       span.navbar-toggler-icon.collapse-close

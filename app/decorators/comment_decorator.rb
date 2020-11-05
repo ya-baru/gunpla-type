@@ -4,6 +4,6 @@ class CommentDecorator < ApplicationDecorator
   decorates_association :review
 
   def user_name
-    object.user.username
+    user.username
   end
 end

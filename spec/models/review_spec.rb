@@ -18,12 +18,8 @@ RSpec.describe Review, type: :model do
   it { is_expected.to validate_presence_of :gunpla_id }
   it { is_expected.to validate_presence_of :likes_count }
 
-  describe "ファクトリーテスト" do
-    let!(:review) { create(:review) }
-
-    it "ファクトリーが有効であること" do
-      expect(review).to be_valid
-    end
+  it "ファクトリーが有効であること" do
+    expect(create(:review)).to be_valid
   end
 
   describe "画像テスト" do

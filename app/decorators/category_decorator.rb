@@ -27,6 +27,6 @@ class CategoryDecorator < ApplicationDecorator
   end
 
   def grade_and_scale
-    "#{object.parent.name} #{object.name}"
+    "#{parent.name} #{name}"
   end
 end
