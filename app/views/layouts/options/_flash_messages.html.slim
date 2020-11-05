@@ -1,5 +1,7 @@
-- flash.each do |flash_key, flash_message|
-  - next if %w[password_reset_mail_sent unlock_mail_sent account_confirmation_mail_sent].any? { |name| current_page?(send("#{name}_path")) }
-  - next if flash_key == "timedout"
-  - msg = flash_message.gsub(",","<br>")
-  = content_tag(:div, msg.html_safe, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
+- if flash.present?
+  .container.mt-3
+    - flash.each do |flash_key, flash_message|
+      - next if %w[password_reset_mail_sent unlock_mail_sent account_confirmation_mail_sent].any? { |name| current_page?(send("#{name}_path")) }
+      - next if flash_key == "timedout"
+      - msg = flash_message.gsub(",","<br>")
+      = content_tag(:div, msg.html_safe, class: "alert alert-#{ flash_key == "notice" ? "success" : "danger"}")
