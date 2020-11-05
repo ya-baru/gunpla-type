@@ -8,6 +8,7 @@ class Users::RelationshipsController < ApplicationController
 
     unless current_user.following?(@user)
       current_user.follow(@user)
+      @user.reload
       @user.create_notification_follow(current_user)
       respond_to do |format|
         format.html { redirect_to request.referrer || mypage_url(current_user) }
@@ -20,6 +21,7 @@ class Users::RelationshipsController < ApplicationController
     @user = Relationship.find(params[:id]).followed
     if current_user.following?(@user)
       current_user.unfollow(@user)
+      @user.reload
       respond_to do |format|
         format.html { redirect_to requeest.referrer || mypage_url(current_user) }
         format.js

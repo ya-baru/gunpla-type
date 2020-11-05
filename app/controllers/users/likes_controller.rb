@@ -8,6 +8,7 @@ class Users::LikesController < ApplicationController
 
     unless current_user.like?(@review)
       current_user.uplike(@review)
+      @review.reload
       @review.create_notification_like(current_user)
       respond_to do |format|
         format.html { redirect_to request.referrer || review_url(@review) }
@@ -20,6 +21,7 @@ class Users::LikesController < ApplicationController
     @review = Like.find(params[:id]).review
     if current_user.like?(@review)
       current_user.unlike(@review)
+      @review.reload
       respond_to do |format|
         format.html { redirect_to request.referrer || review_url(@review) }
         format.js

@@ -1,1 +1,2 @@
 $("#review-<%= @review.id %> #like_btn").html("<%= escape_javascript(render "users/likes/like", review: @review) %>");
+$("#likes").html('<%= @review.likes_count %>');
