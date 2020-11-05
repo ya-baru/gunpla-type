@@ -15,7 +15,7 @@ class CategoryDecorator < ApplicationDecorator
   end
 
   def none_result(gunplas)
-    return unless object.gunplas.blank? && object.id?
+    return unless gunplas.count.zero?
 
     if root?
       h.content_tag(:div, "『#{name}』に分類されるガンプラはありませんでした。", class: "search_result")

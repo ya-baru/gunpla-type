@@ -120,22 +120,10 @@ workflows:
       - code_analyze:
           requires:
             - build
-          filters:
-            branches:
-              ignore:
-                - master
       - rspec:
           requires:
             - build
-          filters:
-            branches:
-              ignore:
-                - master
       - heroku_deploy:
           requires:
             - code_analyze
             - rspec
-          filters:
-            branches:
-              ignore:
-                - master

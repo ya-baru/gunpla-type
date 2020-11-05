@@ -12,7 +12,8 @@ module GunplaSearch
           order(id: :desc)
         return
       end
-      @gunplas = Kaminari.paginate_array(@gunpla_list).page(params[:page]).per(9)
+
+      @gunplas = Kaminari.paginate_array(@gunpla_list.sort_by { |a| a[:created_at] }.reverse).page(params[:page]).per(9)
     end
   end
 end
