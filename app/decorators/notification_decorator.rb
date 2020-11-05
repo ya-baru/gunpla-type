@@ -6,6 +6,6 @@ class NotificationDecorator < ApplicationDecorator
   end
 
   def gunpla_name
-    object.gunpla.name
+    gunpla.name
   end
 end

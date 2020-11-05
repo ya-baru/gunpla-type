@@ -23,6 +23,7 @@ RSpec.describe "RailsAdmin", type: :request do
       let(:url) { get rails_admin_path }
 
       it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to new_user_session_path }
     end
 
     context "管理者以外" do

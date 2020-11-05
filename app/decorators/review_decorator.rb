@@ -5,14 +5,14 @@ class ReviewDecorator < ApplicationDecorator
   decorates_association :comment
 
   def gunpla_name
-    object.gunpla.name
+    gunpla.name
   end
 
   def user_name
-    object.user.username
+    user.username
   end
 
   def user_profile
-    object.user.profile
+    user.profile
   end
 end

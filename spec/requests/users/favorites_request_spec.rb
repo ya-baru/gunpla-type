@@ -18,7 +18,7 @@ RSpec.describe "Users::Favorites", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunpla_path(gunpla) }
-      it "カウントあり" do
+      it "カウントされること" do
         expect(user.favorites.count).to eq 1
       end
     end
@@ -28,7 +28,7 @@ RSpec.describe "Users::Favorites", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
-      it "カウントなし" do
+      it "カウントされないこと" do
         expect(Favorite.count).to eq 0
       end
     end
@@ -36,16 +36,26 @@ RSpec.describe "Users::Favorites", type: :request do
 
   describe "#destroy" do
     let!(:favorite) { create(:favorite) }
-    let(:user) { User.first }
-    let(:gunpla) { Gunpla.first }
+    let(:user) { favorite.user }
+    let(:gunpla) { favorite.gunpla }
     let(:url) { delete favorite_path(favorite) }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to gunpla_path(gunpla) }
+      it "カウントされること" do
+        expect(Favorite.count).to eq 0
+      end
+    end
 
     context "未ログインユーザー" do
       let(:login) { nil }
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
-      it "カウントなし" do
+      it "カウントされないこと" do
         expect(Favorite.count).to eq 1
       end
     end

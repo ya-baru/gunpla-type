@@ -4,8 +4,8 @@ RSpec.describe "Users::Likes", type: :request do
   subject { response }
 
   let!(:like) { create(:like) }
-  let(:user) { User.first }
-  let(:review) { Review.first }
+  let(:user) { like.user }
+  let(:review) { like.review }
   let(:other_user) { create(:user) }
 
   before do
@@ -48,7 +48,17 @@ RSpec.describe "Users::Likes", type: :request do
   end
 
   describe "#destroy" do
-    let(:url) { delete like_path(review) }
+    let(:url) { delete like_path(like) }
+
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 302 }
+      it { is_expected.to redirect_to review_path(review) }
+      it "カウントされること" do
+        expect(Favorite.count).to eq 0
+      end
+    end
 
     context "未ログインユーザー" do
       let(:login) { nil }

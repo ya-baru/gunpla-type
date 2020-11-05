@@ -14,5 +14,9 @@ FactoryBot.define do
         content_type: 'image/jpeg'
       )
     end
+
+    trait :update do
+      title { "旧キットの名作！" }
+    end
   end
 end

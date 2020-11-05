@@ -4,19 +4,19 @@ class GunplaDecorator < ApplicationDecorator
   decorates_association :review
 
   def category_name
-    object.category.name
+    category.name
   end
 
   def root_category_name
-    object.category.root.name
+    category.root.name
   end
 
   def parent_category_name
-    object.category.parent.name
+    category.parent.name
   end
 
   def reviews_count
-    object.reviews.count
+    reviews.count
   end
 
   def images_attached?(height: nil, width: nil)

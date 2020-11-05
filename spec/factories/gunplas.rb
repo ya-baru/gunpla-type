@@ -4,9 +4,9 @@ FactoryBot.define do
     sales { "一般販売" }
     category_id { create(:child_category).id }
     favorites_count { 0 }
+  end
 
-    # after(:build) do |gunpla|
-    #   gunpla.category_id = create(:child_category).id
-    # end
+  trait :update do
+    name { "ガンプラ" }
   end
 end

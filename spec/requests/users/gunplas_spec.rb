@@ -135,13 +135,16 @@ RSpec.describe "Users::Gunplas", type: :request do
   end
 
   describe "#update" do
-    let(:url) { patch update_gunpla_path(gunpla), params: { gunpla: attributes_for(:gunpla) } }
+    let(:url) { patch update_gunpla_path(gunpla), params: { gunpla: attributes_for(:gunpla, :update) } }
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunpla_path(Gunpla.first) }
+      it "更新されること" do
+        expect(gunpla.reload).to have_attributes(name: "ガンプラ")
+      end
     end
 
     context "未ログインユーザー" do
@@ -149,6 +152,9 @@ RSpec.describe "Users::Gunplas", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
+      it "更新されないこと" do
+        expect(gunpla.reload).not_to have_attributes(name: "ガンプラ")
+      end
     end
   end
 
@@ -173,16 +179,34 @@ RSpec.describe "Users::Gunplas", type: :request do
   end
 
   describe "#get_category_children" do
-    let(:login) { nil }
     let(:url) { get get_category_children_gunplas_path, params: { parent_id: Category.first.id } }
 
-    it { is_expected.to have_http_status 200 }
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 200 }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status 200 }
+    end
   end
 
   describe "#get_category_grandchildren" do
-    let(:login) { nil }
     let(:url) { get get_category_grandchildren_gunplas_path, params: { child_id: Category.second.id } }
 
-    it { is_expected.to have_http_status 200 }
+    context "ログインユーザー" do
+      let(:login) { sign_in user }
+
+      it { is_expected.to have_http_status 200 }
+    end
+
+    context "未ログインユーザー" do
+      let(:login) { nil }
+
+      it { is_expected.to have_http_status 200 }
+    end
   end
 end

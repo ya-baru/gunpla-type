@@ -7,11 +7,7 @@ RSpec.describe Favorite, type: :model do
   it { is_expected.to validate_presence_of :user_id }
   it { is_expected.to validate_presence_of :gunpla_id }
 
-  describe "ファクトリーテスト" do
-    let!(:favorite) { create(:favorite) }
-
-    it "ファクトリーが有効であること" do
-      expect(favorite).to be_valid
-    end
+  it "ファクトリーが有効であること" do
+    expect(create(:favorite)).to be_valid
   end
 end

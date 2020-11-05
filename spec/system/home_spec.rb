@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# circleciでは安定しない
 RSpec.describe "Home", type: :system do
   describe "HOMEページの表示テスト" do
     let!(:article) { create(:article) }

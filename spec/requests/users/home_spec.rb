@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# circleciでは安定しない
 RSpec.describe "Users::Homes", type: :request do
   describe "#index" do
     subject { response }

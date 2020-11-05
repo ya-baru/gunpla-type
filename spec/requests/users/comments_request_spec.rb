@@ -14,13 +14,13 @@ RSpec.describe "Users::Comments", type: :request do
   describe "#create" do
     let(:url) do
       post review_comments_path(review),
-           params: { comment: { content: "あいうえお", review_id: review.id } }
+           params: { comment: { content: "テストコメント", review_id: review.id } }
     end
 
     context "ログインユーザー" do
       let(:login) { sign_in user }
 
-      it "カウントあり" do
+      it "作成されること" do
         expect(user.comments.count).to eq 1
       end
     end
@@ -30,7 +30,7 @@ RSpec.describe "Users::Comments", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
-      it "カウントなし" do
+      it "作成されないこと" do
         expect(Comment.count).to eq 0
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe "Users::Comments", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
-      it "カウントなし" do
+      it "削除されないこと" do
         expect(Comment.count).to eq 1
       end
     end

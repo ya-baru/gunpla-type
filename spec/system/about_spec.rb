@@ -35,7 +35,7 @@ RSpec.describe "About", type: :system do
       it { is_expected.to have_selector("li", text: "ホーム") }
       it { is_expected.to have_selector("li", text: "よくある質問") }
 
-      describe "ハイパーリンクチェック" do
+      describe "リンクチェック" do
         it { is_expected.to have_link "こちら", href: "/account_confirmation/" }
         it { is_expected.to have_link "こちら", href: "/account_unlock/" }
         it { is_expected.to have_link "こちら", href: "/password/" }

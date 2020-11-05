@@ -5,7 +5,7 @@ RSpec.describe "Article", :js, type: :system do
 
   before { sign_in admin }
 
-  context "admin" do
+  context "admins" do
     describe "記事投稿のテスト" do
       it "管理者ページがから記事を投稿する" do
         visit new_admins_article_path
@@ -25,7 +25,12 @@ RSpec.describe "Article", :js, type: :system do
         fill_in "建物", with: "ガンダムベース東京"
         fill_in "住所", with: "東京都江東区青海1-1-10 ダイバーシティ東京 プラザ7F"
 
-        expect { click_on "登録する" }.to change(Article, :count).by(1)
+        aggregate_failures do
+          expect { click_on "登録する" }.to change(Article, :count).by(1)
+          article = Article.first
+          expect(page).to have_selector(".alert-success", text: "『#{article.title}』を投稿しました")
+          expect(current_path).to eq admins_article_path(article)
+        end
       end
     end
 
@@ -43,6 +48,8 @@ RSpec.describe "Article", :js, type: :system do
 
         aggregate_failures do
           expect(page).to have_content("開催日")
+          expect(page).to have_selector(".alert-success", text: "『#{article.reload.title}』を更新しました")
+          expect(current_path).to eq admins_article_path(article)
           expect(article.reload).to have_attributes(
             title: "イベントのお知らせ",
             building: "ガンダムベース福岡",
@@ -100,7 +107,7 @@ RSpec.describe "Article", :js, type: :system do
     end
   end
 
-  context "user" do
+  context "users" do
     let!(:article) { create(:article, :with_image) }
 
     def expect_page_information(sub_title: nil, breadcrumb: nil)

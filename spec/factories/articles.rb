@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :article do
+  factory :article, class: "Article" do
     title { "新着記事" }
     content { "コンテンツ" }
     building { "ガンダムベース東京" }
@@ -13,6 +13,10 @@ FactoryBot.define do
           Rails.root.join('spec', 'files', "sample.jpg")
         ), filename: 'sample.jpg', content_type: 'image/jpeg')
       end
+    end
+
+    trait :update do
+      title { "記事更新" }
     end
   end
 end

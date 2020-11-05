@@ -113,13 +113,17 @@ RSpec.describe "Users::Reviews", type: :request do
   end
 
   describe "#update" do
-    let(:url) { patch update_review_path(review), params: { review: attributes_for(:review) } }
+    let(:url) { patch update_review_path(review), params: { review: attributes_for(:review, :update) } }
 
-    context "ログインユーザー" do
-      let(:login) { sign_in user }
+    # context "ログインユーザー" do
+    #   let(:login) { sign_in user }
 
-      it { is_expected.to have_http_status 200 }
-    end
+    #   it { is_expected.to have_http_status 302 }
+    #   it { is_expected.to redirect_to review_path(review) }
+    #   it "更新されること" do
+    #     expect(review.reload).to have_attributes(title: "旧キットの名作！")
+    #   end
+    # end
 
     context "他ログインユーザー" do
       let(:other_user) { create(:user) }
@@ -127,7 +131,8 @@ RSpec.describe "Users::Reviews", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to gunplas_path }
-      it "フラッシュが表示されること" do
+      it "更新されないこと" do
+        expect(review.reload).not_to have_attributes(title: "旧キットの名作！")
         expect(flash[:alert]).to eq "レビューしたガンプラではありません"
       end
     end
@@ -137,6 +142,9 @@ RSpec.describe "Users::Reviews", type: :request do
 
       it { is_expected.to have_http_status 302 }
       it { is_expected.to redirect_to new_user_session_path }
+      it "更新されないこと" do
+        expect(review.reload).not_to have_attributes(title: "旧キットの名作！")
+      end
     end
   end
 

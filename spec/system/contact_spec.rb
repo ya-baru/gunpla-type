@@ -12,7 +12,7 @@ RSpec.describe "Contact", type: :system do
       end
     end
 
-    it "正常な情報を認識してメール送信する" do
+    it "有効な情報を入力してメール送信する" do
       visit root_path
       click_on "お問い合わせ"
       expect_page_information("お問い合わせ")
