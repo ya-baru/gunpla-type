@@ -16,6 +16,7 @@ RUN apk update && \
   apk add --no-cache ${RUNTIME_PACKAGES} && \
   apk add --no-cache ${CHROME_PACKAGES} && \
   apk add --virtual build-packages --no-cache ${BUILD_PACKAGES} && \
+  apk add --update --no-cache shared-mime-info && \
   bundle install -j4 && \
   apk del build-packages && \
   curl -O https://noto-website.storage.googleapis.com/pkgs/NotoSansCJKjp-hinted.zip && \
