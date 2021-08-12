@@ -1,5 +1,5 @@
 # Set the host name for URL creation
-SitemapGenerator::Sitemap.default_host = "https://gunpla-type.herokuapp.com/"
+SitemapGenerator::Sitemap.default_host = "https://gunpla-type.xyz/"
 
 SitemapGenerator::Sitemap.create do
   add articles_path, priority: 0.7, changefreq: "daily"
