@@ -13,6 +13,7 @@ COPY Gemfile.lock ${ROOT}
 
 RUN apk update && \
   apk upgrade && \
+  apk add openssh && \
   apk add --no-cache ${RUNTIME_PACKAGES} && \
   apk add --no-cache ${CHROME_PACKAGES} && \
   apk add --virtual build-packages --no-cache ${BUILD_PACKAGES} && \

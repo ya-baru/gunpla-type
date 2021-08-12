@@ -82,5 +82,6 @@ test:
 production:
   <<: *default
   database: gunpla_type_production
-  username: <%= Rails.application.credentials.heroku[:db_user_name] %>
-  password: <%= Rails.application.credentials.heroku[:db_password] %>
+  username: <%= Rails.application.credentials.db[:user_name] %>
+  password: <%= Rails.application.credentials.db[:password] %>
+  host: <%= Rails.application.credentials.db[:hostname] %>
