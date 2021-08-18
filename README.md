@@ -43,7 +43,7 @@
 
 # URL
 
-[https://www.gunpla-type.xyz/](https://www.gunpla-type.xyz/)
+[https://gunpla-type.xyz/](https://gunpla-type.xyz/)
 
 ```HTML
 テストユーザーアカウント
