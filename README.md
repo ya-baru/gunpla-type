@@ -59,6 +59,10 @@
 - Ruby 2.7.1
 - Rails 6.0.3.4
 
+# サーバー環境
+- Nginx(Webサーバー)
+- Puma(アプリケーションサーバー)
+
 # ER 図
 
 <img width="1440" alt="GUNPLA-Type ER図" src="https://user-images.githubusercontent.com/59059160/98214304-a8ecbd80-1f89-11eb-840f-b094b8f68da6.png">
